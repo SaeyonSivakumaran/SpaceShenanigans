@@ -31,7 +31,7 @@ public class Ship {
 	 * getHealth
 	 * Method to return the health of the ship to the user
 	 * @param Nothing
-	 * @return int Health of the shipasdf 
+	 * @return int Health of the ship 
 	 */
 	public int getHealth(){
 		return this.health;
