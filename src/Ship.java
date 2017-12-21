@@ -57,4 +57,54 @@ public class Ship {
 		this.health -= healthNum;
 	}
 	
+	/**
+	 * upgradeEngineModule
+	 * Method to upgrade the engine
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	public void upgradeEngineModule(){
+		this.engine.upgrade();
+	}
+	
+	/**
+	 * upgradeShieldModule
+	 * Method to upgrade the shield
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	public void upgradeShieldModule(){
+		this.shield.upgrade();
+	}
+	
+	/**
+	 * upgradeWeaponModule
+	 * Method to upgrade the weapon module
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	public void upgradeWeaponModule(){
+		this.weaponModule.upgrade();
+	}
+	
+	/**
+	 * upgradeMiningModule
+	 * Method to upgrade the mining module
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	public void upgradeMiningModule(){
+		this.miningModule.upgrade();
+	}
+	
+	/**
+	 * upgradeDeepSpaceViewer
+	 * Method to upgrade the deep space viewer
+	 * @param Nothing
+	 * @return Nothing
+	 */
+	public void upgradeDeepSpaceViewer(){
+		this.deepSpaceViewer.upgrade();
+	}
+	
 }
