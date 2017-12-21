@@ -9,4 +9,8 @@ public class Weapon {
 	public void upgrade(){
 		this.upgradeLevel++;
 	}
+	
+	public int getUpgradeLevel(){
+		return this.upgradeLevel;
+	}
 }

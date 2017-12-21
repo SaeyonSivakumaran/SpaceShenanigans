@@ -28,4 +28,16 @@ public class WeaponModule extends Module{
 		this.grapheneNeeded*=2;
 		this.pyroNeeded*=2;
 	}
+	
+	public Weapon getWeapon1(){
+		return this.weapon1;
+	}
+	
+	public Weapon getWeapon2(){
+		return this.weapon2;
+	}
+	
+	public Weapon getWeapon3(){
+		return this.weapon3;
+	}
 }
