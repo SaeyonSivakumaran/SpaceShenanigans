@@ -190,7 +190,7 @@ class SpaceServer extends JFrame{
 					if (players.get(i).getUsername().equals(username)) {
 						if (players.get(i).getPassword().equals(password)) {
 							userFound = true;
-							consoleOutput.append(username + "logged in\n");
+							consoleOutput.append(username + "logged IN\n");
 							onlinePlayers.add(players.get(i));
 							//Sending confirmation to client
 							output.println("loginaccepted");
@@ -211,7 +211,7 @@ class SpaceServer extends JFrame{
 				for (int i = 0; i < onlinePlayers.size(); i++) {
 					if (onlinePlayers.get(i).getUsername().equals(username)) {
 						onlinePlayers.remove(i);  //Removing the user
-						consoleOutput.append(username + " logged out\n");
+						consoleOutput.append(username + " logged OUT\n");
 						break;
 					}
 				}
