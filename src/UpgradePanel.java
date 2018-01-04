@@ -47,7 +47,7 @@ public class UpgradePanel extends JPanel {
 			plutoniumIcon = new ImageIcon(ImageIO.read(new File("Plutonium.png")));
 			pyroxiumIcon = new ImageIcon(ImageIO.read(new File("Pyroxium.png")));
 			starliteIcon = new ImageIcon(ImageIO.read(new File("Starlite.png")));
-			steelIcon = new ImageIcon(ImageIO.read(new File("steel.png")));
+			steelIcon = new ImageIcon(ImageIO.read(new File("Steel.png")));
 			buttonIcon = new ImageIcon(ImageIO.read(new File("Button.png")));
 			repairIcon = new ImageIcon(ImageIO.read(new File("RepairButton.png")));
 			purchaseIcon = new ImageIcon(ImageIO.read(new File("PurchaseButton.png")));
