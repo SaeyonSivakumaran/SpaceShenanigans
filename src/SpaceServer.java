@@ -62,7 +62,6 @@ class SpaceServer extends JFrame{
 		mainPanel = new JPanel(new BorderLayout());
 		buttonPanel = new JPanel(new GridLayout(2,1));
 		consoleOutput = new JTextArea();
-		consoleOutput.setEditable(false);
 		startButton = new JButton("Start Server");
 		startButton.addActionListener(new startButtonListener());
 		endButton = new JButton("Stop Server");
@@ -83,8 +82,7 @@ class SpaceServer extends JFrame{
 	 */
 	class startButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			startButton.setEnabled(false);
-			start();  //Starting the server
+			startServer();  //Starting the server
 		}
 	}
 	
@@ -103,7 +101,7 @@ class SpaceServer extends JFrame{
 	 * @param Nothing
 	 * @return Nothing
 	 */
-	public void start() {
+	public void startServer() {
 		consoleOutput.append("Server started\n");
 		Socket client = null;  //Socket for client
 		//Waiting for connection
@@ -190,13 +188,13 @@ class SpaceServer extends JFrame{
 					if (players.get(i).getUsername().equals(username)) {
 						if (players.get(i).getPassword().equals(password)) {
 							userFound = true;
-							consoleOutput.append(username + "logged IN\n");
+							consoleOutput.append(username + " logged IN\n");
 							onlinePlayers.add(players.get(i));
 							//Sending confirmation to client
 							output.println("loginaccepted");
 							output.flush();
 						}
-					}
+				}
 				}
 				//If no user was found with the correct details
 				if (userFound == false) {
@@ -206,7 +204,7 @@ class SpaceServer extends JFrame{
 					output.flush();
 				}
 			} else if (command.equals("logout")) {
-				String username = msg.substring(msg.indexOf(":") + 1);
+				String username = msg;
 				//Removing the user from list of online users
 				for (int i = 0; i < onlinePlayers.size(); i++) {
 					if (onlinePlayers.get(i).getUsername().equals(username)) {
@@ -215,6 +213,13 @@ class SpaceServer extends JFrame{
 						break;
 					}
 				}
+			} else if (command.equals("newaccount")) {
+				//Getting the command info
+				String username = msg.substring(0, msg.indexOf(","));
+				String password = msg.substring(msg.indexOf(",") + 1);
+				//Adding the new user
+				players.add(new Player(username, password));
+				consoleOutput.append(username + " has joined Space Shenanigans\n");
 			}
 		}
 		
