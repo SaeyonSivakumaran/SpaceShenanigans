@@ -1,29 +1,21 @@
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import java.awt.Component;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.BoxLayout;
 import javax.swing.UIManager;
-import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JSpinner;
-import javax.swing.JProgressBar;
-import javax.swing.Icon;
 
 public class UpgradePanel extends JPanel {
 
