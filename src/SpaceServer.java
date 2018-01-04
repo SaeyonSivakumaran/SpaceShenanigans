@@ -43,6 +43,7 @@ class SpaceServer extends JFrame{
 	
 	//Game variables
 	ArrayList<Player> players;
+	ArrayList<Player> onlinePlayers;
 	ArrayList<PlayerConnection> connections;
 	SpaceDepot depot;
 	
@@ -183,13 +184,14 @@ class SpaceServer extends JFrame{
 				//Getting the command info
 				String username = msg.substring(0, msg.indexOf(","));
 				String password = msg.substring(msg.indexOf(",") + 1);
-				String userFound = false;
+				boolean userFound = false;
 				//Finding the user in the list of players
 				for (int i = 0; i < players.size(); i++) {
 					if (players.get(i).getUsername().equals(username)) {
 						if (players.get(i).getPassword().equals(password)) {
 							userFound = true;
-							consoleOutput.append("Successful Login: " + username + "\n");
+							consoleOutput.append(username + "logged in\n");
+							onlinePlayers.add(players.get(i));
 							//Sending confirmation to client
 							output.println("loginaccepted");
 							output.flush();
@@ -202,6 +204,16 @@ class SpaceServer extends JFrame{
 					//Sending fail message to client
 					output.println("loginfailed");
 					output.flush();
+				}
+			} else if (command.equals("logout")) {
+				String username = msg.substring(msg.indexOf(":") + 1);
+				//Removing the user from list of online users
+				for (int i = 0; i < onlinePlayers.size(); i++) {
+					if (onlinePlayers.get(i).getUsername().equals(username)) {
+						onlinePlayers.remove(i);  //Removing the user
+						consoleOutput.append(username + " logged out\n");
+						break;
+					}
 				}
 			}
 		}
