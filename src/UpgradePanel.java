@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Icon;
 
 public class UpgradePanel extends JPanel {
 
@@ -32,6 +33,8 @@ public class UpgradePanel extends JPanel {
 		ImageIcon steelIcon = null;
 		ImageIcon repairIcon = null;
 		ImageIcon purchaseIcon = null;
+		ImageIcon shieldIcon = null;
+		ImageIcon repairKitIcon = null;
 		
 		try { //loading images
 			blastCrystalIcon = new ImageIcon(ImageIO.read(new File("BlastCrystal.png")));
@@ -43,6 +46,9 @@ public class UpgradePanel extends JPanel {
 			buttonIcon = new ImageIcon(ImageIO.read(new File("Button.png")));
 			repairIcon = new ImageIcon(ImageIO.read(new File("RepairButton.png")));
 			purchaseIcon = new ImageIcon(ImageIO.read(new File("PurchaseButton.png")));
+			shieldIcon = new ImageIcon(ImageIO.read(new File("ShieldSupercharger.png")));
+			repairKitIcon = new ImageIcon(ImageIO.read(new File("RepairKit.png")));
+			
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
 		}
@@ -383,7 +389,7 @@ public class UpgradePanel extends JPanel {
 		
 		JLabel label_34 = new JLabel("Cost:");
 		label_34.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_34.setBounds(78, 117, 72, 20);
+		label_34.setBounds(78, 117, 61, 20);
 		PurchasePanel.add(label_34);
 		
 		JLabel label_35 = new JLabel(steelIcon);
@@ -425,7 +431,7 @@ public class UpgradePanel extends JPanel {
 		
 		JLabel label_33 = new JLabel("Cost:");
 		label_33.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_33.setBounds(574, 135, 72, 20);
+		label_33.setBounds(574, 135, 61, 20);
 		PurchasePanel.add(label_33);
 		
 		JLabel label_41 = new JLabel(steelIcon);
@@ -462,6 +468,14 @@ public class UpgradePanel extends JPanel {
 		JButton button_5 = new JButton(purchaseIcon);
 		button_5.setBounds(645, 300, 200, 75);
 		PurchasePanel.add(button_5);
+		
+		JLabel label_48 = new JLabel(repairKitIcon);
+		label_48.setBounds(303, 11, 76, 75);
+		PurchasePanel.add(label_48);
+		
+		JLabel label_47 = new JLabel(shieldIcon);
+		label_47.setBounds(890, 11, 76, 75);
+		PurchasePanel.add(label_47);
 		setLayout(groupLayout);
 		
 	}
