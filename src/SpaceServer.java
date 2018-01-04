@@ -20,6 +20,9 @@ import java.awt.event.ActionEvent;
 //Networking imports
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 class SpaceServer extends JFrame{
 	
@@ -66,7 +69,7 @@ class SpaceServer extends JFrame{
 	 */
 	class startButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Server starting");
+			startButton.setEnabled(false);
 			start();  //Starting the server
 		}
 	}
@@ -76,7 +79,7 @@ class SpaceServer extends JFrame{
 	 */
 	class endButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Server stopping");
+			consoleOutput.append("Server stopping\n");
 			running = false;
 		}
 	}
@@ -87,7 +90,7 @@ class SpaceServer extends JFrame{
 	 * @return Nothing
 	 */
 	public void start() {
-		System.out.println("Server started");
+		consoleOutput.append("Server started\n");
 		Socket client = null;  //Socket for client
 		//Waiting for connection
 		try {
@@ -95,10 +98,48 @@ class SpaceServer extends JFrame{
 			while (running) {
 				client = serverSocket.accept();
 				System.out.println("Client connected");
+				Thread clientThread = new Thread(new ConnectionHandler(client));
+				clientThread.start();
 			}
 		} catch(Exception e) {
 			System.out.println("Connection failed");
 		}
+	}
+	
+	/**
+	 * Connection Handler for each client
+	 */
+	class ConnectionHandler implements Runnable{
+		
+		//Networking variables
+		Socket client;
+		BufferedReader input;
+		PrintWriter output;
+		
+		/**
+		 * Constructor for ConnectionHandler
+		 */
+		ConnectionHandler(Socket socket){
+			this.client = socket;
+			//Getting connections
+			try {
+				InputStreamReader inputStream = new InputStreamReader(client.getInputStream());
+				this.input = new BufferedReader(inputStream);
+				this.output = new PrintWriter(client.getOutputStream());
+			} catch(IOException e) {
+				consoleOutput.append("Client connection failed\n");
+			}
+		}
+		
+		/**
+		 * Main run method
+		 * @param Nothing
+		 * @return Nothing
+		 */
+		public void run() {
+			
+		}
+		
 	}
 	
 }
