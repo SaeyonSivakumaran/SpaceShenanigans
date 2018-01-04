@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
-imprt javax.swing.JTextArea;
+import javax.swing.JTextArea;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
