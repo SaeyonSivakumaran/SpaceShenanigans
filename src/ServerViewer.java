@@ -6,6 +6,6 @@
 
 public class ServerViewer {
 	public static void main(String[] args) {
-		SpaceServer serverGUI = new SpaceServer();  //Displaying the server
+		new SpaceServer().startServer();  //Starting the server
 	}
 }
