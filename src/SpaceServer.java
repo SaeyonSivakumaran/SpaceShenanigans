@@ -25,6 +25,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 
+//Game imports
+import java.util.ArrayList;
+
 class SpaceServer extends JFrame{
 	
 	//GUI Variables
@@ -38,6 +41,11 @@ class SpaceServer extends JFrame{
 	private boolean running = true;
 	private ServerSocket serverSocket;
 	
+	//Game variables
+	ArrayList<Player> players;
+	ArrayList<PlayerConnection> connections;
+	SpaceDepot depot;
+	
 	/**
 	 * Constructor for SpaceServer
 	 */
@@ -45,6 +53,10 @@ class SpaceServer extends JFrame{
 		//Setting properties of the JFrame
 		this.setSize(600,600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//Initializing all the game variables
+		players = new ArrayList<Player>();
+		connections = new ArrayList<PlayerConnection>();
+		depot = new SpaceDepot();
 		//Initializing all GUI components
 		mainPanel = new JPanel(new BorderLayout());
 		buttonPanel = new JPanel(new GridLayout(2,1));
@@ -97,10 +109,12 @@ class SpaceServer extends JFrame{
 		try {
 			serverSocket = new ServerSocket(5000);
 			while (running) {
-				client = serverSocket.accept();
+				client = serverSocket.accept();  //Creating the client socket
 				System.out.println("Client connected");
-				Thread clientThread = new Thread(new ConnectionHandler(client));
-				clientThread.start();
+				PlayerConnection tempConnection = new PlayerConnection(client);
+				connections.add(tempConnection);  //Adding to the arraylist of connections
+				Thread clientThread = new Thread(tempConnection);
+				clientThread.start();  //Starting the client thread
 			}
 		} catch(Exception e) {
 			System.out.println("Connection failed");
@@ -110,17 +124,18 @@ class SpaceServer extends JFrame{
 	/**
 	 * Connection Handler for each client
 	 */
-	class ConnectionHandler implements Runnable{
+	class PlayerConnection implements Runnable{
 		
 		//Networking variables
 		Socket client;
 		BufferedReader input;
 		PrintWriter output;
+		boolean running;
 		
 		/**
 		 * Constructor for ConnectionHandler
 		 */
-		ConnectionHandler(Socket socket){
+		PlayerConnection(Socket socket){
 			this.client = socket;
 			//Getting connections
 			try {
@@ -130,6 +145,7 @@ class SpaceServer extends JFrame{
 			} catch(IOException e) {
 				consoleOutput.append("Client connection failed\n");
 			}
+			running = true;  //Allowing the handler to run
 		}
 		
 		/**
@@ -138,7 +154,56 @@ class SpaceServer extends JFrame{
 		 * @return Nothing
 		 */
 		public void run() {
-			
+			String msg;  //Client message
+			while(running) {
+				try {
+					//If the client is sending a message
+					if (input.ready()){
+						msg = input.readLine();
+						consoleOutput.append("Client message:" + msg + "\n");
+						runCommand(msg);  //Running the command
+					}
+				} catch(IOException e) {
+					//Message failed
+					consoleOutput.append("Client message failed\n");
+				}
+			}
+		}
+		
+		/**
+		 * Method to check run commands
+		 * @param Nothing
+		 * @return Nothing
+		 */
+		public void runCommand(String msg) {
+			String command = msg.substring(0, msg.indexOf(":"));  //Command variable
+			msg = msg.substring(msg.indexOf(",") + 1);
+			//Different functions for each commands
+			if (command.equals("login")) {
+				//Getting the command info
+				String username = msg.substring(0, msg.indexOf(","));
+				String password = msg.substring(msg.indexOf(",") + 1);
+				String userFound = false;
+				//Finding the user in the list of players
+				for (int i = 0; i < players.size(); i++) {
+					if (players.get(i).getUsername().equals(username)) {
+						if (players.get(i).getPassword().equals(password)) {
+							userFound = true;
+							consoleOutput.append("Successful Login: " + username + "\n");
+							//Sending confirmation to client
+							output.println("loginaccepted");
+							output.flush();
+						}
+					}
+				}
+				//If no user was found with the correct details
+				if (userFound == false) {
+					consoleOutput.append("Login failed");
+					//Sending fail message to client
+					output.println("loginfailed");
+					output.flush();
+				}
+			}
 		}
 		
 	}
