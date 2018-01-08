@@ -103,6 +103,7 @@ class SpaceServer extends JFrame {
 		BufferedReader input;
 		PrintWriter output;
 		boolean playerRunning;
+		String name;
 
 		/**
 		 * Constructor for ConnectionHandler
@@ -151,7 +152,7 @@ class SpaceServer extends JFrame {
 		 */
 		public void runCommand(String msg) {
 			String command = msg.substring(0, msg.indexOf(":")); // Command variable
-			msg = msg.substring(msg.indexOf(",") + 1);
+			msg = msg.substring(msg.indexOf(":") + 1);
 			// Different functions for each commands
 			if (command.equals("login")) {
 				// Getting the command info
@@ -165,6 +166,7 @@ class SpaceServer extends JFrame {
 							userFound = true;
 							consoleOutput.append(username + " logged IN\n");
 							onlinePlayers.add(players.get(i));
+							this.name = username;  //Setting name of the connection
 							// Sending confirmation to client
 							output.println("loginaccepted");
 							output.flush();
@@ -196,7 +198,57 @@ class SpaceServer extends JFrame {
 				// Adding the new user
 				players.add(new Player(username, password));
 				consoleOutput.append(username + " has joined Space Shenanigans\n");
+			} else if (command.equals("tradeInfoWanted")){
+				String invitee = msg.substring(msg.indexOf(",") + 1);
+				int[] resources;
+				String resourceString = "";
+				boolean playerFound = false;
+				//Finding the invitee
+				for (int i = 0; i < onlinePlayers.size(); i++){
+					if (onlinePlayers.get(i).getUsername().equals(invitee)){
+						playerFound = true;
+						resources = onlinePlayers.get(i).getResources();
+						//Adding to the resource string
+						for (int j = 0; j < resources.length; j++){
+							if (resources[j] > 0){
+								resourceString += j + "-" + resources[j] + ",";
+							}
+						}
+						//Sending out the inventory
+						output.println("inventory:" + resourceString);
+						output.flush();
+					}
+				}
+				//If the player wasn't found
+				if (playerFound == false){
+					output.println("tradeinvalid");
+					output.flush();
+				}
+			} else if (command.equals("tradeoffer")){
+				output.println("trade:" + msg);
+				output.flush();
 			}
+		}
+		
+		/**
+		 * Method to return name of connection
+		 * 
+		 * @param Nothing
+		 * @return Name of the connection
+		 */
+		public String getName(){
+			return this.name;
+		}
+		
+		/**
+		 * Method to send out a message to the client
+		 * 
+		 * @param msg Message to be sent
+		 * @return Nothing
+		 */
+		public void output(String msg){
+			output.println(msg);
+			output.flush();
 		}
 
 	}
