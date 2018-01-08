@@ -15,10 +15,10 @@ public class TravelPanel extends JPanel {
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // required to ensure the panel is correctly redrawn
-		g.drawImage(backgroundIcon, 0, 0, 750 - x, 300, x, 0, 750 -x , 300, null); //draw the part of the image from the left
-		//g.drawImage(backgroundIcon, 750 - x, 0, null); //draw the rest of the image
+		g.drawImage(backgroundIcon, 0, 0, 750 - x, 300, x, 0, 750, 300, null); //draw the part of the image from the left
+		g.drawImage(backgroundIcon, 750 - x, 0, 750, 300, 0, 0, x, 300, null); //draw the rest of the image
 		if(x < 750) {
-			x += 1; //continue moving to the right
+			x += 5; //continue moving to the right
 		}else {
 			x = 0;
 		}
