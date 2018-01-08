@@ -2,11 +2,10 @@
 public class WeaponModule extends Module{
 	
 	private Weapon weapon1, weapon2, weapon3;
-	private int steelNeeded, grapheneNeeded, pyroNeeded;
+	private int pyroNeeded;
 	
 	public WeaponModule(){
-		this.steelNeeded=200;
-		this.grapheneNeeded=100;
+		super();
 		this.pyroNeeded=10;
 	}
 	
@@ -24,8 +23,6 @@ public class WeaponModule extends Module{
 	
 	public void upgrade(){
 		super.upgrade();
-		this.steelNeeded*=2;
-		this.grapheneNeeded*=2;
 		this.pyroNeeded*=2;
 	}
 	
@@ -39,5 +36,9 @@ public class WeaponModule extends Module{
 	
 	public Weapon getWeapon3(){
 		return this.weapon3;
+	}
+	
+	public int getPyro(){
+		return this.pyroNeeded;
 	}
 }
