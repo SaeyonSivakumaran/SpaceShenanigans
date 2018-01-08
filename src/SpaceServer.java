@@ -32,10 +32,7 @@ class SpaceServer extends JFrame {
 
 	// GUI Variables
 	private JPanel mainPanel;
-	private JPanel buttonPanel;
 	private JTextArea consoleOutput;
-	private JButton startButton;
-	private JButton endButton;
 
 	// Networking variables
 	private boolean running;
@@ -61,40 +58,13 @@ class SpaceServer extends JFrame {
 		depot = new SpaceDepot();
 		// Initializing all GUI components
 		mainPanel = new JPanel(new BorderLayout());
-		buttonPanel = new JPanel(new GridLayout(2, 1));
 		consoleOutput = new JTextArea();
-		startButton = new JButton("Start Server");
-		startButton.addActionListener(new startButtonListener());
-		endButton = new JButton("Stop Server");
-		endButton.addActionListener(new endButtonListener());
-		// Adding buttons to the button panel
-		buttonPanel.add(startButton);
-		buttonPanel.add(endButton);
+		consoleOutput.setEditable(false);
 		// Adding components to main panel
 		mainPanel.add(consoleOutput, BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
 		// Completing the main frame
 		this.add(mainPanel);
 		this.setVisible(true);
-	}
-
-	/**
-	 * Listener for the start button
-	 */
-	class startButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			startServer(); // Starting the server
-		}
-	}
-
-	/**
-	 * Listener for the end button
-	 */
-	class endButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			consoleOutput.append("Server stopping\n");
-			running = false;
-		}
 	}
 
 	/**
@@ -111,7 +81,6 @@ class SpaceServer extends JFrame {
 			serverSocket = new ServerSocket(5000);
 			serverSocket.setSoTimeout(5000);
 			while (running) {
-				consoleOutput.append("running\n");
 				client = serverSocket.accept(); // Creating the client socket
 				System.out.println("Client connected");
 				PlayerConnection tempConnection = new PlayerConnection(client);
