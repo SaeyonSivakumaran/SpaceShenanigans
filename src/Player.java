@@ -37,6 +37,15 @@ public class Player {
 		this.inBattle = !inBattle;
 	}
 	
+	/**
+	 * Method to return number of a certain resource
+	 * @return Number of resources at the index
+	 * @param resourceNum
+	 */
+	public int getNumResources(int resourceNum){
+		return this.resources[resourceNum];
+	}
+	
 	/*
 	 * changeResources
 	 * Changes the amount of the specified resource
