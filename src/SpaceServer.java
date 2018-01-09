@@ -237,6 +237,9 @@ class SpaceServer extends JFrame {
 					}
 				}
 			} else if (command.equals("acceptTrade")){
+				//User resources
+				int[] inviterResources = new int[7];
+				int[] inviteeResources = new int[7];
 				//Getting the users
 				String inviter = msg.substring(0, msg.indexOf(","));
 				msg = msg.substring(msg.indexOf(",") + 1);
@@ -250,9 +253,10 @@ class SpaceServer extends JFrame {
 						//Getting all resource information
 						String tempResourceInfo = resourceInfo;
 						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
-						String resourceType = tempResourceInfo.substring(0, 1);
+						String resourceTypeString = tempResourceInfo.substring(0, 1);
+						int resourceType = Integer.parseInt(resourceTypeString);
 						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
-						String resourceNum = tempResourceInfo;
+						int resourceNum = Integer.parseInt(tempResourceInfo);
 						//Finding the players
 						for (int i = 0; i < onlinePlayers.size(); i++){
 							if (onlinePlayers.get(i).getUsername().equals(inviter)){
@@ -265,9 +269,10 @@ class SpaceServer extends JFrame {
 						//Getting all resource information
 						String tempResourceInfo = resourceInfo;
 						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
-						String resourceType = tempResourceInfo.substring(0, 1);
+						String resourceTypeString = tempResourceInfo.substring(0, 1);
+						int resourceType = Integer.parseInt(resourceTypeString);
 						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
-						String resourceNum = tempResourceInfo;
+						int resourceNum = Integer.parseInt(tempResourceInfo);
 						//Finding the players
 						for (int i = 0; i < onlinePlayers.size(); i++){
 							if (onlinePlayers.get(i).getUsername().equals(invitee)){
@@ -278,6 +283,32 @@ class SpaceServer extends JFrame {
 						}
 					}
 					msg = msg.substring(msg.indexOf(",") + 1);  //Shortening the message
+				}
+				//Finding the inviter and invitee's resources
+				for (int i = 0; i < onlinePlayers.size(); i++){
+					if (onlinePlayers.get(i).getUsername().equals(inviter)){
+						inviterResources = onlinePlayers.get(i).getResources();
+					} else if (onlinePlayers.get(i).getUsername().equals(invitee)){
+						inviteeResources = onlinePlayers.get(i).getResources();
+					}
+				}
+				//Updating the inviter's client
+				String newResources = "";
+				for (int i = 0; i < inviterResources.length; i++){
+					newResources += inviterResources[i] + ",";
+				}
+				output.println("updateResource:" + newResources);  //Sending the command
+				output.flush();
+				//Updating the invitee's resource string
+				newResources = "";
+				for (int i = 0; i < inviteeResources.length; i++){
+					newResources += inviteeResources[i] + ",";
+				}
+				//Finding the invitee
+				for (int i = 0; i < onlinePlayers.size(); i++){
+					if (onlinePlayers.get(i).getUsername().equals(invitee)){
+						onlinePlayers.get(i).output("updateResource:" + newResources);  //Outputting to the invitee
+					}
 				}
 			}
 		}
