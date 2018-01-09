@@ -308,6 +308,22 @@ public class UpgradePanel extends JPanel {
 		tabbedPane_1.addTab("Purchase Weapons", null, PurchaseWeapons, null);
 		PurchaseWeapons.setLayout(null);
 		
+		JLabel lblNewLabel_2 = new JLabel(blackHoleIcon);
+		lblNewLabel_2.setBounds(48, 160, 206, 42);
+		PurchaseWeapons.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel(shieldJammerIcon);
+		lblNewLabel_3.setBounds(87, 54, 235, 42);
+		PurchaseWeapons.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel(laserIcon);
+		lblNewLabel_4.setBounds(286, 160, 292, 42);
+		PurchaseWeapons.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel(missileIcon);
+		lblNewLabel_5.setBounds(412, 45, 260, 42);
+		PurchaseWeapons.add(lblNewLabel_5);
+		
 		//Tab for mining upgrades
 		JPanel MiningPanel = new JPanel();
 		MiningPanel.setForeground(Color.BLACK);
