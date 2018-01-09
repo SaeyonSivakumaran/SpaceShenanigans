@@ -35,6 +35,10 @@ public class UpgradePanel extends JPanel {
 		ImageIcon purchaseIcon = null;
 		ImageIcon shieldIcon = null;
 		ImageIcon repairKitIcon = null;
+		ImageIcon shieldJammerIcon = null;
+		ImageIcon blackHoleIcon = null;
+		ImageIcon laserIcon = null;
+		ImageIcon missileIcon = null;
 		
 		try { //loading images
 			blastCrystalIcon = new ImageIcon(ImageIO.read(new File("BlastCrystal.png")));
@@ -48,6 +52,10 @@ public class UpgradePanel extends JPanel {
 			purchaseIcon = new ImageIcon(ImageIO.read(new File("PurchaseButton.png")));
 			shieldIcon = new ImageIcon(ImageIO.read(new File("ShieldSupercharger.png")));
 			repairKitIcon = new ImageIcon(ImageIO.read(new File("RepairKit.png")));
+			shieldJammerIcon = new ImageIcon(ImageIO.read(new File("ShieldJammer.png")));
+			blackHoleIcon = new ImageIcon(ImageIO.read(new File("MercifulBlackHoleLauncher.png")));
+			laserIcon = new ImageIcon(ImageIO.read(new File("Laser.png")));
+			missileIcon = new ImageIcon(ImageIO.read(new File("MissileLauncher.png")));
 			
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
@@ -234,53 +242,71 @@ public class UpgradePanel extends JPanel {
 		
 		//Tab for weapons upgrades
 		JPanel WeaponsPanel = new JPanel();
-		WeaponsPanel.setBackground(Color.LIGHT_GRAY);
+		WeaponsPanel.setBackground(Color.GRAY);
 		tabbedPane.addTab("Weapons Module", null, WeaponsPanel, null);
 		WeaponsPanel.setLayout(null);
 		
-		JButton button_3 = new JButton("");
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_1.setBounds(10, 11, 1082, 395);
+		tabbedPane_1.setBackground(new Color(3, 53, 132)); //change colour of all tabs
+		tabbedPane_1.setFont(new Font("Tahoma", Font.BOLD, 19)); //change font
+		tabbedPane_1.setForeground(Color.WHITE); //change text colour
+		WeaponsPanel.add(tabbedPane_1);
+		
+		//Sub-tabbed panel for upgrading weapon module
+		JPanel UpgradeWeaponModule = new JPanel();
+		UpgradeWeaponModule.setBackground(Color.LIGHT_GRAY);
+		tabbedPane_1.addTab("Upgrade Weapons Module", null, UpgradeWeaponModule, null);
+		UpgradeWeaponModule.setLayout(null);
+		
+		JButton button_3 = new JButton(buttonIcon);
 		button_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		button_3.setBounds(227, 269, 655, 69);
-		button_3.setIcon(buttonIcon);
-		WeaponsPanel.add(button_3);
+		UpgradeWeaponModule.add(button_3);
 		
-		JLabel lblUpgradeWeaponModule = new JLabel("Upgrade Weapon Module");
-		lblUpgradeWeaponModule.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblUpgradeWeaponModule.setBounds(15, 100, 334, 43);
-		WeaponsPanel.add(lblUpgradeWeaponModule);
+		JLabel label_10 = new JLabel("Upgrade Weapon Module");
+		label_10.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
+		label_10.setBounds(15, 100, 334, 43);
+		UpgradeWeaponModule.add(label_10);
 		
-		JLabel label_10 = new JLabel(blastCrystalIcon);
-		label_10.setBounds(331, 150, 50, 50);
-		WeaponsPanel.add(label_10);
+		JLabel label_11 = new JLabel(blastCrystalIcon);
+		label_11.setBounds(331, 150, 50, 50);
+		UpgradeWeaponModule.add(label_11);
 		
-		JLabel label_11 = new JLabel("Current Level: ~~");
-		label_11.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_11.setBounds(10, 11, 227, 43);
-		WeaponsPanel.add(label_11);
-		
-		JLabel label_12 = new JLabel("Cost:");
+		JLabel label_12 = new JLabel("Current Level: ~~");
 		label_12.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_12.setBounds(77, 168, 72, 20);
-		WeaponsPanel.add(label_12);
+		label_12.setBounds(10, 11, 227, 43);
+		UpgradeWeaponModule.add(label_12);
 		
-		JLabel label_25 = new JLabel("x1000");
+		JLabel label_25 = new JLabel("Cost:");
 		label_25.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_25.setBounds(208, 168, 116, 20);
-		WeaponsPanel.add(label_25);
+		label_25.setBounds(77, 168, 72, 20);
+		UpgradeWeaponModule.add(label_25);
 		
-		JLabel label_26 = new JLabel(steelIcon);
-		label_26.setBounds(148, 150, 50, 50);
-		WeaponsPanel.add(label_26);
+		JLabel label_26 = new JLabel("x1000");
+		label_26.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
+		label_26.setBounds(208, 168, 116, 20);
+		UpgradeWeaponModule.add(label_26);
 		
-		JLabel label_27 = new JLabel("x1000");
-		label_27.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_27.setBounds(391, 168, 116, 20);
-		WeaponsPanel.add(label_27);
+		JLabel label_27 = new JLabel(steelIcon);
+		label_27.setBounds(148, 150, 50, 50);
+		UpgradeWeaponModule.add(label_27);
 		
-		JLabel label_28 = new JLabel("Time: min");
+		JLabel label_28 = new JLabel("x1000");
 		label_28.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_28.setBounds(692, 157, 257, 43);
-		WeaponsPanel.add(label_28);
+		label_28.setBounds(391, 168, 116, 20);
+		UpgradeWeaponModule.add(label_28);
+		
+		JLabel label_49 = new JLabel("Time: min");
+		label_49.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
+		label_49.setBounds(692, 157, 257, 43);
+		UpgradeWeaponModule.add(label_49);
+		
+		//Sub-tabbed panel for upgrading/purchasing individual weapons
+		JPanel PurchaseWeapons = new JPanel();
+		PurchaseWeapons.setBackground(Color.LIGHT_GRAY);
+		tabbedPane_1.addTab("Purchase Weapons", null, PurchaseWeapons, null);
+		PurchaseWeapons.setLayout(null);
 		
 		//Tab for mining upgrades
 		JPanel MiningPanel = new JPanel();
