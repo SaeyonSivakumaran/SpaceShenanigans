@@ -225,8 +225,17 @@ class SpaceServer extends JFrame {
 					output.flush();
 				}
 			} else if (command.equals("tradeoffer")){
-				output.println("trade:" + msg);
-				output.flush();
+				//Getting the invitee
+				String tempMsg = msg;
+				tempMsg = tempMsg.substring(tempMsg.indexOf(",") + 1);
+				String invitee = tempMsg.substring(0, tempMsg.indexOf(","));
+				//Finding the user
+				for (int i = 0; i < connections.size(); i++){
+					if (connections.get(i).getName().equals(invitee)){
+						connections.get(i).output(msg);  //Outputting to the invitee
+						break;
+					}
+				}
 			}
 		}
 		
