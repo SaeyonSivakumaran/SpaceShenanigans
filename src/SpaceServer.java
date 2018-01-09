@@ -305,9 +305,9 @@ class SpaceServer extends JFrame {
 					newResources += inviteeResources[i] + ",";
 				}
 				//Finding the invitee
-				for (int i = 0; i < onlinePlayers.size(); i++){
-					if (onlinePlayers.get(i).getUsername().equals(invitee)){
-						onlinePlayers.get(i).output("updateResource:" + newResources);  //Outputting to the invitee
+				for (int i = 0; i < connections.size(); i++){
+					if (connections.get(i).getName().equals(invitee)){
+						connections.get(i).output("updateResource:" + newResources);  //Outputting to the invitee
 					}
 				}
 			}
