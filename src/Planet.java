@@ -44,5 +44,6 @@ public class Planet {
 		updateTime=time;
 		
 	}
+	System.out.println("u gey eh");
 	
 }
