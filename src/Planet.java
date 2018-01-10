@@ -37,7 +37,7 @@ public class Planet {
 		break;
 		case 3: resource="Plutonium";
 		resourceAmount=(int) (Math.random()*10);
-		resourceRate=2;
+		resourceRate=1;
 		mineRate=15;
 		break;
 		case 4: resource="Starlite";
