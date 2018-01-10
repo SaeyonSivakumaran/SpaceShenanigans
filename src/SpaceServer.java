@@ -308,6 +308,18 @@ class SpaceServer extends JFrame {
 				for (int i = 0; i < connections.size(); i++){
 					if (connections.get(i).getName().equals(invitee)){
 						connections.get(i).output("updateResource:" + newResources);  //Outputting to the invitee
+						break;
+					}
+				}
+			} else if (command.equals("rejectTrade")){
+				//Getting the inviter's username
+				msg = msg.substring(msg.indexOf(",") + 1);
+				String inviter = msg;
+				//Finding the inviter
+				for (int i = 0; i < connections.size; i++){
+					if (connections.get(i).getName().equals(inviter)){
+						connections.get(i).output("traderejected");  //Sending the rejection message
+						break;
 					}
 				}
 			}
