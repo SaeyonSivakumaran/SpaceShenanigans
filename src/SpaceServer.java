@@ -316,7 +316,7 @@ class SpaceServer extends JFrame {
 				msg = msg.substring(msg.indexOf(",") + 1);
 				String inviter = msg;
 				//Finding the inviter
-				for (int i = 0; i < connections.size; i++){
+				for (int i = 0; i < connections.size(); i++){
 					if (connections.get(i).getName().equals(inviter)){
 						connections.get(i).output("traderejected");  //Sending the rejection message
 						break;
