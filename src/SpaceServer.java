@@ -195,14 +195,32 @@ class SpaceServer extends JFrame {
 				// Getting the command info
 				String username = msg.substring(0, msg.indexOf(","));
 				String password = msg.substring(msg.indexOf(",") + 1);
-				// Adding the new user
-				players.add(new Player(username, password));
-				consoleOutput.append(username + " has joined Space Shenanigans\n");
+				boolean used = false;
+				//Checking if the username has been used
+				for (int i = 0; i < players.size(); i++){
+					if (players.get(i).getUsername().equals(username)){
+						//Acknowledging that the username is already taken
+						consoleOutput.append(username + " has already been taken\n");
+						used = true;
+						output.println("accountinvalid");  //Sending an invalid message to the suer
+						output.flush();
+						break;
+					}
+				}
+				//If the username works
+				if (!used){
+					output.println("accountvalid");  //Sending a success message
+					output.flush();
+					//Adding the new user
+					players.add(new Player(username, password));
+					consoleOutput.append(username + " has joined Space Shenanigans\n");
+				}
 			} else if (command.equals("tradeInfoWanted")){
 				String invitee = msg.substring(msg.indexOf(",") + 1);
 				int[] resources;
 				String resourceString = "";
 				boolean playerFound = false;
+				consoleOutput.append(invitee + "'s inventory has been requested\n");  //Console output
 				//Finding the invitee
 				for (int i = 0; i < onlinePlayers.size(); i++){
 					if (onlinePlayers.get(i).getUsername().equals(invitee)){
@@ -215,12 +233,14 @@ class SpaceServer extends JFrame {
 							}
 						}
 						//Sending out the inventory
+						consoleOutput.append(invitee + "'s inventory:  " + resourceString + "\n");
 						output.println("inventory:" + invitee + "," + resourceString);
 						output.flush();
 					}
 				}
 				//If the player wasn't found
 				if (playerFound == false){
+					consoleOutput.append(invitee + "was not found\n");
 					output.println("tradeinvalid");
 					output.flush();
 				}
@@ -232,6 +252,7 @@ class SpaceServer extends JFrame {
 				//Finding the user
 				for (int i = 0; i < connections.size(); i++){
 					if (connections.get(i).getName().equals(invitee)){
+						consoleOutput.append(invitee + "was sent a trade:  " + msg + "\n");
 						connections.get(i).output(msg);  //Outputting to the invitee
 						break;
 					}
@@ -297,6 +318,7 @@ class SpaceServer extends JFrame {
 				for (int i = 0; i < inviterResources.length; i++){
 					newResources += inviterResources[i] + ",";
 				}
+				consoleOutput.append(inviter + "'s new resources:  " + newResources + "\n");
 				output.println("updateResource:" + newResources);  //Sending the command
 				output.flush();
 				//Updating the invitee's resource string
@@ -307,6 +329,7 @@ class SpaceServer extends JFrame {
 				//Finding the invitee
 				for (int i = 0; i < connections.size(); i++){
 					if (connections.get(i).getName().equals(invitee)){
+						consoleOutput.append(invitee + "'s new resources:  " + newResources + "\n");
 						connections.get(i).output("updateResource:" + newResources);  //Outputting to the invitee
 						break;
 					}
@@ -318,6 +341,7 @@ class SpaceServer extends JFrame {
 				//Finding the inviter
 				for (int i = 0; i < connections.size(); i++){
 					if (connections.get(i).getName().equals(inviter)){
+						consoleOutput.append(inviter + "'s trade was rejected\n");
 						connections.get(i).output("traderejected");  //Sending the rejection message
 						break;
 					}
