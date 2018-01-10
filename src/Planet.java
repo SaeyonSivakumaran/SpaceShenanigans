@@ -3,11 +3,13 @@ public class Planet {
 	String name;
 	String resource;
 	int resourceAmount;
+	int resourceRate;
+	int mineRate;
 	Player player1, player2;
 	Boolean travel;
 	long updateTime;
 	static final String ALPHABET="abcdefghijklmnopqrstuvwxyz";
-	
+
 	public Planet(long time){
 		name="";
 		int rand=(int) (Math.random()*15);
@@ -20,30 +22,63 @@ public class Planet {
 
 		case 0: resource="Graphene";
 		resourceAmount=(int) (Math.random()*100+50);
+		resourceRate=10;
+		mineRate=100;
 		break;
 		case 1: resource="Steel";
 		resourceAmount=(int) (Math.random()*100+50);
+		resourceRate=20;
+		mineRate=200;
 		break;
 		case 2: resource="Intellectium";
 		resourceAmount=(int) (Math.random()*10);
+		resourceRate=2;
+		mineRate=20;
 		break;
 		case 3: resource="Plutonium";
 		resourceAmount=(int) (Math.random()*10);
+		resourceRate=2;
+		mineRate=15;
 		break;
 		case 4: resource="Starlite";
 		resourceAmount=(int) (Math.random()*10);
+		resourceRate=1;
+		mineRate=10;
 		break;
 		case 5: resource="Fire Crystal";
 		resourceAmount=(int) (Math.random()*10);
+		resourceRate=1;
+		mineRate=15;
 		break;
 		case 6: resource="Pyroxium";
 		resourceAmount=(int) (Math.random()*10);
+		resourceRate=1;
+		mineRate=10;
 		break;
 		}
-		
+
 		updateTime=time;
+
+	}
+
+	public void addPlayer(Player player){
+		if (player1!=null){
+			player2=Player;
+			this.battle();
+			return;
+		}
+		player1=Player;
+	}
+
+	public void battle(){
+		
 		
 	}
-	System.out.println("u gey eh");
+	
+	public void update(long timeNow){
+		
+		
+	}
+	
 	
 }
