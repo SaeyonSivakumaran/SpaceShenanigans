@@ -63,11 +63,11 @@ public class Planet {
 
 	public void addPlayer(Player player){
 		if (player1!=null){
-			player2=Player;
+			player2=player;
 			this.battle();
 			return;
 		}
-		player1=Player;
+		player1=player;
 	}
 
 	public void battle(){
@@ -87,8 +87,9 @@ public class Planet {
 		if ((timeNow-updateTime)/1000000000.0>60){
 			updateTime=timeNow-updateTime;
 			resourceAmount-=resourceRate;
+			return resourceRate;
 		}
-		
+		return 0;
 		
 	}
 	public void removePlayer(Player player){
