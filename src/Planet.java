@@ -78,10 +78,26 @@ public class Planet {
 	public void update(long timeNow){
 		if ((timeNow-updateTime)/1000000000.0>60){
 			updateTime=timeNow-updateTime;
-			resourceAmount+=resourceRate;
+			resourceAmount-=mineRate;
 		}
 		
 	}
 	
+	public int mine(long timeNow){
+		if ((timeNow-updateTime)/1000000000.0>60){
+			updateTime=timeNow-updateTime;
+			resourceAmount+=resourceRate;
+		}
+		
+		
+	}
+	public void removePlayer(Player player){
+		if (player1.getUsername().equals(player.getUsername())){
+			player1=null;
+		}
+		if (player2.getUsername().equals(player.getUsername())){
+			player2=null;
+		}
+	}
 	
 }
