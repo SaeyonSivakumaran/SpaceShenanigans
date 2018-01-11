@@ -66,7 +66,7 @@ public class Planet {
 	public void addPlayer(Player player){
 		if (player1!=null){
 			player2=player;
-			server.battle();
+			server.battle(player1, player2);
 			return;
 		}
 		player1=player;

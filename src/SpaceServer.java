@@ -364,5 +364,9 @@ class SpaceServer extends JFrame {
 		}
 
 	}
+	
+	public void battle(Player player1, Player player2) {
+		
+	}
 
 }
