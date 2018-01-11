@@ -58,6 +58,22 @@ public class Ship {
 	}
 	
 	/**
+	 * getModules
+	 * Method to return the modules
+	 * @param Nothing
+	 * @return Module[] Array of modules
+	 */
+	public Module[] getModules(){
+		Module[] modules = new Module[5];
+		modules[0] = this.engine;
+		modules[1] = this.shield;
+		modules[2] = this.weaponModule;
+		modules[3] = this.miningModule;
+		modules[4] = this.deepSpaceViewer;
+		return modules;
+	}
+	
+	/**
 	 * upgradeEngineModule
 	 * Method to upgrade the engine
 	 * @param Nothing

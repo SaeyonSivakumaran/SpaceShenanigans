@@ -339,6 +339,46 @@ class SpaceServer extends JFrame {
 						break;
 					}
 				}
+			} else if (command.equals("upgrade")){
+				//Getting the information
+				String username = msg.substring(0, msg.indexOf(","));
+				msg = msg.substring(msg.indexOf(",") + 1);
+				String module = msg;
+				//Finding the user
+				for (int i = 0; i < onlinePlayers.size(); i++){
+					//Checking if the player is at the depot
+					if (onlinePlayers.get(i).getLocation().equals("depot")){
+						//Getting the player variables needed for upgrading
+						Player tempPlayer = onlinePlayers.get(i);
+						Ship tempShip = tempPlayer.getShip();
+						Module[] tempModules = tempShip.getModules();
+						int[] tempResources = tempPlayer.getResources();
+						//Finding which module to work with
+						if (module.equals("engineModule")){
+							EngineModule tempEngine = (EngineModule)tempModules[0];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempEngine.getSteel() && tempResources[1] > tempEngine.getGraphene()){
+								if (tempResources[2] > tempEngine.getPlut()){
+									onlinePlayers.get(i).getShip().upgradeEngineModule();
+								}
+							}
+						} else if (module.equals("miningModule")){
+							MiningModule tempMining = (MiningModule)tempModules[1];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempMining.getSteel() && tempResources[1] > tempMining.getGraphene()){
+								if (tempResources[5] > tempMining.getCrystal()){
+									onlinePlayers.get(i).getShip().upgradeMiningModule();
+								}
+							}
+						} else if (module.equals("shieldModule")){
+							
+						} else if (module.equals("weaponModule")){
+							
+						} else if (module.equals("deepSpaceViewer")){
+							
+						}
+					}
+				}
 			}
 		}
 		
