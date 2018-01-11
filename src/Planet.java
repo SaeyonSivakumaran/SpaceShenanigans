@@ -8,10 +8,12 @@ public class Planet {
 	Player player1, player2;
 	Boolean travel;
 	long updateTime;
+	SpaceServer server;
 	static final String ALPHABET="abcdefghijklmnopqrstuvwxyz";
 
-	public Planet(long time){
+	public Planet(long time, SpaceServer server){
 		name="";
+		this.server=server;
 		int rand=(int) (Math.random()*15);
 		for (int i=0;i<rand;i++){
 			int letter=(int) (Math.random()*24);
@@ -64,16 +66,12 @@ public class Planet {
 	public void addPlayer(Player player){
 		if (player1!=null){
 			player2=player;
-			this.battle();
+			server.battle();
 			return;
 		}
 		player1=player;
 	}
 
-	public void battle(){
-		
-		
-	}
 	
 	public void update(long timeNow){
 		if ((timeNow-updateTime)/1000000000.0>60){
