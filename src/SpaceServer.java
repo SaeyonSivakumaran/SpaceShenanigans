@@ -347,7 +347,7 @@ class SpaceServer extends JFrame {
 				//Finding the user
 				for (int i = 0; i < onlinePlayers.size(); i++){
 					//Checking if the player is at the depot
-					if (onlinePlayers.get(i).getLocation().equals("depot")){
+					if (onlinePlayers.get(i).getUsername().equals(username) && onlinePlayers.get(i).getLocation().equals("depot")){
 						//Getting the player variables needed for upgrading
 						Player tempPlayer = onlinePlayers.get(i);
 						Ship tempShip = tempPlayer.getShip();
@@ -371,11 +371,29 @@ class SpaceServer extends JFrame {
 								}
 							}
 						} else if (module.equals("shieldModule")){
-							
+							ShieldModule tempShield = (ShieldModule)tempModules[2];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempShield.getSteel() && tempResources[1] > tempShield.getGraphene()){
+								if (tempResources[3] > tempShield.getStarlite()){
+									onlinePlayers.get(i).getShip().upgradeShieldModule();
+								}
+							}
 						} else if (module.equals("weaponModule")){
-							
+							WeaponModule tempWeapon = (WeaponModule)tempModules[3];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempWeapon.getSteel() && tempResources[1] > tempWeapon.getGraphene()){
+								if (tempResources[4] > tempWeapon.getPyro()){
+									onlinePlayers.get(i).getShip().upgradeWeaponModule();
+								}
+							}
 						} else if (module.equals("deepSpaceViewer")){
-							
+							DeepSpaceViewer tempViewer = (DeepSpaceViewer)tempModules[4];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempViewer.getSteel() && tempResources[1] > tempViewer.getGraphene()){
+								if (tempResources[6] > tempViewer.getIntellectium()){
+									onlinePlayers.get(i).getShip().upgradeDeepSpaceViewer();
+								}
+							}
 						}
 					}
 				}
