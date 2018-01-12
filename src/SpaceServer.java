@@ -145,7 +145,7 @@ class SpaceServer extends JFrame {
 						//Player variables
 						String username = msg.substring(0, msg.indexOf(","));
 						Weapon weapon = new Weapon();
-						Module[] modules;
+						Module[] modules = new Module[5];
 						ShieldModule shield;
 						//Finding the player
 						for (int i = 0; i < onlinePlayers.size(); i++) {
@@ -160,30 +160,51 @@ class SpaceServer extends JFrame {
 								}
 							}
 						}
-						//Finding what type of weapon it is and redeclaring it
-						if (weapon instanceof Laser) {
-							weapon = (Laser)weapon;  //Changing the class of the weapon
-						} else if (weapon instanceof Missile) {
-							weapon = (Missile)weapon;  //Changing the class of the weapon
-						} else if (weapon instanceof BlackHole) {
-							weapon = (BlackHole)weapon;  //Changing the class of the weapon
-						} else if (weapon instanceof ShieldJammer) {
-							weapon = (ShieldJammer)weapon;  //Changing the class of the weapon
-						}
 						//Finding the other player and getting their shield
 						if (player1.getUsername().equals(username)) {
-							Module[] modules2 = player1.getShip().getModules();
+							Module[] modules2 = player2.getShip().getModules();
 							shield = (ShieldModule)modules2[2];
 						} else {
-							Module[] modules2 = player2.getShip().getModules();
+							Module[] modules2 = player1.getShip().getModules();
 							shield = (ShieldModule)modules2[2];
 						}
 						//Calculating the damage to be dealt
-						int randNum = (int)(Math.random() * 100);
-						if (randNum > shield.getDeflection()) {
-							
+						int shieldRand = (int)(Math.random() * 100);
+						if (shieldRand > shield.getDeflection()) {
+							//Finding what type of weapon it is and redeclaring it
+							if (weapon instanceof Laser) {
+								int accuracyRand = (int)(Math.random() * 100);
+								if (accuracyRand < ((Laser)weapon).getAccuracy()) {
+									//Removing health from the player
+									if (player1.getUsername().equals(username)) {
+										player2.getShip().removeHealth(((Laser)weapon).getDamage());
+									} else {
+										player1.getShip().removeHealth(((Laser)weapon).getDamage());
+									}
+								}
+							} else if (weapon instanceof Missile) {
+								int accuracyRand = (int)(Math.random() * 100);
+								if (accuracyRand < ((Missile)weapon).getAccuracy()) {
+									//Removing health from the player
+									if (player1.getUsername().equals(username)) {
+										player2.getShip().removeHealth(((Missile)weapon).getDamage());
+									} else {
+										player1.getShip().removeHealth(((Missile)weapon).getDamage());
+									}
+								}
+							} else if (weapon instanceof BlackHole) {
+								int attackNum = ((BlackHole)weapon).getAttack();
+								//Checking which attack to run
+								if (attackNum == 1) {
+									shield.setDeflection(0);  //Removing the other players shield
+								} else if (attackNum == 2) {
+									((ShieldModule)(modules[2])).setDeflection(0);  //Disables your own shield
+								}
+							} else if (weapon instanceof ShieldJammer) {
+								weapon = (ShieldJammer)weapon;  //Changing the class of the weapon
+							}
 						} else {
-							
+							//Attack failed because shield deflected it
 						}
 					}
 				}
