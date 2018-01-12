@@ -8,14 +8,7 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-
-//Imports for buttons
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 //Networking imports
 import java.net.Socket;
@@ -195,14 +188,32 @@ class SpaceServer extends JFrame {
 				// Getting the command info
 				String username = msg.substring(0, msg.indexOf(","));
 				String password = msg.substring(msg.indexOf(",") + 1);
-				// Adding the new user
-				players.add(new Player(username, password));
-				consoleOutput.append(username + " has joined Space Shenanigans\n");
+				boolean used = false;
+				//Checking if the username has been used
+				for (int i = 0; i < players.size(); i++){
+					if (players.get(i).getUsername().equals(username)){
+						//Acknowledging that the username is already taken
+						consoleOutput.append(username + " has already been taken\n");
+						used = true;
+						output.println("accountinvalid");  //Sending an invalid message to the suer
+						output.flush();
+						break;
+					}
+				}
+				//If the username works
+				if (!used){
+					output.println("accountvalid");  //Sending a success message
+					output.flush();
+					//Adding the new user
+					players.add(new Player(username, password));
+					consoleOutput.append(username + " has joined Space Shenanigans\n");
+				}
 			} else if (command.equals("tradeInfoWanted")){
 				String invitee = msg.substring(msg.indexOf(",") + 1);
 				int[] resources;
 				String resourceString = "";
 				boolean playerFound = false;
+				consoleOutput.append(invitee + "'s inventory has been requested\n");  //Console output
 				//Finding the invitee
 				for (int i = 0; i < onlinePlayers.size(); i++){
 					if (onlinePlayers.get(i).getUsername().equals(invitee)){
@@ -215,18 +226,177 @@ class SpaceServer extends JFrame {
 							}
 						}
 						//Sending out the inventory
-						output.println("inventory:" + resourceString);
+						consoleOutput.append(invitee + "'s inventory:  " + resourceString + "\n");
+						output.println("inventory:" + invitee + "," + resourceString);
 						output.flush();
 					}
 				}
 				//If the player wasn't found
 				if (playerFound == false){
+					consoleOutput.append(invitee + "was not found\n");
 					output.println("tradeinvalid");
 					output.flush();
 				}
 			} else if (command.equals("tradeoffer")){
-				output.println("trade:" + msg);
+				//Getting the invitee
+				String tempMsg = msg;
+				tempMsg = tempMsg.substring(tempMsg.indexOf(",") + 1);
+				String invitee = tempMsg.substring(0, tempMsg.indexOf(","));
+				//Finding the user
+				for (int i = 0; i < connections.size(); i++){
+					if (connections.get(i).getName().equals(invitee)){
+						consoleOutput.append(invitee + "was sent a trade:  " + msg + "\n");
+						connections.get(i).output(msg);  //Outputting to the invitee
+						break;
+					}
+				}
+			} else if (command.equals("acceptTrade")){
+				//User resources
+				int[] inviterResources = new int[7];
+				int[] inviteeResources = new int[7];
+				//Getting the users
+				String inviter = msg.substring(0, msg.indexOf(","));
+				msg = msg.substring(msg.indexOf(",") + 1);
+				String invitee = msg.substring(0, msg.indexOf(","));
+				msg = msg.substring(msg.indexOf(",") + 1);
+				//Running through all the resources
+				while (msg.length() > 1){
+					String resourceInfo = msg.substring(0, msg.indexOf(","));
+					//Checking which player the resource is for
+					if (resourceInfo.substring(0, 1).equals("1")){
+						//Getting all resource information
+						String tempResourceInfo = resourceInfo;
+						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
+						String resourceTypeString = tempResourceInfo.substring(0, 1);
+						int resourceType = Integer.parseInt(resourceTypeString);
+						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
+						int resourceNum = Integer.parseInt(tempResourceInfo);
+						//Finding the players
+						for (int i = 0; i < onlinePlayers.size(); i++){
+							if (onlinePlayers.get(i).getUsername().equals(inviter)){
+								onlinePlayers.get(i).changeResources(resourceType, onlinePlayers.get(i).getNumResources(resourceType) - resourceNum);  //Changing the resource amount
+							} else if (onlinePlayers.get(i).getUsername().equals(invitee)){
+								onlinePlayers.get(i).changeResources(resourceType, onlinePlayers.get(i).getNumResources(resourceType) + resourceNum);  //Changing the resource amount
+							}
+						}
+					} else {
+						//Getting all resource information
+						String tempResourceInfo = resourceInfo;
+						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
+						String resourceTypeString = tempResourceInfo.substring(0, 1);
+						int resourceType = Integer.parseInt(resourceTypeString);
+						tempResourceInfo = tempResourceInfo.substring(tempResourceInfo.indexOf("-") + 1);
+						int resourceNum = Integer.parseInt(tempResourceInfo);
+						//Finding the players
+						for (int i = 0; i < onlinePlayers.size(); i++){
+							if (onlinePlayers.get(i).getUsername().equals(invitee)){
+								onlinePlayers.get(i).changeResources(resourceType, onlinePlayers.get(i).getNumResources(resourceType) - resourceNum);  //Changing the resource amount
+							} else if (onlinePlayers.get(i).getUsername().equals(inviter)){
+								onlinePlayers.get(i).changeResources(resourceType, onlinePlayers.get(i).getNumResources(resourceType) + resourceNum);  //Changing the resource amount
+							}
+						}
+					}
+					msg = msg.substring(msg.indexOf(",") + 1);  //Shortening the message
+				}
+				//Finding the inviter and invitee's resources
+				for (int i = 0; i < onlinePlayers.size(); i++){
+					if (onlinePlayers.get(i).getUsername().equals(inviter)){
+						inviterResources = onlinePlayers.get(i).getResources();
+					} else if (onlinePlayers.get(i).getUsername().equals(invitee)){
+						inviteeResources = onlinePlayers.get(i).getResources();
+					}
+				}
+				//Updating the inviter's client
+				String newResources = "";
+				for (int i = 0; i < inviterResources.length; i++){
+					newResources += inviterResources[i] + ",";
+				}
+				consoleOutput.append(inviter + "'s new resources:  " + newResources + "\n");
+				output.println("updateResource:" + newResources);  //Sending the command
 				output.flush();
+				//Updating the invitee's resource string
+				newResources = "";
+				for (int i = 0; i < inviteeResources.length; i++){
+					newResources += inviteeResources[i] + ",";
+				}
+				//Finding the invitee
+				for (int i = 0; i < connections.size(); i++){
+					if (connections.get(i).getName().equals(invitee)){
+						consoleOutput.append(invitee + "'s new resources:  " + newResources + "\n");
+						connections.get(i).output("updateResource:" + newResources);  //Outputting to the invitee
+						break;
+					}
+				}
+			} else if (command.equals("rejectTrade")){
+				//Getting the inviter's username
+				msg = msg.substring(msg.indexOf(",") + 1);
+				String inviter = msg;
+				//Finding the inviter
+				for (int i = 0; i < connections.size(); i++){
+					if (connections.get(i).getName().equals(inviter)){
+						consoleOutput.append(inviter + "'s trade was rejected\n");
+						connections.get(i).output("traderejected");  //Sending the rejection message
+						break;
+					}
+				}
+			} else if (command.equals("upgrade")){
+				//Getting the information
+				String username = msg.substring(0, msg.indexOf(","));
+				msg = msg.substring(msg.indexOf(",") + 1);
+				String module = msg;
+				//Finding the user
+				for (int i = 0; i < onlinePlayers.size(); i++){
+					//Checking if the player is at the depot
+					if (onlinePlayers.get(i).getUsername().equals(username) && onlinePlayers.get(i).getLocation().equals("depot")){
+						//Getting the player variables needed for upgrading
+						Player tempPlayer = onlinePlayers.get(i);
+						Ship tempShip = tempPlayer.getShip();
+						Module[] tempModules = tempShip.getModules();
+						int[] tempResources = tempPlayer.getResources();
+						//Finding which module to work with
+						if (module.equals("engineModule")){
+							EngineModule tempEngine = (EngineModule)tempModules[0];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempEngine.getSteel() && tempResources[1] > tempEngine.getGraphene()){
+								if (tempResources[2] > tempEngine.getPlut()){
+									onlinePlayers.get(i).getShip().upgradeEngineModule();
+								}
+							}
+						} else if (module.equals("miningModule")){
+							MiningModule tempMining = (MiningModule)tempModules[1];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempMining.getSteel() && tempResources[1] > tempMining.getGraphene()){
+								if (tempResources[5] > tempMining.getCrystal()){
+									onlinePlayers.get(i).getShip().upgradeMiningModule();
+								}
+							}
+						} else if (module.equals("shieldModule")){
+							ShieldModule tempShield = (ShieldModule)tempModules[2];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempShield.getSteel() && tempResources[1] > tempShield.getGraphene()){
+								if (tempResources[3] > tempShield.getStarlite()){
+									onlinePlayers.get(i).getShip().upgradeShieldModule();
+								}
+							}
+						} else if (module.equals("weaponModule")){
+							WeaponModule tempWeapon = (WeaponModule)tempModules[3];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempWeapon.getSteel() && tempResources[1] > tempWeapon.getGraphene()){
+								if (tempResources[4] > tempWeapon.getPyro()){
+									onlinePlayers.get(i).getShip().upgradeWeaponModule();
+								}
+							}
+						} else if (module.equals("deepSpaceViewer")){
+							DeepSpaceViewer tempViewer = (DeepSpaceViewer)tempModules[4];
+							//Checking if the player has enough resources
+							if (tempResources[0] > tempViewer.getSteel() && tempResources[1] > tempViewer.getGraphene()){
+								if (tempResources[6] > tempViewer.getIntellectium()){
+									onlinePlayers.get(i).getShip().upgradeDeepSpaceViewer();
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		

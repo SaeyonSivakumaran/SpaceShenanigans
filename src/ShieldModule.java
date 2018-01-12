@@ -5,7 +5,7 @@ public class ShieldModule extends Module{
 	public ShieldModule(){
 		super();
 		this.deflectionRate=20;
-		this.starliteNeeded=5;
+		this.starliteNeeded=10;
 	}
 	
 	public void upgrade(){

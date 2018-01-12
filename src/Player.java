@@ -2,8 +2,9 @@
 public class Player {
 	private String username;
 	private String password;
+	private String location;
 	private Ship playerShip;
-	private int[] resources; //in this Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+	private int[] resources; //in this Steel, graphene, plutonium, starlite, pyroxium, blast crystal, intellectium
 	private boolean inBattle = false;
 	
 	Player(String username, String password){
@@ -29,12 +30,33 @@ public class Player {
 		this.password = password;
 	}
 	
+	public String getLocation() {
+		return this.location;
+	}
+	
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	public Ship getShip() {
+		return this.playerShip;
+	}
+	
 	/*
 	 * changeBattleStatus
 	 * Flips battle boolean when called
 	 */
 	public void changeBattleStatus(){
 		this.inBattle = !inBattle;
+	}
+	
+	/**
+	 * Method to return number of a certain resource
+	 * @return Number of resources at the index
+	 * @param resourceNum
+	 */
+	public int getNumResources(int resourceNum){
+		return this.resources[resourceNum];
 	}
 	
 	/*
