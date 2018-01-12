@@ -57,9 +57,9 @@ public class TravelPanel extends JPanel {
 		clock.update(); // update time
 
 		g.drawImage(backgroundImage, 0, 0, screenX - x, screenY, x, 0, screenX, screenY, null); // draw the part of the
-																								// image from the left
+																								// background from the left
 		g.drawImage(backgroundImage, screenX - x, 0, screenX, screenY, 0, 0, x, screenY, null); // draw the rest of the
-																								// image
+																								// background
 		g.drawImage(shipImage, 200, 50, null);
 
 		// Draw translucent rectangle

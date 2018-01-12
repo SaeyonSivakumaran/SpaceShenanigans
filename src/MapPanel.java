@@ -23,6 +23,15 @@ public class MapPanel extends JPanel {
 	JLabel speckleLabel;
 	BufferedImage fracturedPlanet = null;
 	JLabel fracturedLabel;
+	BufferedImage depot = null;
+	JLabel depotLabel;
+	Color clearColour = new Color(239, 161, 4, 225); // create 50% transparent colour
+	Font bigFont = new Font("Helvetica", Font.BOLD, 40);
+	Color textColour = new Color(209, 0, 198);
+	String planetName = "";
+	String drawText1 = "";
+	String drawText2 = "";
+	int tempCount = 0;
 
 	public MapPanel() {
 		try { // loading images
@@ -32,29 +41,46 @@ public class MapPanel extends JPanel {
 			potatoPlanet = ImageIO.read(new File("potatoPlanet.png"));
 			specklePlanet = ImageIO.read(new File("specklePlanet.png"));
 			fracturedPlanet = ImageIO.read(new File("fracturedPlanet.png"));
+			depot = ImageIO.read(new File("SpaceDepot.png"));
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
 		}
+		
+		this.setLayout(null);
 
 		// Resize images
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
-		yarnPlanet = resizeImage(yarnPlanet, screenX / 10, screenX / 10);
-		flatPlanet = resizeImage(flatPlanet, screenX / 10, screenX / 10);
-		potatoPlanet = resizeImage(potatoPlanet, screenX/10, screenX/10);
-		specklePlanet = resizeImage(specklePlanet, screenX/10, screenX/10);
-		fracturedPlanet = resizeImage(fracturedPlanet, screenX/10, screenX/10);
+		yarnPlanet = resizeImage(yarnPlanet, screenX / 12, screenX / 12);
+		flatPlanet = resizeImage(flatPlanet, screenX / 12, screenX / 12);
+		potatoPlanet = resizeImage(potatoPlanet, screenX/12, screenX/12);
+		specklePlanet = resizeImage(specklePlanet, screenX/12, screenX/12);
+		fracturedPlanet = resizeImage(fracturedPlanet, screenX/12, screenX/12);
+		depot = resizeImage(depot, screenX/8, screenX/8);
 		
 		yarnLabel = createImageButton(yarnPlanet);
+		yarnLabel.setBounds(0, 100, yarnPlanet.getWidth(), yarnPlanet.getHeight());
+		
 		flatLabel = createImageButton(flatPlanet);
+		flatLabel.setBounds(50, 2*screenY/3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(), flatPlanet.getHeight());
+		
 		potatoLabel = createImageButton(potatoPlanet);
+		potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(), potatoPlanet.getHeight());
+		
 		speckleLabel = createImageButton(specklePlanet);
+		speckleLabel.setBounds(screenX/5 - specklePlanet.getWidth()/2, screenY/2 - specklePlanet.getHeight()/2, specklePlanet.getWidth(), specklePlanet.getHeight());
+		
 		fracturedLabel = createImageButton(fracturedPlanet);
+		//setBounds(0, 10, yarnPlanet.getWidth(), yarnPlanet.getHeight());
+		
+		depotLabel = createImageButton(depot);
+		depotLabel.setBounds(screenX/2 - depot.getWidth()/2, screenY/2 - depot.getHeight(), depot.getWidth(), depot.getHeight());
 		
 		this.add(yarnLabel);
 		this.add(flatLabel);
 		this.add(potatoLabel);
 		this.add(speckleLabel);
 		this.add(fracturedLabel);
+		this.add(depotLabel);
 		
 	}
 
@@ -83,14 +109,16 @@ public class MapPanel extends JPanel {
 	 * @param Buffered image to be turned into JLabel
 	 * @return button JLabel
 	 */
-	public static JLabel createImageButton(BufferedImage planet) {
+	public JLabel createImageButton(final BufferedImage planet) {
 		JLabel imageButton = new JLabel(new ImageIcon(planet));
 		imageButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				// check if clicked area is transparent
 				boolean trans = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
 				if (trans) {
-					System.out.println("button pressed");
+					//replace with planet name
+					planetName = "Hello";
+					tempCount += 1;
 				}
 			}
 		});
@@ -104,6 +132,17 @@ public class MapPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // required to ensure the panel is correctly redrawn
 		g.drawImage(backgroundImage, 0, 0, null);
+		
+		g.setColor(clearColour);
+		g.fillRect(0, 2 * screenY / 3, screenX, screenY / 3);
+		
+		g.setFont(bigFont);
+		g.setColor(textColour);
+		drawText1 = "Planet" + planetName;
+		drawText2 = "Deep Space Viewer projected Resources: " + tempCount;
+		g.drawString(drawText1, 20, 2*screenY/3 + 50);
+		g.drawString(drawText2, 20, 2*screenY/3 + 150);
+		
 		repaint();
 	}
 
@@ -114,6 +153,7 @@ public class MapPanel extends JPanel {
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		frame.pack();
+		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 
