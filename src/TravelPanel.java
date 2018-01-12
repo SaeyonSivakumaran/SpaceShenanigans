@@ -35,6 +35,7 @@ public class TravelPanel extends JPanel {
 	 * @param travelSec Integer representing the amount of time in seconds needed to travel to the planet
 	 */
 	public TravelPanel(String planetName, int travelSec) {
+		System.out.println(screenSize);
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceBackground.png").getImage();
 			shipImage = new ImageIcon("EngineModule4.png").getImage();
@@ -121,7 +122,7 @@ public class TravelPanel extends JPanel {
 		JFrame frame = new JFrame("hello");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(new TravelPanel("Jupiter", 65));
-		frame.setPreferredSize(new Dimension(1920, 1080));
+		frame.setPreferredSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		frame.pack();
 		frame.setVisible(true);
 	}
