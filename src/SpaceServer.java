@@ -144,7 +144,7 @@ class SpaceServer extends JFrame {
 					if (command.equals("attack")) {
 						//Player variables
 						String username = msg.substring(0, msg.indexOf(","));
-						Weapon weapon;
+						Weapon weapon = new Weapon();
 						Module[] modules;
 						//Finding the player
 						for (int i = 0; i < onlinePlayers.size(); i++) {
@@ -159,8 +159,16 @@ class SpaceServer extends JFrame {
 								}
 							}
 						}
-						//Calculating the attack damage
-						
+						//Finding what type of weapon it is
+						if (weapon instanceof Laser) {
+							weapon = (Laser)weapon;  //Changing the class of the weapon
+						} else if (weapon instanceof Missile) {
+							weapon = (Missile)weapon;  //Changing the class of the weapon
+						} else if (weapon instanceof BlackHole) {
+							weapon = (BlackHole)weapon;  //Changing the class of the weapon
+						} else if (weapon instanceof ShieldJammer) {
+							weapon = (ShieldJammer)weapon;  //Changing the class of the weapon
+						}
 					}
 				}
 			}
