@@ -20,6 +20,8 @@ import java.io.IOException;
 
 //Game imports
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 
 class SpaceServer extends JFrame {
 
@@ -36,6 +38,7 @@ class SpaceServer extends JFrame {
 	ArrayList<Player> onlinePlayers;
 	ArrayList<PlayerConnection> connections;
 	SpaceDepot depot;
+	Queue battleCommands = new LinkedList<String>();
 
 	/**
 	 * Constructor for SpaceServer
@@ -85,6 +88,85 @@ class SpaceServer extends JFrame {
 			System.out.println("Connection failed");
 		}
 	}
+	
+	/**
+	 * Method to start battle
+	 * @param player1 First player in battle
+	 * @param player2 Second player in battle
+	 * @return nothing
+	 */
+	public void battle(Player player1, Player player2) {
+		//Creating the thread for a battle
+		BattleHandler battleHandler = new BattleHandler(player1, player2);
+		Thread battleThread = new Thread(battleHandler);
+		battleThread.start();  //Starting the battle thread
+	}
+	
+	/**
+	 * Battle Handler
+	 */
+	class BattleHandler implements Runnable{
+		
+		//Player variables
+		Player player1, player2;
+		PlayerConnection connection1, connection2;
+		boolean battleRunning;
+		
+		/**
+		 * Constructor for BattleHandler
+		 */
+		BattleHandler(Player player1, Player player2){
+			this.player1 = player1;
+			this.player2 = player2;
+			//Finding the input and outputs of both players
+			for (int i = 0; i < connections.size(); i++) {
+				if (connections.get(i).getName().equals(player1.getUsername())){
+					connection1 = connections.get(i);
+				} else if (connections.get(i).getName().equals(player2.getUsername())) {
+					connection2 = connections.get(i);
+				}
+			}
+			battleRunning = true;  //Run the battle
+		}
+		
+		/**
+		 * Main run method
+		 * @param Nothing
+		 * @return Nothing
+		 */
+		public void run() {
+			while(battleRunning) {
+				if (battleCommands.size() > 0) {
+					String msg = (String)battleCommands.poll();  //Getting the latest command
+					//Splitting up the client message
+					String command = msg.substring(0, msg.indexOf(":"));
+					msg = msg.substring(msg.indexOf(":") + 1);
+					if (command.equals("attack")) {
+						//Player variables
+						String username = msg.substring(0, msg.indexOf(","));
+						Weapon weapon;
+						Module[] modules;
+						//Finding the player
+						for (int i = 0; i < onlinePlayers.size(); i++) {
+							if (onlinePlayers.get(i).getUsername().equals(username)) {
+								modules = onlinePlayers.get(i).getShip().getModules();
+								if (msg.substring(msg.indexOf(",") + 1).equals("1")) {
+									weapon = ((WeaponModule)modules[2]).getWeapon1();
+								} else if (msg.substring(msg.indexOf(",") + 1).equals("2")) {
+									weapon = ((WeaponModule)modules[2]).getWeapon2();
+								} else if (msg.substring(msg.indexOf(",") + 1).equals("3")) {
+									weapon = ((WeaponModule)modules[2]).getWeapon3();
+								}
+							}
+						}
+						//Calculating the attack damage
+						
+					}
+				}
+			}
+		}
+		
+	}
 
 	/**
 	 * Connection Handler for each client
@@ -114,6 +196,24 @@ class SpaceServer extends JFrame {
 			playerRunning = true; // Allowing the handler to run
 		}
 
+		/**
+		 * Getter for the input
+		 * @param Nothing
+		 * @return BufferedReader The client's input
+		 */
+		public BufferedReader getInput() {
+			return this.input;
+		}
+		
+		/**
+		 * Getter for the output
+		 * @param Nothing
+		 * @return PrintWriter The client's output
+		 */
+		public PrintWriter getOutput() {
+			return this.output;
+		}
+		
 		/**
 		 * Main run method
 		 * 
@@ -360,7 +460,18 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempEngine.getSteel() && tempResources[1] > tempEngine.getGraphene()){
 								if (tempResources[2] > tempEngine.getPlut()){
 									onlinePlayers.get(i).getShip().upgradeEngineModule();
+									//Outputting the success message to client
+									output.println("upgradeSuccessful");
+									output.flush();
+								} else {
+									//Outputting the fail message to client
+									output.println("upgradeFailed");
+									output.flush();
 								}
+							} else {
+								//Outputting the fail message to client
+								output.println("upgradeFailed");
+								output.flush();
 							}
 						} else if (module.equals("miningModule")){
 							MiningModule tempMining = (MiningModule)tempModules[1];
@@ -368,7 +479,18 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempMining.getSteel() && tempResources[1] > tempMining.getGraphene()){
 								if (tempResources[5] > tempMining.getCrystal()){
 									onlinePlayers.get(i).getShip().upgradeMiningModule();
+									//Outputting the success message to client
+									output.println("upgradeSuccessful");
+									output.flush();
+								} else {
+									//Outputting the fail message to client
+									output.println("upgradeFailed");
+									output.flush();
 								}
+							} else {
+								//Outputting the fail message to client
+								output.println("upgradeFailed");
+								output.flush();
 							}
 						} else if (module.equals("shieldModule")){
 							ShieldModule tempShield = (ShieldModule)tempModules[2];
@@ -376,7 +498,18 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempShield.getSteel() && tempResources[1] > tempShield.getGraphene()){
 								if (tempResources[3] > tempShield.getStarlite()){
 									onlinePlayers.get(i).getShip().upgradeShieldModule();
+									//Outputting the success message to client
+									output.println("upgradeSuccessful");
+									output.flush();
+								} else {
+									//Outputting the fail message to client
+									output.println("upgradeFailed");
+									output.flush();
 								}
+							} else {
+								//Outputting the fail message to client
+								output.println("upgradeFailed");
+								output.flush();
 							}
 						} else if (module.equals("weaponModule")){
 							WeaponModule tempWeapon = (WeaponModule)tempModules[3];
@@ -384,7 +517,18 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempWeapon.getSteel() && tempResources[1] > tempWeapon.getGraphene()){
 								if (tempResources[4] > tempWeapon.getPyro()){
 									onlinePlayers.get(i).getShip().upgradeWeaponModule();
+									//Outputting the success message to client
+									output.println("upgradeSuccessful");
+									output.flush();
+								} else {
+									//Outputting the fail message to client
+									output.println("upgradeFailed");
+									output.flush();
 								}
+							} else {
+								//Outputting the fail message to client
+								output.println("upgradeFailed");
+								output.flush();
 							}
 						} else if (module.equals("deepSpaceViewer")){
 							DeepSpaceViewer tempViewer = (DeepSpaceViewer)tempModules[4];
@@ -392,11 +536,24 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempViewer.getSteel() && tempResources[1] > tempViewer.getGraphene()){
 								if (tempResources[6] > tempViewer.getIntellectium()){
 									onlinePlayers.get(i).getShip().upgradeDeepSpaceViewer();
+									//Outputting the success message to client
+									output.println("upgradeSuccessful");
+									output.flush();
+								} else {
+									//Outputting the fail message to client
+									output.println("upgradeFailed");
+									output.flush();
 								}
+							} else {
+								//Outputting the fail message to client
+								output.println("upgradeFailed");
+								output.flush();
 							}
 						}
 					}
 				}
+			} else if (command.equals("attack")) {
+				battleCommands.add(command + ":" + msg);  //Adding to the queue of battle commands
 			}
 		}
 		
