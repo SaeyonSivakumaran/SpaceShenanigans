@@ -146,6 +146,7 @@ class SpaceServer extends JFrame {
 						String username = msg.substring(0, msg.indexOf(","));
 						Weapon weapon = new Weapon();
 						Module[] modules;
+						ShieldModule shield;
 						//Finding the player
 						for (int i = 0; i < onlinePlayers.size(); i++) {
 							if (onlinePlayers.get(i).getUsername().equals(username)) {
@@ -159,7 +160,7 @@ class SpaceServer extends JFrame {
 								}
 							}
 						}
-						//Finding what type of weapon it is
+						//Finding what type of weapon it is and redeclaring it
 						if (weapon instanceof Laser) {
 							weapon = (Laser)weapon;  //Changing the class of the weapon
 						} else if (weapon instanceof Missile) {
@@ -168,6 +169,21 @@ class SpaceServer extends JFrame {
 							weapon = (BlackHole)weapon;  //Changing the class of the weapon
 						} else if (weapon instanceof ShieldJammer) {
 							weapon = (ShieldJammer)weapon;  //Changing the class of the weapon
+						}
+						//Finding the other player and getting their shield
+						if (player1.getUsername().equals(username)) {
+							Module[] modules2 = player1.getShip().getModules();
+							shield = (ShieldModule)modules2[2];
+						} else {
+							Module[] modules2 = player2.getShip().getModules();
+							shield = (ShieldModule)modules2[2];
+						}
+						//Calculating the damage to be dealt
+						int randNum = (int)(Math.random() * 100);
+						if (randNum > shield.getDeflection()) {
+							
+						} else {
+							
 						}
 					}
 				}
