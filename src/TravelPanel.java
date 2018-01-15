@@ -35,7 +35,6 @@ public class TravelPanel extends JPanel {
 	 * @param travelSec Integer representing the amount of time in seconds needed to travel to the planet
 	 */
 	public TravelPanel(String planetName, int travelSec) {
-		System.out.println(screenSize);
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceBackground.png").getImage();
 			shipImage = new ImageIcon("EngineModule4.png").getImage();
