@@ -37,6 +37,7 @@ class SpaceServer extends JFrame {
 	ArrayList<Player> players;
 	ArrayList<Player> onlinePlayers;
 	ArrayList<PlayerConnection> connections;
+	ArrayList<Planet> planets;
 	SpaceDepot depot;
 	Queue battleCommands = new LinkedList<String>();
 
@@ -52,6 +53,7 @@ class SpaceServer extends JFrame {
 		players = new ArrayList<Player>();
 		connections = new ArrayList<PlayerConnection>();
 		depot = new SpaceDepot();
+		planets = new ArrayList<Planet>();
 		// Initializing all GUI components
 		mainPanel = new JPanel(new BorderLayout());
 		consoleOutput = new JTextArea();
@@ -170,6 +172,7 @@ class SpaceServer extends JFrame {
 						}
 						//Calculating the damage to be dealt
 						int shieldRand = (int)(Math.random() * 100);
+						//If the attack bypasses the shield
 						if (shieldRand > shield.getDeflection()) {
 							//Finding what type of weapon it is and redeclaring it
 							if (weapon instanceof Laser) {
@@ -178,8 +181,10 @@ class SpaceServer extends JFrame {
 									//Removing health from the player
 									if (player1.getUsername().equals(username)) {
 										player2.getShip().removeHealth(((Laser)weapon).getDamage());
+										connection2.output("damage:" + ((Laser)weapon).getDamage());
 									} else {
 										player1.getShip().removeHealth(((Laser)weapon).getDamage());
+										connection1.output("damage:" + ((Laser)weapon).getDamage());
 									}
 								}
 							} else if (weapon instanceof Missile) {
@@ -188,8 +193,10 @@ class SpaceServer extends JFrame {
 									//Removing health from the player
 									if (player1.getUsername().equals(username)) {
 										player2.getShip().removeHealth(((Missile)weapon).getDamage());
+										connection2.output("damage:" + ((Laser)weapon).getDamage());
 									} else {
 										player1.getShip().removeHealth(((Missile)weapon).getDamage());
+										connection1.output("damage:" + ((Laser)weapon).getDamage());
 									}
 								}
 							} else if (weapon instanceof BlackHole) {
@@ -197,15 +204,48 @@ class SpaceServer extends JFrame {
 								//Checking which attack to run
 								if (attackNum == 1) {
 									shield.setDeflection(0);  //Removing the other players shield
+									//Sending the shield disabled command
+									if (player1.getUsername().equals(username)) {
+										connection2.output("shieldDisabled");
+									} else {
+										connection1.output("shieldDisabled");
+									}
 								} else if (attackNum == 2) {
 									((ShieldModule)(modules[2])).setDeflection(0);  //Disables your own shield
+									//Sending the shield disabled command
+									if (player1.getUsername().equals(username)) {
+										connection1.output("shieldDisabled");
+									} else {
+										connection2.output("shieldDisabled");
+									}
+								} else if (attackNum == 0) {
+									//Removing health from the attacker - backfire
+									if (player1.getUsername().equals(username)) {
+										player1.getShip().removeHealth(player1.getShip().getHealth() / 2);
+										connection1.output("damage:" + ((Laser)weapon).getDamage());
+									} else {
+										player2.getShip().removeHealth(player2.getShip().getHealth() / 2);
+										connection2.output("damage:" + ((Laser)weapon).getDamage());
+									}
 								}
 							} else if (weapon instanceof ShieldJammer) {
-								weapon = (ShieldJammer)weapon;  //Changing the class of the weapon
+								int jamChance = ((ShieldJammer)weapon).getJamRate();
+								int jamRand = (int)(Math.random() * 100);
+								//If the shield jammer works
+								if (jamRand < jamChance) {
+									shield.setDeflection(0);  //Jamming the shield
+									//Sending the shield disabled command
+									if (player1.getUsername().equals(username)) {
+										connection2.output("shieldDisabled");
+									} else {
+										connection1.output("shieldDisabled");
+									}
+								}
 							}
-						} else {
-							//Attack failed because shield deflected it
 						}
+						//End of turn
+						connection1.output("endTurn");
+						connection2.output("endTurn");
 					}
 				}
 			}
@@ -382,7 +422,7 @@ class SpaceServer extends JFrame {
 					output.println("tradeinvalid");
 					output.flush();
 				}
-			} else if (command.equals("tradeoffer")){
+			} else if (command.equals("tradeOffer")){
 				//Getting the invitee
 				String tempMsg = msg;
 				tempMsg = tempMsg.substring(tempMsg.indexOf(",") + 1);
@@ -391,7 +431,7 @@ class SpaceServer extends JFrame {
 				for (int i = 0; i < connections.size(); i++){
 					if (connections.get(i).getName().equals(invitee)){
 						consoleOutput.append(invitee + "was sent a trade:  " + msg + "\n");
-						connections.get(i).output(msg);  //Outputting to the invitee
+						connections.get(i).output("trade:" + msg);  //Outputting to the invitee
 						break;
 					}
 				}
@@ -599,6 +639,54 @@ class SpaceServer extends JFrame {
 				}
 			} else if (command.equals("attack")) {
 				battleCommands.add(command + ":" + msg);  //Adding to the queue of battle commands
+			} else if (command.equals("travel")) {
+				//Getting the travel info
+				String username = msg.substring(0, msg.indexOf(","));
+				String destination = msg.substring(msg.indexOf(",") + 1);
+				//Finding the planet
+				for (int i = 0; i < planets.size(); i++) {
+					if (planets.get(i).getName().equals(destination)) {
+						//If the planet is available
+						if (planets.get(i).canTravel()) {
+							//Finding the player
+							for (int k = 0; k < onlinePlayers.size(); k++) {
+								if (onlinePlayers.get(k).getUsername().equals(username)) {
+									Module[] playerModules = onlinePlayers.get(k).getShip().getModules();
+									int travelTime =  180 * ((EngineModule)(playerModules[0])).getSpeed();
+									//Finding the connection
+									for (int m = 0; m < connections.size(); m++) {
+										if (connections.get(m).getName().equals(username)) {
+											connections.get(m).output(Integer.toString(travelTime));  //Outputting travel time in seconds
+										}
+									}
+								}
+							}
+						} else {
+							//Send the user a command stating that the planet is unavailable
+							for (int n = 0; n < connections.size(); n++) {
+								if (connections.get(n).getName().equals(username)) {
+									connections.get(n).output("-1");
+								}
+							}
+						}
+						break;  //Leaving the loop
+					}
+				}
+			} else if (command.equals("arrived")) {
+				//Getting the travel info
+				String username = msg.substring(0, msg.indexOf(","));
+				String destination = msg.substring(msg.indexOf(",") + 1);
+				//Adding the player to the planet
+				for (int i = 0; i < planets.size(); i++) {
+					if (planets.get(i).getName().equals(destination)) {
+						//Finding the player
+						for (int j = 0; j < onlinePlayers.size(); j++) {
+							if (onlinePlayers.get(j).getUsername().equals(username)) {
+								planets.get(i).addPlayer(onlinePlayers.get(j));  //Adding the player to the planet
+							}
+						}
+					}
+				}
 			}
 		}
 		

@@ -4,13 +4,14 @@ public class EngineModule extends Module{
 	
 	public EngineModule(){
 		super();
-		this.travelSpeed=1;
+		this.travelSpeed=10;
 		this.plutNeeded=15;
 	}
 	
 	public void upgrade(){
 		super.upgrade();
 		this.plutNeeded*=2;
+		this.travelSpeed *= 0.5;
 	}
 	
 	public int getPlut(){

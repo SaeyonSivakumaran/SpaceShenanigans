@@ -63,10 +63,22 @@ public class Planet {
 
 	}
 
+	public String getName() {
+		return this.name;
+	}
+	
+	public boolean canTravel() {
+		if (player1 != null && player2 != null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public void addPlayer(Player player){
 		if (player1!=null){
 			player2=player;
-			server.battle();
+			server.battle(player1, player2);
 			return;
 		}
 		player1=player;
