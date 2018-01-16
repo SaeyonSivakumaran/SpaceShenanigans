@@ -723,7 +723,9 @@ class SpaceServer extends JFrame {
 							onlinePlayers.get(playerIndex).changeResources(4, ((onlinePlayers.get(playerIndex).getResources())[4]) + resourceAmount);
 						}
 					}
+					break; //Exiting the loop
 				}
+				//Updating the client with new resources
 			}
 		}
 		
