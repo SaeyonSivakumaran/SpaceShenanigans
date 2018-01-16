@@ -47,7 +47,7 @@ public class Planet {
 		resourceRate=1;
 		mineRate=10;
 		break;
-		case 5: resource="Fire Crystal";
+		case 5: resource="Blast Crystal";
 		resourceAmount=(int) (Math.random()*10);
 		resourceRate=1;
 		mineRate=15;
@@ -65,6 +65,10 @@ public class Planet {
 
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getResourceType() {
+		return this.resource;
 	}
 	
 	public boolean canTravel() {

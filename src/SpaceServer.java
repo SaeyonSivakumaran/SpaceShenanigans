@@ -76,8 +76,8 @@ class SpaceServer extends JFrame {
 		Socket client = null; // Socket for client
 		// Waiting for connection
 		try {
-			serverSocket = new ServerSocket(5000);
-			serverSocket.setSoTimeout(5000);
+			serverSocket = new ServerSocket(64680);
+			serverSocket.setSoTimeout(50000);
 			while (running) {
 				client = serverSocket.accept(); // Creating the client socket
 				consoleOutput.append("Client connected\n");
@@ -88,6 +88,7 @@ class SpaceServer extends JFrame {
 			}
 		} catch (Exception e) {
 			consoleOutput.append("Connection failed\n");
+			e.printStackTrace();
 		}
 	}
 	
@@ -684,6 +685,42 @@ class SpaceServer extends JFrame {
 							if (onlinePlayers.get(j).getUsername().equals(username)) {
 								planets.get(i).addPlayer(onlinePlayers.get(j));  //Adding the player to the planet
 							}
+						}
+					}
+				}
+			} else if (command.equals("mine")) {
+				//Getting the info
+				String username = msg.substring(0, msg.indexOf(","));
+				String planet = msg.substring(msg.indexOf(",") + 1);
+				int playerIndex = 0;
+				//Finding the player
+				for (int i = 0; i < onlinePlayers.size(); i++) {
+					if (onlinePlayers.get(i).getUsername().equals(username)) {
+						playerIndex = i;
+					}
+				}
+				//Finding the planet
+				for (int i = 0; i < planets.size(); i++) {
+					if (planets.get(i).getName().equals(planet)) {
+						long currentTime = System.nanoTime();
+						int resourceAmount = planets.get(i).mine(currentTime);  //Mining the planet
+						planets.get(i).update(currentTime);  //Updating the planet
+						//Adding resources to the player
+						String resourceType = planets.get(i).getResourceType();
+						if (resourceType.equals("Graphene")) {
+							onlinePlayers.get(playerIndex).changeResources(1, ((onlinePlayers.get(playerIndex).getResources())[1]) + resourceAmount);
+						} else if (resourceType.equals("Steel")) {
+							onlinePlayers.get(playerIndex).changeResources(0, ((onlinePlayers.get(playerIndex).getResources())[0]) + resourceAmount);
+						} else if (resourceType.equals("Intellectium")) {
+							onlinePlayers.get(playerIndex).changeResources(6, ((onlinePlayers.get(playerIndex).getResources())[6]) + resourceAmount);
+						} else if (resourceType.equals("Plutonium")) {
+							onlinePlayers.get(playerIndex).changeResources(2, ((onlinePlayers.get(playerIndex).getResources())[2]) + resourceAmount);
+						} else if (resourceType.equals("Starlite")) {
+							onlinePlayers.get(playerIndex).changeResources(3, ((onlinePlayers.get(playerIndex).getResources())[3]) + resourceAmount);
+						} else if (resourceType.equals("Blast Crystal")) {
+							onlinePlayers.get(playerIndex).changeResources(5, ((onlinePlayers.get(playerIndex).getResources())[5]) + resourceAmount);
+						} else if (resourceType.equals("Pyroxium")) {
+							onlinePlayers.get(playerIndex).changeResources(4, ((onlinePlayers.get(playerIndex).getResources())[4]) + resourceAmount);
 						}
 					}
 				}
