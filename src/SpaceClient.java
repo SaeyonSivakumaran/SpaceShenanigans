@@ -51,29 +51,30 @@ public class SpaceClient {
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
 
 			command=inputs.nextLine();
-			if (command.equals("login")){
+			while(running){
+				if (command.equals("login")){
 
-				while(running){
 					input1=inputs.nextLine();
 					input2=inputs.nextLine();
 					output.println("login:"+input1+","+input2);
+					output.flush();
 					command=input.readLine();
 					if (command.equals("loginAccepted")){
 						this.username=input1;
 						running=false;
 					}
-				}
-				running=true;
-			}else if(command.equals("newAccount")){
+				}else if(command.equals("newAccount")){
 
-				while(running){
-					input1=inputs.nextLine();
-					input2=inputs.nextLine();
-					output.println("newAccount:"+input1+","+input2);
-					command=input.readLine();
-					if (command.equals("accountValid")){
-						this.username=input1;
-						running=false;
+					while(running){
+						input1=inputs.nextLine();
+						input2=inputs.nextLine();
+						output.println("newAccount:"+input1+","+input2);
+						output.flush();
+						command=input.readLine();
+						if (command.equals("accountValid")){
+							this.username=input1;
+							running=false;
+						}
 					}
 				}
 				this.engine = new EngineModule();
@@ -84,7 +85,9 @@ public class SpaceClient {
 				running=true;
 
 				System.out.println("Connection made.");
+
 			}
+
 
 
 
