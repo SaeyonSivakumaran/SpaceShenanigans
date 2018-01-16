@@ -21,12 +21,17 @@ public class SpaceClient {
 	private DeepSpaceViewer deepSpaceViewer; 
 	//Ship health
 	private int health;
-	
-	
+	MapPanel display;
+	int ok;
+
 
 	public static void main(String[] args) {
 		SpaceClient client = new SpaceClient(); // start the client
 		client.go(); // begin the connection
+	}
+
+	public void getMap(MapPanel mapPanel) {
+		this.display=mapPanel;
 	}
 
 	/**
@@ -39,12 +44,12 @@ public class SpaceClient {
 	public void go() {
 		inputs=new Scanner(System.in);
 		try {
-			mySocket = new Socket("127.0.0.1", 5000); // attempt socket connection (local address)
+			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
-			
+
 			command=inputs.nextLine();
 			if (command.equals("login")){
 
@@ -77,70 +82,72 @@ public class SpaceClient {
 				this.miningModule = new MiningModule();
 				this.deepSpaceViewer = new DeepSpaceViewer();
 				running=true;
+
+				System.out.println("Connection made.");
+			}
+
+
+
+			Thread t= new Thread(new Input());
+			t.start();
+
+			while(running){
+				command=inputs.nextLine();
+				if (command.equals("1")){
+					input2=inputs.nextLine();
+					output.println("travel:"+username+","+input2);
+				}else if(command.equals("2")){
+					output.println("arrived:"+username);	
+				}else if(command.equals("3")){
+					input2=inputs.nextLine();
+					output.println("upgrade:"+username+","+input2);
+				}else if(command.equals("4")){
+					output.println("mine:"+username);
+				}else if(command.equals("5")){
+					input2=inputs.nextLine();
+					output.println("tradeInfoWanted:"+username+","+input2);
+				}else if(command.equals("6")){
+					input1=inputs.nextLine();
+					input2="";
+					while(!input1.equals(" ")){
+						input2+=input1;
+					}
+					input1=inputs.nextLine();
+					output.println("trade:"+username+","+input1);
+				}else if(command.equals("7")){
+					output.println("acceptTrade:"+input1);
+				}else if(command.equals("8")){
+					output.println("rejectTrade:"+input1);
+				}else if(command.equals("9")){
+					input1=inputs.nextLine();
+					output.println("attack:"+username+","+input2);
+				}else if(command.equals("10")){
+					output.println("logout:"+input1);
+					running=false;
+				}
+			}
+
+			try {  
+				input.close();
+				output.close();
+				mySocket.close();
+			}catch (Exception e) { 
+				System.out.println("Failed to close socket");
 			}
 		} catch (IOException e) { // connection error occured
 			System.out.println("Connection to Server Failed");
 			e.printStackTrace();
 		}
 
-		System.out.println("Connection made.");
-
-		Thread t= new Thread(new Input());
-		t.start();
-		
-		while(running){
-			command=inputs.nextLine();
-			if (command.equals("1")){
-				input2=inputs.nextLine();
-				output.println("travel:"+username+","+input2);
-			}else if(command.equals("2")){
-				output.println("arrived:"+username);	
-			}else if(command.equals("3")){
-				input2=inputs.nextLine();
-				output.println("upgrade:"+username+","+input2);
-			}else if(command.equals("4")){
-				output.println("mine:"+username);
-			}else if(command.equals("5")){
-				input2=inputs.nextLine();
-				output.println("tradeInfoWanted:"+username+","+input2);
-			}else if(command.equals("6")){
-				input1=inputs.nextLine();
-				input2="";
-				while(!input1.equals(" ")){
-					input2+=input1;
-				}
-				input1=inputs.nextLine();
-				output.println("trade:"+username+","+input1);
-			}else if(command.equals("7")){
-				output.println("acceptTrade:"+input1);
-			}else if(command.equals("8")){
-				output.println("rejectTrade:"+input1);
-			}else if(command.equals("9")){
-				input1=inputs.nextLine();
-				output.println("attack:"+username+","+input2);
-			}else if(command.equals("10")){
-				output.println("logout:"+input1);
-				running=false;
-			}
-		}
-
-		try {  
-			input.close();
-			output.close();
-			mySocket.close();
-		}catch (Exception e) { 
-			System.out.println("Failed to close socket");
-		}
-
 	}
 
 	class Input implements Runnable{
-	/**
-	 * receive This method continually loops and receives data from the server
-	 * 
-	 * @param N/A
-	 * @return N/A
-	 */
+		/**
+		 * receive This method continually loops and receives data from the server
+		 * 
+		 * @param N/A
+		 * @return N/A
+		 */
 		public void run() {
 			// after connecting loop and keep appending[.append()] to the JTextArea
 
@@ -155,23 +162,23 @@ public class SpaceClient {
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
 							command=msg.substring(msg.indexOf(":")+1);
-						//send to map
+							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
-						//send to map
+							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
-						//send to map
+							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
-						//send to map
+							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
-						//send to map
+							//send to map
 						}
 					}
 
