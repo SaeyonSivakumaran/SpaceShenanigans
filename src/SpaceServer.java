@@ -76,8 +76,7 @@ class SpaceServer extends JFrame {
 		Socket client = null; // Socket for client
 		// Waiting for connection
 		try {
-			serverSocket = new ServerSocket(64680);
-			serverSocket.setSoTimeout(50000);
+			serverSocket = new ServerSocket(5000);
 			while (running) {
 				client = serverSocket.accept(); // Creating the client socket
 				consoleOutput.append("Client connected\n");
@@ -726,6 +725,14 @@ class SpaceServer extends JFrame {
 					break; //Exiting the loop
 				}
 				//Updating the client with new resources
+				String newResources = "";
+				//Adding resources to the string
+				for (int i = 0; i < onlinePlayers.get(playerIndex).getResources().length; i++) {
+					newResources += Integer.toString(onlinePlayers.get(playerIndex).getResources()[i]) + ",";
+				}
+				//Sending the resource update
+				output.println("updateResource:" + newResources);
+				output.flush();
 			}
 		}
 		
