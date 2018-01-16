@@ -154,23 +154,23 @@ public class SpaceClient {
 							command=msg.substring(msg.indexOf(":")+1);
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
-							command=msg.substring(msg.dexOf(":")+1);
+							command=msg.substring(msg.indexOf(":")+1);
 						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
 
-							command=msg.substring(msg.dexOf(":")+1);
+							command=msg.substring(msg.indexOf(":")+1);
 						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
 
-							command=msg.substring(msg.dexOf(":")+1);
+							command=msg.substring(msg.indexOf(":")+1);
 						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
 
-							command=msg.substring(msg.dexOf(":")+1);
+							command=msg.substring(msg.indexOf(":")+1);
 						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
 
-							command=msg.substring(msg.dexOf(":")+1);
+							command=msg.substring(msg.indexOf(":")+1);
 						//send to map
 						}
 					}
