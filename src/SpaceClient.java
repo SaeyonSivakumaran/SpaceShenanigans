@@ -22,7 +22,7 @@ public class SpaceClient {
 	//Ship health
 	private int health;
 	MapPanel display;
-	
+	int ok;
 	
 
 	public static void main(String[] args) {
