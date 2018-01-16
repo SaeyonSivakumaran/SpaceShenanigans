@@ -10,6 +10,7 @@ import javax.imageio.*;
 public class MapPanel extends JPanel {
 
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	static JFrame frame = new JFrame();
 	int screenX = (int) screenSize.getWidth();
 	int screenY = (int) screenSize.getHeight();
 	Image backgroundImage = null;
@@ -90,6 +91,11 @@ public class MapPanel extends JPanel {
 		moonLabel = createImageButton(moonPlanet);
 		moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(), moonPlanet.getHeight());
 		
+		JButton button = new JButton("Confirm Travel");
+		button.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		button.setBounds(screenX/2 - 150, screenY - 200, 300, 100);
+		button.addActionListener(new TravelButtonListener());
+		
 		this.add(yarnLabel);
 		this.add(flatLabel);
 		this.add(potatoLabel);
@@ -98,6 +104,7 @@ public class MapPanel extends JPanel {
 		this.add(depotLabel);
 		this.add(jupiterLabel);
 		this.add(moonLabel);
+		this.add(button);
 		
 	}
 
@@ -132,7 +139,45 @@ public class MapPanel extends JPanel {
 		return imageButton;
 	}
 	
-	//MouseAdapter
+	public class TravelButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			if(planetName.equals("Yarn Planet")) {
+				frame.setContentPane(new TravelPanel("Yarn Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			}else if (planetName.equals("Flat Planet")){
+				frame.setContentPane(new TravelPanel("Flat Planet", 50));
+				frame.invalidate();
+				frame.validate();				
+			}else if (planetName.equals("Potato Planet")){
+				frame.setContentPane(new TravelPanel("Potato Planet", 50));
+				frame.invalidate();
+				frame.validate();				
+			}else if (planetName.equals("Speckle Planet")){
+				frame.setContentPane(new TravelPanel("Speckle Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			}else if (planetName.equals("Fractured Planet")){
+				frame.setContentPane(new TravelPanel("Fractured Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			}else if (planetName.equals("Depot")){
+				frame.setContentPane(new TravelPanel("Depot", 50));
+				frame.invalidate();
+				frame.validate();
+			}else if (planetName.equals("Jupiter Planet")){
+				frame.setContentPane(new TravelPanel("Jupiter Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			}else if (planetName.equals("Moon Planet")){
+				frame.setContentPane(new TravelPanel("Moon Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			}
+		}
+	}
+	
+	//MouseAdapter for planets
 	public class PlanetListener extends MouseAdapter {
 		BufferedImage planet;
 		JLabel source;
@@ -146,21 +191,21 @@ public class MapPanel extends JPanel {
 					source = (JLabel)e.getSource();
 
 					if(source == yarnLabel) { //yarnLabel
-						planetName = "YarnPlanet";
+						planetName = "Yarn Planet";
 					}else if(source == flatLabel) { //flatLabel
-						planetName = "flatPlanet";
+						planetName = "Flat Planet";
 					}else if (source == potatoLabel) { //potatoLabel
-						planetName = "potatoPlanet";
+						planetName = "Potato Planet";
 					}else if (source == speckleLabel) { //speckleLabel
-						planetName = "specklePlanet";
+						planetName = "Speckle Planet";
 					}else if (source == fracturedLabel) { //fracturedLabel
-						planetName = "fracturedPlanet";
+						planetName = "Fractured Planet";
 					}else if (source == depotLabel){ //depotLabel
 						planetName = "Depot";
 					}else if (source == jupiterLabel) { //jupiterLabel
-						planetName = "jupiterPlanet";
+						planetName = "Jupiter Planet";
 					}else if (source == moonLabel) { //moonLabel
-						planetName = "moonPlanet";
+						planetName = "Moon Planet";
 					}
 				}
 		   }
@@ -192,7 +237,6 @@ public class MapPanel extends JPanel {
 	}
 
 	public static void main(String args[]) {
-		JFrame frame = new JFrame("hello");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(new MapPanel());
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
