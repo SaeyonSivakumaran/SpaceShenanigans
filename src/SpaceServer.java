@@ -80,14 +80,14 @@ class SpaceServer extends JFrame {
 			serverSocket.setSoTimeout(5000);
 			while (running) {
 				client = serverSocket.accept(); // Creating the client socket
-				System.out.println("Client connected");
+				consoleOutput.append("Client connected\n");
 				PlayerConnection tempConnection = new PlayerConnection(client);
 				connections.add(tempConnection); // Adding to the arraylist of connections
 				Thread clientThread = new Thread(tempConnection);
 				clientThread.start(); // Starting the client thread
 			}
 		} catch (Exception e) {
-			System.out.println("Connection failed");
+			consoleOutput.append("Connection failed\n");
 		}
 	}
 	
@@ -112,7 +112,6 @@ class SpaceServer extends JFrame {
 		//Player variables
 		Player player1, player2;
 		PlayerConnection connection1, connection2;
-		boolean battleRunning;
 		
 		/**
 		 * Constructor for BattleHandler
@@ -128,7 +127,6 @@ class SpaceServer extends JFrame {
 					connection2 = connections.get(i);
 				}
 			}
-			battleRunning = true;  //Run the battle
 		}
 		
 		/**
@@ -137,7 +135,8 @@ class SpaceServer extends JFrame {
 		 * @return Nothing
 		 */
 		public void run() {
-			while(battleRunning) {
+			//Run while the ships have not been destroyed
+			while(player1.getShip().getHealth() > 0 && player2.getShip().getHealth() > 0) {
 				if (battleCommands.size() > 0) {
 					String msg = (String)battleCommands.poll();  //Getting the latest command
 					//Splitting up the client message
@@ -249,6 +248,7 @@ class SpaceServer extends JFrame {
 					}
 				}
 			}
+			//After the battle is complete
 		}
 		
 	}
@@ -711,10 +711,6 @@ class SpaceServer extends JFrame {
 			output.flush();
 		}
 
-	}
-	
-	public void battle(Player player1, Player player2) {
-		
 	}
 
 }
