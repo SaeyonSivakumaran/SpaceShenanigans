@@ -20,4 +20,9 @@ public class ShieldModule extends Module{
 	public int getDeflection(){
 		return this.deflectionRate;
 	}
+	
+	public void setDeflection(int newRate){
+		this.deflectionRate = newRate;
+	}
+	
 }

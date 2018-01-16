@@ -94,151 +94,244 @@ public class UpgradePanel extends JPanel {
 		JPanel EnginePanel = new JPanel();
 		EnginePanel.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.addTab("Engine Module", null, EnginePanel, null);
-		EnginePanel.setLayout(null);
 		
 		JLabel label = new JLabel("Current Level: ~~");
 		label.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label.setBounds(10, 11, 227, 43);
-		EnginePanel.add(label);
 		
 		JButton button = new JButton("");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button.setBounds(227, 269, 655, 69);
 		button.setIcon(buttonIcon);
-		EnginePanel.add(button);
 		
 		JLabel label_1 = new JLabel("Cost:");
 		label_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_1.setBounds(77, 168, 72, 20);
-		EnginePanel.add(label_1);
-		
-		JLabel label_4 = new JLabel("Time: min");
-		label_4.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_4.setBounds(692, 157, 257, 43);
-		EnginePanel.add(label_4);
 		
 		JLabel lblUpgradeEngines = new JLabel("Upgrade Engines");
 		lblUpgradeEngines.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblUpgradeEngines.setBounds(15, 100, 227, 43);
-		EnginePanel.add(lblUpgradeEngines);
 		
 		JLabel lblNewLabel_1 = new JLabel(steelIcon);
-		lblNewLabel_1.setBounds(148, 150, 50, 50);
-		EnginePanel.add(lblNewLabel_1);
 		
 		JLabel label_9 = new JLabel(plutoniumIcon);
-		label_9.setBounds(331, 150, 50, 50);
-		EnginePanel.add(label_9);
 		
 		JLabel lblX = new JLabel("x1000");
 		lblX.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		lblX.setBounds(208, 168, 116, 20);
-		EnginePanel.add(lblX);
 		
 		JLabel label_16 = new JLabel("x1000");
 		label_16.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_16.setBounds(391, 168, 116, 20);
-		EnginePanel.add(label_16);
+		GroupLayout gl_EnginePanel = new GroupLayout(EnginePanel);
+		gl_EnginePanel.setHorizontalGroup(
+			gl_EnginePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_EnginePanel.createSequentialGroup()
+					.addGap(10)
+					.addComponent(label, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_EnginePanel.createSequentialGroup()
+					.addGap(15)
+					.addComponent(lblUpgradeEngines, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_EnginePanel.createSequentialGroup()
+					.addGap(77)
+					.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_EnginePanel.createSequentialGroup()
+							.addGap(71)
+							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+						.addGroup(gl_EnginePanel.createSequentialGroup()
+							.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+							.addGap(49)))
+					.addGap(10)
+					.addComponent(lblX, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(7)
+					.addComponent(label_9, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(label_16, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(595))
+				.addGroup(gl_EnginePanel.createSequentialGroup()
+					.addGap(227)
+					.addComponent(button, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_EnginePanel.setVerticalGroup(
+			gl_EnginePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_EnginePanel.createSequentialGroup()
+					.addGap(11)
+					.addComponent(label, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(46)
+					.addComponent(lblUpgradeEngines, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_EnginePanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_EnginePanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(lblX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_9, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_EnginePanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_16, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(69)
+					.addComponent(button, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+		);
+		EnginePanel.setLayout(gl_EnginePanel);
 		
 		//Tab for Deep Space Viewer upgrades
 		JPanel DeepSpaceViewerPanel = new JPanel();
 		DeepSpaceViewerPanel.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.addTab("Deep Space Viewer", null, DeepSpaceViewerPanel, null);
-		DeepSpaceViewerPanel.setLayout(null);
 		
 		JButton button_1 = new JButton("");
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button_1.setBounds(227, 269, 655, 69);
 		button_1.setIcon(buttonIcon);
-		DeepSpaceViewerPanel.add(button_1);
 		
 		JLabel lblUpgradeDeepSpace = new JLabel("Upgrade Deep Space Viewer");
 		lblUpgradeDeepSpace.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblUpgradeDeepSpace.setBounds(15, 100, 382, 43);
-		DeepSpaceViewerPanel.add(lblUpgradeDeepSpace);
 		
 		JLabel label_2 = new JLabel(grapheneIcon);
-		label_2.setBounds(331, 150, 50, 50);
-		DeepSpaceViewerPanel.add(label_2);
 		
 		JLabel label_3 = new JLabel("Current Level: ~~");
 		label_3.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_3.setBounds(10, 11, 227, 43);
-		DeepSpaceViewerPanel.add(label_3);
 		
 		JLabel label_5 = new JLabel("Cost:");
 		label_5.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_5.setBounds(77, 168, 72, 20);
-		DeepSpaceViewerPanel.add(label_5);
 		
 		JLabel label_17 = new JLabel("x1000");
 		label_17.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_17.setBounds(208, 168, 116, 20);
-		DeepSpaceViewerPanel.add(label_17);
 		
 		JLabel label_18 = new JLabel(steelIcon);
-		label_18.setBounds(148, 150, 50, 50);
-		DeepSpaceViewerPanel.add(label_18);
 		
 		JLabel label_19 = new JLabel("x1000");
 		label_19.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_19.setBounds(391, 168, 116, 20);
-		DeepSpaceViewerPanel.add(label_19);
-		
-		JLabel label_20 = new JLabel("Time: min");
-		label_20.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_20.setBounds(692, 157, 257, 43);
-		DeepSpaceViewerPanel.add(label_20);
+		GroupLayout gl_DeepSpaceViewerPanel = new GroupLayout(DeepSpaceViewerPanel);
+		gl_DeepSpaceViewerPanel.setHorizontalGroup(
+			gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+					.addGap(10)
+					.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+					.addGap(15)
+					.addComponent(lblUpgradeDeepSpace, GroupLayout.PREFERRED_SIZE, 382, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+					.addGap(77)
+					.addGroup(gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+							.addComponent(label_5, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+							.addGap(49))
+						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+							.addGap(71)
+							.addComponent(label_18, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)))
+					.addGap(10)
+					.addComponent(label_17, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(7)
+					.addComponent(label_2, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(label_19, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(595))
+				.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+					.addGap(227)
+					.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_DeepSpaceViewerPanel.setVerticalGroup(
+			gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+					.addGap(11)
+					.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(46)
+					.addComponent(lblUpgradeDeepSpace, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addGroup(gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_5, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_18, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_17, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_19, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(69)
+					.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+		);
+		DeepSpaceViewerPanel.setLayout(gl_DeepSpaceViewerPanel);
 		
 		//Tab for Shield Upgrades
 		JPanel ShieldPanel = new JPanel();
 		ShieldPanel.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.addTab("Shield Module", null, ShieldPanel, null);
-		ShieldPanel.setLayout(null);
 		
 		JButton button_2 = new JButton("");
 		button_2.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button_2.setBounds(227, 269, 655, 69);
 		button_2.setIcon(buttonIcon);
-		ShieldPanel.add(button_2);
 		
 		JLabel lblUpgradeShields = new JLabel("Upgrade Shields");
 		lblUpgradeShields.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblUpgradeShields.setBounds(15, 100, 227, 43);
-		ShieldPanel.add(lblUpgradeShields);
 		
 		JLabel label_6 = new JLabel(starliteIcon);
-		label_6.setBounds(331, 150, 50, 50);
-		ShieldPanel.add(label_6);
 		
 		JLabel label_7 = new JLabel("Current Level: ~~");
 		label_7.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_7.setBounds(10, 11, 227, 43);
-		ShieldPanel.add(label_7);
 		
 		JLabel label_8 = new JLabel("Cost:");
 		label_8.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_8.setBounds(77, 168, 72, 20);
-		ShieldPanel.add(label_8);
 		
 		JLabel label_21 = new JLabel("x1000");
 		label_21.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_21.setBounds(208, 168, 116, 20);
-		ShieldPanel.add(label_21);
 		
 		JLabel label_22 = new JLabel(steelIcon);
-		label_22.setBounds(148, 150, 50, 50);
-		ShieldPanel.add(label_22);
 		
 		JLabel label_23 = new JLabel("x1000");
 		label_23.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_23.setBounds(391, 168, 116, 20);
-		ShieldPanel.add(label_23);
-		
-		JLabel label_24 = new JLabel("Time: min");
-		label_24.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_24.setBounds(692, 157, 257, 43);
-		ShieldPanel.add(label_24);
+		GroupLayout gl_ShieldPanel = new GroupLayout(ShieldPanel);
+		gl_ShieldPanel.setHorizontalGroup(
+			gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_ShieldPanel.createSequentialGroup()
+					.addGap(10)
+					.addComponent(label_7, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_ShieldPanel.createSequentialGroup()
+					.addGap(15)
+					.addComponent(lblUpgradeShields, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_ShieldPanel.createSequentialGroup()
+					.addGap(77)
+					.addGroup(gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_ShieldPanel.createSequentialGroup()
+							.addComponent(label_8, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+							.addGap(49))
+						.addGroup(gl_ShieldPanel.createSequentialGroup()
+							.addGap(71)
+							.addComponent(label_22, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)))
+					.addGap(10)
+					.addComponent(label_21, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(7)
+					.addComponent(label_6, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(label_23, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(595))
+				.addGroup(gl_ShieldPanel.createSequentialGroup()
+					.addGap(227)
+					.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_ShieldPanel.setVerticalGroup(
+			gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_ShieldPanel.createSequentialGroup()
+					.addGap(11)
+					.addComponent(label_7, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(46)
+					.addComponent(lblUpgradeShields, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addGroup(gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_ShieldPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_8, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_22, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_ShieldPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_21, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_6, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_ShieldPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_23, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(69)
+					.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+		);
+		ShieldPanel.setLayout(gl_ShieldPanel);
 		
 		//Tab for weapons upgrades
 		JPanel WeaponsPanel = new JPanel();
@@ -247,7 +340,7 @@ public class UpgradePanel extends JPanel {
 		WeaponsPanel.setLayout(null);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(10, 11, 1082, 395);
+		tabbedPane_1.setBounds(10, 11, 1120, 395);
 		tabbedPane_1.setBackground(new Color(3, 53, 132)); //change colour of all tabs
 		tabbedPane_1.setFont(new Font("Tahoma", Font.BOLD, 19)); //change font
 		tabbedPane_1.setForeground(Color.WHITE); //change text colour
@@ -257,267 +350,499 @@ public class UpgradePanel extends JPanel {
 		JPanel UpgradeWeaponModule = new JPanel();
 		UpgradeWeaponModule.setBackground(Color.LIGHT_GRAY);
 		tabbedPane_1.addTab("Upgrade Weapons Module", null, UpgradeWeaponModule, null);
-		UpgradeWeaponModule.setLayout(null);
 		
 		JButton button_3 = new JButton(buttonIcon);
 		button_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button_3.setBounds(227, 269, 655, 69);
-		UpgradeWeaponModule.add(button_3);
 		
 		JLabel label_10 = new JLabel("Upgrade Weapon Module");
 		label_10.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		label_10.setBounds(15, 100, 334, 43);
-		UpgradeWeaponModule.add(label_10);
 		
 		JLabel label_11 = new JLabel(blastCrystalIcon);
-		label_11.setBounds(331, 150, 50, 50);
-		UpgradeWeaponModule.add(label_11);
 		
 		JLabel label_12 = new JLabel("Current Level: ~~");
 		label_12.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_12.setBounds(10, 11, 227, 43);
-		UpgradeWeaponModule.add(label_12);
 		
 		JLabel label_25 = new JLabel("Cost:");
 		label_25.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_25.setBounds(77, 168, 72, 20);
-		UpgradeWeaponModule.add(label_25);
 		
 		JLabel label_26 = new JLabel("x1000");
 		label_26.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_26.setBounds(208, 168, 116, 20);
-		UpgradeWeaponModule.add(label_26);
 		
 		JLabel label_27 = new JLabel(steelIcon);
-		label_27.setBounds(148, 150, 50, 50);
-		UpgradeWeaponModule.add(label_27);
 		
 		JLabel label_28 = new JLabel("x1000");
 		label_28.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_28.setBounds(391, 168, 116, 20);
-		UpgradeWeaponModule.add(label_28);
-		
-		JLabel label_49 = new JLabel("Time: min");
-		label_49.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_49.setBounds(692, 157, 257, 43);
-		UpgradeWeaponModule.add(label_49);
+		GroupLayout gl_UpgradeWeaponModule = new GroupLayout(UpgradeWeaponModule);
+		gl_UpgradeWeaponModule.setHorizontalGroup(
+			gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+					.addGap(10)
+					.addComponent(label_12, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+					.addGap(15)
+					.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+					.addGap(77)
+					.addGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+							.addComponent(label_25, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+							.addGap(49))
+						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+							.addGap(71)
+							.addComponent(label_27, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)))
+					.addGap(10)
+					.addComponent(label_26, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(7)
+					.addComponent(label_11, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(label_28, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(570))
+				.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+					.addGap(227)
+					.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_UpgradeWeaponModule.setVerticalGroup(
+			gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+					.addGap(11)
+					.addComponent(label_12, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(46)
+					.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_25, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_27, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_26, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_11, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_28, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(69)
+					.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+		);
+		UpgradeWeaponModule.setLayout(gl_UpgradeWeaponModule);
 		
 		//Sub-tabbed panel for upgrading/purchasing individual weapons
 		JPanel PurchaseWeapons = new JPanel();
 		PurchaseWeapons.setBackground(Color.LIGHT_GRAY);
 		tabbedPane_1.addTab("Purchase Weapons", null, PurchaseWeapons, null);
-		PurchaseWeapons.setLayout(null);
 		
 		JLabel lblNewLabel_2 = new JLabel(blackHoleIcon);
-		lblNewLabel_2.setBounds(48, 160, 206, 42);
-		PurchaseWeapons.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel(shieldJammerIcon);
-		lblNewLabel_3.setBounds(87, 54, 235, 42);
-		PurchaseWeapons.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel(laserIcon);
-		lblNewLabel_4.setBounds(286, 160, 292, 42);
-		PurchaseWeapons.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel(missileIcon);
-		lblNewLabel_5.setBounds(412, 45, 260, 42);
-		PurchaseWeapons.add(lblNewLabel_5);
+		GroupLayout gl_PurchaseWeapons = new GroupLayout(PurchaseWeapons);
+		gl_PurchaseWeapons.setHorizontalGroup(
+			gl_PurchaseWeapons.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_PurchaseWeapons.createSequentialGroup()
+					.addGap(87)
+					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+					.addGap(90)
+					.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_PurchaseWeapons.createSequentialGroup()
+					.addGap(48)
+					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
+					.addGap(32)
+					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_PurchaseWeapons.setVerticalGroup(
+			gl_PurchaseWeapons.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_PurchaseWeapons.createSequentialGroup()
+					.addGap(45)
+					.addGroup(gl_PurchaseWeapons.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_PurchaseWeapons.createSequentialGroup()
+							.addGap(9)
+							.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+					.addGap(64)
+					.addGroup(gl_PurchaseWeapons.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
+		);
+		PurchaseWeapons.setLayout(gl_PurchaseWeapons);
 		
 		//Tab for mining upgrades
 		JPanel MiningPanel = new JPanel();
 		MiningPanel.setForeground(Color.BLACK);
 		MiningPanel.setBackground(Color.LIGHT_GRAY);
 		tabbedPane.addTab("Mining Module", null, MiningPanel, null);
-		MiningPanel.setLayout(null);
 		
 		JButton button_4 = new JButton("");
 		button_4.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button_4.setBounds(227, 269, 655, 69);
 		button_4.setIcon(buttonIcon);
-		MiningPanel.add(button_4);
 		
 		JLabel lblUpgradeMiningEquipment = new JLabel("Upgrade Mining Equipment");
 		lblUpgradeMiningEquipment.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblUpgradeMiningEquipment.setBounds(15, 100, 420, 43);
-		MiningPanel.add(lblUpgradeMiningEquipment);
 		
 		JLabel label_13 = new JLabel(pyroxiumIcon);
-		label_13.setBounds(331, 150, 50, 50);
-		MiningPanel.add(label_13);
 		
 		JLabel label_14 = new JLabel("Current Level: ~~");
 		label_14.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_14.setBounds(10, 11, 227, 43);
-		MiningPanel.add(label_14);
 		
 		JLabel label_15 = new JLabel("Cost:");
 		label_15.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_15.setBounds(77, 168, 72, 20);
-		MiningPanel.add(label_15);
 		
 		JLabel label_29 = new JLabel("x1000");
 		label_29.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_29.setBounds(208, 168, 116, 20);
-		MiningPanel.add(label_29);
 		
 		JLabel label_30 = new JLabel(steelIcon);
-		label_30.setBounds(148, 150, 50, 50);
-		MiningPanel.add(label_30);
 		
 		JLabel label_31 = new JLabel("x1000");
 		label_31.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_31.setBounds(391, 168, 116, 20);
-		MiningPanel.add(label_31);
-		
-		JLabel label_32 = new JLabel("Time: min");
-		label_32.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_32.setBounds(692, 157, 257, 43);
-		MiningPanel.add(label_32);
+		GroupLayout gl_MiningPanel = new GroupLayout(MiningPanel);
+		gl_MiningPanel.setHorizontalGroup(
+			gl_MiningPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_MiningPanel.createSequentialGroup()
+					.addGap(10)
+					.addComponent(label_14, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_MiningPanel.createSequentialGroup()
+					.addGap(15)
+					.addComponent(lblUpgradeMiningEquipment, GroupLayout.PREFERRED_SIZE, 420, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_MiningPanel.createSequentialGroup()
+					.addGap(77)
+					.addGroup(gl_MiningPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_MiningPanel.createSequentialGroup()
+							.addComponent(label_15, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+							.addGap(49))
+						.addGroup(gl_MiningPanel.createSequentialGroup()
+							.addGap(71)
+							.addComponent(label_30, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)))
+					.addGap(10)
+					.addComponent(label_29, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(7)
+					.addComponent(label_13, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(label_31, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(595))
+				.addGroup(gl_MiningPanel.createSequentialGroup()
+					.addGap(227)
+					.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_MiningPanel.setVerticalGroup(
+			gl_MiningPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_MiningPanel.createSequentialGroup()
+					.addGap(11)
+					.addComponent(label_14, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(46)
+					.addComponent(lblUpgradeMiningEquipment, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addGroup(gl_MiningPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_MiningPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_15, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_30, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_MiningPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_29, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addComponent(label_13, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_MiningPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(label_31, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(69)
+					.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+		);
+		MiningPanel.setLayout(gl_MiningPanel);
 		
 		//Tab to repair ship
 		JPanel RepairPanel = new JPanel();
 		RepairPanel.setBackground(Color.LIGHT_GRAY);
 		RepairPanel.setForeground(Color.BLACK);
 		tabbedPane.addTab("Repair Ship", null, RepairPanel, null);
-		RepairPanel.setLayout(null);
 		
 		JButton btnRepairShipTo = new JButton(repairIcon);
 		btnRepairShipTo.setFont(new Font("Tw Cen MT", Font.BOLD, 24));
-		btnRepairShipTo.setBounds(89, 169, 400, 150);
-		RepairPanel.add(btnRepairShipTo);
 		
 		JLabel lblCost = new JLabel("Cost:");
 		lblCost.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		lblCost.setBounds(560, 169, 72, 43);
-		RepairPanel.add(lblCost);
 		
 		JLabel lblNewLabel = new JLabel("Current Ship Health: ~~~");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 30));
-		lblNewLabel.setBounds(54, 62, 346, 43);
-		RepairPanel.add(lblNewLabel);
-		
-		JLabel lblTimeMin = new JLabel("Time: min");
-		lblTimeMin.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		lblTimeMin.setBounds(560, 251, 177, 43);
-		RepairPanel.add(lblTimeMin);
 		
 		JLabel lblMaximumShipHealth = new JLabel("Maximum Ship Health: ~~~");
 		lblMaximumShipHealth.setFont(new Font("Tw Cen MT", Font.PLAIN, 30));
-		lblMaximumShipHealth.setBounds(504, 62, 346, 43);
-		RepairPanel.add(lblMaximumShipHealth);
+		GroupLayout gl_RepairPanel = new GroupLayout(RepairPanel);
+		gl_RepairPanel.setHorizontalGroup(
+			gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_RepairPanel.createSequentialGroup()
+					.addGap(54)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+					.addGap(104)
+					.addComponent(lblMaximumShipHealth, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+					.addGap(252))
+				.addGroup(gl_RepairPanel.createSequentialGroup()
+					.addGap(89)
+					.addComponent(btnRepairShipTo, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
+					.addGap(71)
+					.addComponent(lblCost, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+					.addGap(470))
+		);
+		gl_RepairPanel.setVerticalGroup(
+			gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_RepairPanel.createSequentialGroup()
+					.addGap(62)
+					.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblMaximumShipHealth, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
+					.addGap(64)
+					.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnRepairShipTo, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCost, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)))
+		);
+		RepairPanel.setLayout(gl_RepairPanel);
 		
 		//Tab to purchase items for battle
 		JPanel PurchasePanel = new JPanel();
 		tabbedPane.addTab("Purchase Items", null, PurchasePanel, null);
-		PurchasePanel.setLayout(null);
 		
-		JLabel lblRepairKit = new JLabel("Repair Kit");
-		lblRepairKit.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRepairKit.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblRepairKit.setBounds(10, 11, 420, 43);
-		PurchasePanel.add(lblRepairKit);
+		JPanel panel = new JPanel();
 		
-		JLabel lblShieldSupercharger = new JLabel("Shield Supercharger");
-		lblShieldSupercharger.setHorizontalAlignment(SwingConstants.CENTER);
-		lblShieldSupercharger.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
-		lblShieldSupercharger.setBounds(553, 11, 420, 43);
-		PurchasePanel.add(lblShieldSupercharger);
+		JPanel panel_1 = new JPanel();
+		GroupLayout gl_PurchasePanel = new GroupLayout(PurchasePanel);
+		gl_PurchasePanel.setHorizontalGroup(
+			gl_PurchasePanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_PurchasePanel.createSequentialGroup()
+					.addGap(91)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 386, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
+					.addGap(110))
+		);
+		gl_PurchasePanel.setVerticalGroup(
+			gl_PurchasePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_PurchasePanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_PurchasePanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 405, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
 		
-		JLabel lblRestoresHealth = new JLabel("- Restores 1000 health");
-		lblRestoresHealth.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblRestoresHealth.setBounds(109, 63, 242, 36);
-		PurchasePanel.add(lblRestoresHealth);
-		
-		JLabel label_34 = new JLabel("Cost:");
-		label_34.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_34.setBounds(78, 117, 61, 20);
-		PurchasePanel.add(label_34);
-		
-		JLabel label_35 = new JLabel(steelIcon);
-		label_35.setBounds(149, 99, 50, 50);
-		PurchasePanel.add(label_35);
-		
-		JLabel label_36 = new JLabel("x1000");
-		label_36.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_36.setBounds(209, 117, 116, 20);
-		PurchasePanel.add(label_36);
-		
-		JLabel label_37 = new JLabel(grapheneIcon);
-		label_37.setBounds(149, 160, 50, 50);
-		PurchasePanel.add(label_37);
-		
-		JLabel label_38 = new JLabel("x1000");
-		label_38.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_38.setBounds(209, 178, 116, 20);
-		PurchasePanel.add(label_38);
-		
-		JLabel label_39 = new JLabel(starliteIcon);
-		label_39.setBounds(149, 221, 50, 50);
-		PurchasePanel.add(label_39);
-		
-		JLabel label_40 = new JLabel("x1000");
-		label_40.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_40.setBounds(209, 239, 116, 20);
-		PurchasePanel.add(label_40);
-		
-		JLabel lblIncreasesShield = new JLabel("- Increases shield deflect percentage");
-		lblIncreasesShield.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblIncreasesShield.setBounds(618, 68, 366, 36);
-		PurchasePanel.add(lblIncreasesShield);
-		
-		JLabel lblByFor = new JLabel("   by 20% for two turns");
-		lblByFor.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblByFor.setBounds(618, 88, 366, 36);
-		PurchasePanel.add(lblByFor);
-		
-		JLabel label_33 = new JLabel("Cost:");
+		JLabel label_33 = new JLabel("x1000");
 		label_33.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_33.setBounds(574, 135, 61, 20);
-		PurchasePanel.add(label_33);
 		
-		JLabel label_41 = new JLabel(steelIcon);
-		label_41.setBounds(645, 117, 50, 50);
-		PurchasePanel.add(label_41);
+		JLabel label_40 = new JLabel(shieldIcon);
 		
-		JLabel label_42 = new JLabel("x1000");
-		label_42.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_42.setBounds(705, 135, 116, 20);
-		PurchasePanel.add(label_42);
+		JLabel label_41 = new JLabel("Cost:");
+		label_41.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
 		
-		JLabel label_43 = new JLabel("x1000");
-		label_43.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_43.setBounds(705, 196, 116, 20);
-		PurchasePanel.add(label_43);
+		JLabel label_42 = new JLabel("Shield Supercharger");
+		label_42.setHorizontalAlignment(SwingConstants.CENTER);
+		label_42.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
+		
+		JLabel label_43 = new JLabel("- Increases shield deflect percentage");
+		label_43.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		JLabel label_44 = new JLabel(plutoniumIcon);
-		label_44.setBounds(645, 178, 50, 50);
-		PurchasePanel.add(label_44);
 		
-		JLabel label_45 = new JLabel(pyroxiumIcon);
-		label_45.setBounds(645, 239, 50, 50);
-		PurchasePanel.add(label_45);
+		JLabel label_45 = new JLabel("x1000");
+		label_45.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
 		
-		JLabel label_46 = new JLabel("x1000");
-		label_46.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
-		label_46.setBounds(705, 257, 116, 20);
-		PurchasePanel.add(label_46);
+		JLabel label_46 = new JLabel("   by 20% for two turns");
+		label_46.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		JButton btnNewButton = new JButton(purchaseIcon);
-		btnNewButton.setBounds(109, 300, 200, 75);
-		PurchasePanel.add(btnNewButton);
+		JLabel label_47 = new JLabel(steelIcon);
+		
+		JLabel label_48 = new JLabel("x1000");
+		label_48.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
 		
 		JButton button_5 = new JButton(purchaseIcon);
-		button_5.setBounds(645, 300, 200, 75);
-		PurchasePanel.add(button_5);
 		
-		JLabel label_48 = new JLabel(repairKitIcon);
-		label_48.setBounds(303, 11, 76, 75);
-		PurchasePanel.add(label_48);
+		JLabel label_49 = new JLabel(grapheneIcon);
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(92)
+							.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addComponent(label_41, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+											.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(label_47, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(label_49, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+												.addComponent(label_44, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+												.addComponent(label_45, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+												.addComponent(label_48, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+												.addComponent(label_33, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addGap(8)
+											.addComponent(label_42, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
+										.addComponent(label_43, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
+									.addGap(30))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(label_46, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 102, Short.MAX_VALUE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(label_40, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+							.addGap(41)))
+					.addGap(69))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(14)
+							.addComponent(label_42, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+							.addGap(38)
+							.addComponent(label_46, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addGap(40)
+									.addComponent(label_41, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addGap(29)
+											.addComponent(label_33, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+										.addComponent(label_47, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_panel_1.createSequentialGroup()
+													.addGap(6)
+													.addComponent(label_49, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_panel_1.createSequentialGroup()
+													.addGap(28)
+													.addComponent(label_48, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+											.addGap(33)
+											.addComponent(label_45, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addGap(77)
+											.addComponent(label_44, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)))))
+							.addGap(10)
+							.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(17)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addComponent(label_40, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+								.addComponent(label_43, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(24, Short.MAX_VALUE))
+		);
+		panel_1.setLayout(gl_panel_1);
 		
-		JLabel label_47 = new JLabel(shieldIcon);
-		label_47.setBounds(890, 11, 76, 75);
-		PurchasePanel.add(label_47);
+		JButton button_6 = new JButton(purchaseIcon);
+		
+		JLabel label_4 = new JLabel(starliteIcon);
+		
+		JLabel label_20 = new JLabel("x1000");
+		label_20.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
+		
+		JLabel label_24 = new JLabel("x1000");
+		label_24.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
+		
+		JLabel label_32 = new JLabel(grapheneIcon);
+		
+		JLabel label_34 = new JLabel(steelIcon);
+		
+		JLabel label_35 = new JLabel("x1000");
+		label_35.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
+		
+		JLabel label_36 = new JLabel("Cost:");
+		label_36.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
+		
+		JLabel label_37 = new JLabel("- Restores 1000 health");
+		label_37.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		JLabel label_38 = new JLabel("Repair Kit");
+		label_38.setHorizontalAlignment(SwingConstants.CENTER);
+		label_38.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 28));
+		
+		JLabel label_39 = new JLabel(repairKitIcon);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(33)
+							.addComponent(label_36)
+							.addGap(52)
+							.addComponent(label_34, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(label_35, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(139)
+							.addComponent(label_32, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(label_24, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(139)
+							.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(label_20, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(99)
+							.addComponent(button_6, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(99)
+									.addComponent(label_37, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
+								.addComponent(label_38, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(label_39, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(24)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(label_37, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+								.addComponent(label_39, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(label_34, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addGap(18)
+											.addComponent(label_35, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+									.addGap(11)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(label_32, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addGap(18)
+											.addComponent(label_24, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+									.addGap(11)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addGap(18)
+											.addComponent(label_20, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+									.addGap(31)
+									.addComponent(button_6, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(19)
+									.addComponent(label_36, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(label_38, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(28, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
+		PurchasePanel.setLayout(gl_PurchasePanel);
 		setLayout(groupLayout);
 		
 	}

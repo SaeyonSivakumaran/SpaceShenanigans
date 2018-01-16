@@ -2,8 +2,9 @@
 public class Player {
 	private String username;
 	private String password;
+	private String location;
 	private Ship playerShip;
-	private int[] resources; //in this Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+	private int[] resources; //in this Steel, graphene, plutonium, starlite, pyroxium, blast crystal, intellectium
 	private boolean inBattle = false;
 	
 	Player(String username, String password){
@@ -27,6 +28,18 @@ public class Player {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getLocation() {
+		return this.location;
+	}
+	
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	public Ship getShip() {
+		return this.playerShip;
 	}
 	
 	/*
