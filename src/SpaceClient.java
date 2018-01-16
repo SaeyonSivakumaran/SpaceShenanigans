@@ -21,6 +21,7 @@ public class SpaceClient {
 	private DeepSpaceViewer deepSpaceViewer; 
 	//Ship health
 	private int health;
+	MapPanel display;
 	
 	
 
@@ -29,6 +30,10 @@ public class SpaceClient {
 		client.go(); // begin the connection
 	}
 
+	public void getMap(MapPanel mapPanel) {
+		this.display=mapPanel;
+	}
+	
 	/**
 	 * go This method sets up the login frame and calls messengerLaunch(which
 	 * constructs the main frame but leaves it invisible)
@@ -39,7 +44,7 @@ public class SpaceClient {
 	public void go() {
 		inputs=new Scanner(System.in);
 		try {
-			mySocket = new Socket("127.0.0.1", 5000); // attempt socket connection (local address)
+			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
