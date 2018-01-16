@@ -1,7 +1,7 @@
 /**
  * ServerViewer.java
  * Class to open server GUI
- * @author Saeyon
+ * @author Saeyon Sivakumaran
  */
 
 public class ServerViewer {
