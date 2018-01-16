@@ -14,6 +14,13 @@ public class SpaceClient {
 	Scanner inputs;
 	String username;
 	int[] resources;
+	private EngineModule engine;
+	private ShieldModule shield;
+	private WeaponModule weaponModule;
+	private MiningModule miningModule;
+	private DeepSpaceViewer deepSpaceViewer; 
+	//Ship health
+	private int health;
 	
 	
 
@@ -64,6 +71,11 @@ public class SpaceClient {
 						running=false;
 					}
 				}
+				this.engine = new EngineModule();
+				this.shield = new ShieldModule();
+				this.weaponModule = new WeaponModule();
+				this.miningModule = new MiningModule();
+				this.deepSpaceViewer = new DeepSpaceViewer();
 				running=true;
 			}
 		} catch (IOException e) { // connection error occured
@@ -142,15 +154,24 @@ public class SpaceClient {
 							command=msg.substring(msg.indexOf(":")+1);
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
-						
+							command=msg.substring(msg.dexOf(":")+1);
+						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
-							
+
+							command=msg.substring(msg.dexOf(":")+1);
+						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
-							
+
+							command=msg.substring(msg.dexOf(":")+1);
+						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
-							
+
+							command=msg.substring(msg.dexOf(":")+1);
+						//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
-							
+
+							command=msg.substring(msg.dexOf(":")+1);
+						//send to map
 						}
 					}
 
