@@ -8,9 +8,8 @@ public class ShieldJammer extends Weapon{
 		this.jamRate=25;
 	}
 	
-	public void upgrade(){
-		super.upgrade();
-		this.jamRate+=15;
+	public void setLevel(int level){
+		this.jamRate=25+(15*level);
 	}
 	
 	public int getJamRate(){

@@ -23,7 +23,6 @@ public class SpaceClient {
 	private int health;
 	MapPanel display;
 	Queuee<String> instructions;
-	int health;
 
 
 	public static void main(String[] args) {
@@ -90,7 +89,10 @@ public class SpaceClient {
 
 			Thread t= new Thread(new Input());
 			t.start();
-
+			
+			output.println("playersUpdate:"+username);
+			output.println("shipUpdate:"+username);
+			
 			running=true;
 			instructions=new Queuee<String>();
 			while(running){
@@ -181,6 +183,14 @@ public class SpaceClient {
 							command=msg.substring(msg.indexOf(":")+1);
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
+
+							command=msg.substring(msg.indexOf(":")+1);
+							//send to map
+						}else if (msg.substring(0,msg.indexOf(":")).equals("playersUpdate")) {
+
+							command=msg.substring(msg.indexOf(":")+1);
+							//send to map
+						}else if (msg.substring(0,msg.indexOf(":")).equals("shipUpdate")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
 							//send to map

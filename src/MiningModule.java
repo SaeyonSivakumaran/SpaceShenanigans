@@ -21,4 +21,10 @@ public class MiningModule extends Module{
 	public int getCrystal(){
 		return this.crystalNeeded;
 	}
+	
+	public void setLevel(int level){
+		super.setUpgradeLevel(level);
+		this.mineSpeed=5*super.getUpgradeLevel();
+		this.crystalNeeded=15*super.getUpgradeLevel();
+	}
 }
