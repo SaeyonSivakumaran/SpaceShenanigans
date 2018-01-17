@@ -23,6 +23,7 @@ public class SpaceClient {
 	private int health;
 	MapPanel display;
 	Queuee<String> instructions;
+	int health;
 
 
 	public static void main(String[] args) {
@@ -65,15 +66,12 @@ public class SpaceClient {
 					}
 				}else if(command.equals("newAccount")){
 
-					while(running){
-						input1=inputs.nextLine();
-						input2=inputs.nextLine();
-						output.println("newAccount:"+input1+","+input2);
-						output.flush();
-						command=input.readLine();
-						if (command.equals("accountValid")){
-							this.username=input1;
-						}
+					input1=inputs.nextLine();
+					input2=inputs.nextLine();
+					output.println("newAccount:"+input1+","+input2);
+					output.flush();
+					command=input.readLine();
+					if (command.equals("accountValid")){
 					}
 				}
 				this.engine = new EngineModule();
@@ -126,6 +124,9 @@ public class SpaceClient {
 					input1=inputs.nextLine();
 					output.println("attack:"+username+","+input2);
 				}else if(command.equals("10")){
+					output.println("logout:"+input1);
+					running=false;
+				}else if(command.equals("11")){
 					output.println("logout:"+input1);
 					running=false;
 				}

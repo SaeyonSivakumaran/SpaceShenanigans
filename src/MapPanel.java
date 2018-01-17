@@ -32,8 +32,10 @@ public class MapPanel extends JPanel {
 	String drawText1 = "";
 	String drawText2 = "";
 	int tempCount = 0;
+	SpaceClient client;
 
-	public MapPanel() {
+	public MapPanel(SpaceClient client) {
+		this.client=client;
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 			yarnPlanet = ImageIO.read(new File("yarnPlanet.png"));
@@ -155,6 +157,10 @@ public class MapPanel extends JPanel {
 		frame.pack();
 		frame.setResizable(false);
 		frame.setVisible(true);
+	}
+	
+	public void sendInstructions(String instructions){
+		
 	}
 
 }
