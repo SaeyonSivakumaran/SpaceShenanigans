@@ -196,8 +196,22 @@ public class SpaceClient {
 							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
 							command=msg.substring(msg.indexOf(":")+1);
-							resources[Integer.parseInt(command.substring(0,command.indexOf(",")))]+=Integer.parseInt(command.substring(command.indexOf(",")+1));
-							
+							resources[Integer.parseInt(command)]+=Integer.parseInt(command.substring(command.indexOf(",")+1));
+							if (location.equals("yarnPlanet")){
+								yarnPlanet.setResource(yarnPlanet.getResource()-Integer.parseInt(command));
+							}else if (location.equals("flatEarth")){
+								flatEarth.setResource(flatEarth.getResource()-Integer.parseInt(command));
+							}else if (location.equals("potatoPlanet")){
+								potatoPlanet.setResource(potatoPlanet.getResource()-Integer.parseInt(command));
+							}else if (location.equals("specklePlanet")){
+								specklePlanet.setResource(specklePlanet.getResource()-Integer.parseInt(command));
+							}else if (location.equals("fracturedPlanet")){
+								fracturedPlanet.setResource(fracturedPlanet.getResource()-Integer.parseInt(command));
+							}else if (location.equals("jupiter")){
+								jupiter.setResource(jupiter.getResource()-Integer.parseInt(command));
+							}else if (location.equals("moonPlanet")){
+								moonPlanet.setResource(moonPlanet.getResource()-Integer.parseInt(command));
+							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
@@ -245,7 +259,20 @@ public class SpaceClient {
 							command=command.substring(command.indexOf(",")+1);
 							deepSpaceViewer.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
 						}else if (msg.substring(0,msg.indexOf(":")).equals("planetsUpdate")) {
-							
+							command=msg.substring(msg.indexOf(":")+1);
+							yarnPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							flatEarth.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							potatoPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							specklePlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							fracturedPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							jupiter.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							moonPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
 						}
 					}
 

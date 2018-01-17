@@ -71,6 +71,9 @@ public class Planet {
 		return this.resource;
 	}
 	
+	public int getResource(){
+		return this.resourceAmount;
+	}
 	public boolean canTravel() {
 		if (player1 != null && player2 != null) {
 			return false;
