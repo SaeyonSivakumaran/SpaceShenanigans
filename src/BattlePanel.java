@@ -64,7 +64,7 @@ public class BattlePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // required to ensure the panel is correctly redrawn
 		g.drawImage(backgroundImage, 0, 0, null);
-		g.drawImage()
+		g.drawImage();
 		
 		repaint();
 	}

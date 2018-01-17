@@ -186,9 +186,9 @@ public class SpaceClient {
 							command=msg.substring(msg.indexOf(":")+1);
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
-
 							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							resources[Integer.parseInt(command.substring(0,command.indexOf(",")))]+=Integer.parseInt(command.substring(command.indexOf(",")+1));
+							
 						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
@@ -220,7 +220,8 @@ public class SpaceClient {
 							miningModule.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
 							command=command.substring(command.indexOf(",")+1);
 							deepSpaceViewer.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
+						}else if (msg.substring(0,msg.indexOf(":")).equals("planetsUpdate")) {
+							
 						}
 					}
 
