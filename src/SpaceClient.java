@@ -32,6 +32,7 @@ public class SpaceClient {
 	MapPanel display;
 	Queuee<String> instructions;
 	ArrayList<String> players;
+	String location;
 
 
 	public static void main(String[] args) {
@@ -59,6 +60,7 @@ public class SpaceClient {
 		this.miningModule = new MiningModule();
 		this.deepSpaceViewer = new DeepSpaceViewer();
 		this.health=100;
+		this.location="depot";
 		try {
 			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
@@ -180,9 +182,9 @@ public class SpaceClient {
 						String msg = input.readLine(); // read the message
 
 						// decipher server messages
-						if (msg.substring(0,msg.indexOf(":")).equals("travel")) {
+						if (msg.substring(0,msg.indexOf(":")).equals("arrived")) {
 							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							location=""+command;
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
 							command=msg.substring(msg.indexOf(":")+1);
 							switch (Integer.parseInt(command.substring(0,command.indexOf(",")))){
@@ -200,6 +202,8 @@ public class SpaceClient {
 
 							command=msg.substring(msg.indexOf(":")+1);
 							//send to map
+							//display offer
+							//send back response
 						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
 
 							if (command.substring(0,command.indexOf(",")).equals("yarnPlanet")){
