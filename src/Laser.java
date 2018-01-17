@@ -18,6 +18,7 @@ public class Laser extends Weapon{
 		return this.accuracy;
 	}
 	
-	public setDamage(int moduleLevel){
+	public void setDamage(int moduleLevel){
+		this.damage=10*moduleLevel;
 	}
 }
