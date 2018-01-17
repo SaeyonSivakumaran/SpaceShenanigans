@@ -115,4 +115,8 @@ public class Planet {
 		}
 	}
 	
+	public void setResource(int resource){
+		this.resourceAmount=resource;
+	}
+	
 }

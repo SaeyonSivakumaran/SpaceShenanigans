@@ -21,11 +21,11 @@ public class SpaceClient {
 	private MiningModule miningModule;
 	private DeepSpaceViewer deepSpaceViewer; 
 	private Planet yarnPlanet;
-	private Planet flatPlanet;
+	private Planet flatEarth;
 	private Planet potatoPlanet;
 	private Planet specklePlanet;
 	private Planet fracturedPlanet;
-	private Planet jupiterPlanet;
+	private Planet jupiter;
 	private Planet moonPlanet;
 	//Ship health
 	private int health;
@@ -58,6 +58,7 @@ public class SpaceClient {
 		this.weaponModule = new WeaponModule();
 		this.miningModule = new MiningModule();
 		this.deepSpaceViewer = new DeepSpaceViewer();
+		this.health=100;
 		try {
 			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
@@ -184,7 +185,13 @@ public class SpaceClient {
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
 							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							switch (Integer.parseInt(command.substring(0,command.indexOf(",")))){
+							case 1: engine.upgrade();
+							case 2: shield.upgrade();
+							case 3: weaponModule.upgrade();
+							case 4: miningModule.upgrade();
+							case 5: deepSpaceViewer.upgrade();
+							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
 							command=msg.substring(msg.indexOf(":")+1);
 							resources[Integer.parseInt(command.substring(0,command.indexOf(",")))]+=Integer.parseInt(command.substring(command.indexOf(",")+1));
@@ -195,15 +202,28 @@ public class SpaceClient {
 							//send to map
 						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
 
-							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							if (command.substring(0,command.indexOf(",")).equals("yarnPlanet")){
+								yarnPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}else if (command.substring(0,command.indexOf(",")).equals("flatEarth")){
+								flatEarth.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}else if (command.substring(0,command.indexOf(",")).equals("potatoPlanet")){
+								potatoPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}else if (command.substring(0,command.indexOf(",")).equals("specklePlanet")){
+								specklePlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}else if (command.substring(0,command.indexOf(",")).equals("fracturedPlanet")){
+								fracturedPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}else if (command.substring(0,command.indexOf(",")).equals("jupiter")){
+								jupiter.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}else if (command.substring(0,command.indexOf(",")).equals("moonPlanet")){
+								moonPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
-
 							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							health-=Integer.parseInt(command);
 						}else if (msg.substring(0,msg.indexOf(":")).equals("playersUpdate")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
+							players.clear();
 							while(command.length()>1){
 								players.add(command.substring(0,command.indexOf(",")));
 								command=command.substring(command.indexOf(",")+1);
