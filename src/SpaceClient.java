@@ -22,7 +22,7 @@ public class SpaceClient {
 	//Ship health
 	private int health;
 	MapPanel display;
-	int ok;
+	Queuee<String> instructions;
 
 
 	public static void main(String[] args) {
@@ -73,7 +73,6 @@ public class SpaceClient {
 						command=input.readLine();
 						if (command.equals("accountValid")){
 							this.username=input1;
-							running=false;
 						}
 					}
 				}
@@ -82,7 +81,7 @@ public class SpaceClient {
 				this.weaponModule = new WeaponModule();
 				this.miningModule = new MiningModule();
 				this.deepSpaceViewer = new DeepSpaceViewer();
-				running=true;
+				this.resources = new int[]{0, 0, 0, 0, 0, 0, 0};
 
 				System.out.println("Connection made.");
 
@@ -94,6 +93,8 @@ public class SpaceClient {
 			Thread t= new Thread(new Input());
 			t.start();
 
+			running=true;
+			instructions=new Queuee<String>();
 			while(running){
 				command=inputs.nextLine();
 				if (command.equals("1")){
