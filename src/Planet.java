@@ -11,8 +11,8 @@ public class Planet {
 	SpaceServer server;
 	static final String ALPHABET="abcdefghijklmnopqrstuvwxyz";
 
-	public Planet(long time, SpaceServer server){
-		name="";
+	public Planet(String name, long time, SpaceServer server){
+		this.name = name;
 		this.server=server;
 		int rand=(int) (Math.random()*15);
 		for (int i=0;i<rand;i++){

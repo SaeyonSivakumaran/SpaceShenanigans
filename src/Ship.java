@@ -58,6 +58,16 @@ public class Ship {
 	}
 	
 	/**
+	 * setHealth
+	 * Method to set the health of the ship
+	 * @param healthNum New health
+	 * @return Nothing
+	 */
+	public void setHealth(int healthNum){
+		this.health = healthNum;
+	}
+	
+	/**
 	 * getModules
 	 * Method to return the modules
 	 * @param Nothing
