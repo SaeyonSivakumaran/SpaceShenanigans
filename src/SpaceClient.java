@@ -20,6 +20,11 @@ public class SpaceClient {
 	private WeaponModule weaponModule;
 	private MiningModule miningModule;
 	private DeepSpaceViewer deepSpaceViewer; 
+	private Planet yarnPlanet;
+	private Planet flatPlanet;
+	private Planet potatoPlanet;
+	private Planet specklePlanet;
+	private Planet fracturedPlanet;
 	//Ship health
 	private int health;
 	MapPanel display;
