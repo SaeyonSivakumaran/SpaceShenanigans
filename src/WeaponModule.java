@@ -41,4 +41,9 @@ public class WeaponModule extends Module{
 	public int getPyro(){
 		return this.pyroNeeded;
 	}
+
+	public void setLevel(int level){
+		super.setUpgradeLevel(level);
+		this.pyroNeeded=10*super.getUpgradeLevel();
+	}
 }

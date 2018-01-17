@@ -21,4 +21,10 @@ public class EngineModule extends Module{
 	public int getSpeed(){
 		return this.travelSpeed;
 	}
+	
+	public void setLevel(int level){
+		super.setUpgradeLevel(level);
+		this.travelSpeed=10*super.getUpgradeLevel();
+		this.plutNeeded=15*super.getUpgradeLevel();
+	}
 }

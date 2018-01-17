@@ -10,6 +10,7 @@ public class ShieldModule extends Module{
 	
 	public void upgrade(){
 		super.upgrade();
+		this.deflectionRate+=20;
 		this.starliteNeeded*=2;
 	}
 	
@@ -25,4 +26,9 @@ public class ShieldModule extends Module{
 		this.deflectionRate = newRate;
 	}
 	
+	public void setLevel(int level){
+		super.setUpgradeLevel(level);
+		this.deflectionRate=20*super.getUpgradeLevel();
+		this.starliteNeeded=10*super.getUpgradeLevel();
+	}
 }

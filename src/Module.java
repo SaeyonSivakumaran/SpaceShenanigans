@@ -29,4 +29,8 @@ public class Module {
 	public int getGraphene(){
 		return this.grapheneNeeded;
 	}
+	
+	public void setUpgradeLevel(int level){
+		this.upgradeLevel=level;
+	}
 }

@@ -22,4 +22,10 @@ public class DeepSpaceViewer extends Module {
 	public int getIntellectium() {
 		return this.intellectiumNeeded;
 	}
+
+	public void setLevel(int level){
+		super.setUpgradeLevel(level);
+		this.accuracy=10*super.getUpgradeLevel();
+		this.intellectiumNeeded=10*super.getUpgradeLevel();
+	}
 }
