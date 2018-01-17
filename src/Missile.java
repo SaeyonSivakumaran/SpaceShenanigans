@@ -5,7 +5,7 @@ public class Missile extends Weapon{
 	
 	public Missile(){
 		super();
-		this.damage=30;
+		this.damage=20;
 		this.accuracy=30;
 	}
 
@@ -17,7 +17,8 @@ public class Missile extends Weapon{
 		return this.accuracy;
 	}
 	
-	public void setDamage(int moduleLevel){
-		this.damage=30*moduleLevel;
+	public void setLevel(int moduleLevel){
+		this.damage=20*moduleLevel;
+		this.accuracy=30+5*moduleLevel;
 	}
 }

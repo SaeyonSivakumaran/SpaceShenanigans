@@ -3,6 +3,7 @@ import java.io.*;
 import java.lang.Thread;
 import java.net.*;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class SpaceClient {
 	Socket mySocket; // socket for connection
@@ -23,6 +24,7 @@ public class SpaceClient {
 	private int health;
 	MapPanel display;
 	Queuee<String> instructions;
+	ArrayList<String> players;
 
 
 	public static void main(String[] args) {
@@ -42,6 +44,7 @@ public class SpaceClient {
 	 * @return N/A
 	 */
 	public void go() {
+		players=new ArrayList<String>();
 		inputs=new Scanner(System.in);
 		try {
 			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
@@ -189,7 +192,10 @@ public class SpaceClient {
 						}else if (msg.substring(0,msg.indexOf(":")).equals("playersUpdate")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							while(command.length()>1){
+								players.add(command.substring(0,command.indexOf(",")));
+								command=command.substring(command.indexOf(",")+1);
+							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("shipUpdate")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
