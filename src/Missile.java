@@ -16,4 +16,8 @@ public class Missile extends Weapon{
 	public int getAccuracy(){
 		return this.accuracy;
 	}
+	
+	public void setDamage(int moduleLevel){
+		this.damage=30*moduleLevel;
+	}
 }

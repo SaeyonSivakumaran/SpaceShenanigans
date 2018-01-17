@@ -47,7 +47,7 @@ public class Planet {
 		resourceRate=1;
 		mineRate=10;
 		break;
-		case 5: resource="Fire Crystal";
+		case 5: resource="Blast Crystal";
 		resourceAmount=(int) (Math.random()*10);
 		resourceRate=1;
 		mineRate=15;
@@ -63,10 +63,26 @@ public class Planet {
 
 	}
 
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getResourceType() {
+		return this.resource;
+	}
+	
+	public boolean canTravel() {
+		if (player1 != null && player2 != null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public void addPlayer(Player player){
 		if (player1!=null){
 			player2=player;
-			server.battle();
+			server.battle(player1, player2);
 			return;
 		}
 		player1=player;
@@ -76,7 +92,7 @@ public class Planet {
 	public void update(long timeNow){
 		if ((timeNow-updateTime)/1000000000.0>60){
 			updateTime=timeNow-updateTime;
-			resourceAmount-=mineRate;
+			resourceAmount+=resourceRate;
 		}
 		
 	}
