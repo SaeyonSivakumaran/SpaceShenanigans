@@ -194,4 +194,7 @@ public class SpaceClient {
 
 		}
 	}
+	public void sendCommand(String command) {
+		this.instructions.enqueue(command);
+	}
 }
