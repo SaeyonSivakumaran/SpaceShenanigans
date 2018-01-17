@@ -25,6 +25,8 @@ public class SpaceClient {
 	private Planet potatoPlanet;
 	private Planet specklePlanet;
 	private Planet fracturedPlanet;
+	private Planet jupiterPlanet;
+	private Planet moonPlanet;
 	//Ship health
 	private int health;
 	MapPanel display;
@@ -51,6 +53,11 @@ public class SpaceClient {
 	public void go() {
 		players=new ArrayList<String>();
 		inputs=new Scanner(System.in);
+		this.engine = new EngineModule();
+		this.shield = new ShieldModule();
+		this.weaponModule = new WeaponModule();
+		this.miningModule = new MiningModule();
+		this.deepSpaceViewer = new DeepSpaceViewer();
 		try {
 			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
@@ -204,7 +211,16 @@ public class SpaceClient {
 						}else if (msg.substring(0,msg.indexOf(":")).equals("shipUpdate")) {
 
 							command=msg.substring(msg.indexOf(":")+1);
-							//send to map
+							engine.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							shield.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							weaponModule.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							miningModule.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
+							deepSpaceViewer.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							command=command.substring(command.indexOf(",")+1);
 						}
 					}
 
