@@ -30,7 +30,13 @@ public class MapPanel extends JPanel {
 	JLabel jupiterLabel;
 	BufferedImage moonPlanet = null;
 	JLabel moonLabel;
-	
+	BufferedImage basketballPlanet = null;
+	JLabel basketballLabel;
+	BufferedImage bouncyPlanet = null;
+	JLabel bouncyLabel;
+	BufferedImage saturnPlanet = null;
+	JLabel saturnLabel;
+
 	Color clearColour = new Color(239, 161, 4, 225); // create 50% transparent colour
 	Font bigFont = new Font("Helvetica", Font.BOLD, 40);
 	Color textColour = new Color(209, 0, 198);
@@ -41,6 +47,10 @@ public class MapPanel extends JPanel {
 	SpaceClient client;
 
 	public MapPanel() {
+<<<<<<< HEAD
+		//this.client = client;
+=======
+>>>>>>> f153b390c91ea588c17d2b18d0212f3fb26b4766
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 			yarnPlanet = ImageIO.read(new File("yarnPlanet.png"));
@@ -51,52 +61,73 @@ public class MapPanel extends JPanel {
 			depot = ImageIO.read(new File("SpaceDepot.png"));
 			jupiterPlanet = ImageIO.read(new File("jupiter.png"));
 			moonPlanet = ImageIO.read(new File("moonPlanet.png"));
+			basketballPlanet = ImageIO.read(new File("basketball.png"));
+			bouncyPlanet = ImageIO.read(new File("bouncyPlanet.png"));
+			saturnPlanet = ImageIO.read(new File("saturnPlanet.png"));
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
 		}
-		
+
 		this.setLayout(null);
 
 		// Resize images
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
 		yarnPlanet = resizeImage(yarnPlanet, screenX / 12, screenX / 12);
 		flatPlanet = resizeImage(flatPlanet, screenX / 12, screenX / 12);
-		potatoPlanet = resizeImage(potatoPlanet, screenX/12, screenX/12);
-		specklePlanet = resizeImage(specklePlanet, screenX/12, screenX/12);
-		fracturedPlanet = resizeImage(fracturedPlanet, screenX/12, screenX/12);
-		depot = resizeImage(depot, screenX/8, screenX/8);
-		jupiterPlanet = resizeImage(jupiterPlanet, screenX/12, screenX/12);
-		moonPlanet = resizeImage(moonPlanet, screenX/12, screenX/12);
-		
+		potatoPlanet = resizeImage(potatoPlanet, screenX / 12, screenX / 12);
+		specklePlanet = resizeImage(specklePlanet, screenX / 12, screenX / 12);
+		fracturedPlanet = resizeImage(fracturedPlanet, screenX / 12, screenX / 12);
+		depot = resizeImage(depot, screenX / 8, screenX / 8);
+		jupiterPlanet = resizeImage(jupiterPlanet, screenX / 12, screenX / 12);
+		moonPlanet = resizeImage(moonPlanet, screenX / 12, screenX / 12);
+		basketballPlanet = resizeImage(basketballPlanet, screenX / 12,screenX / 12);
+		bouncyPlanet = resizeImage(bouncyPlanet, screenX / 12,screenX / 12);
+		saturnPlanet = resizeImage(saturnPlanet, screenX / 12,screenX / 12);
+
 		yarnLabel = createImageButton(yarnPlanet);
 		yarnLabel.setBounds(0, 100, yarnPlanet.getWidth(), yarnPlanet.getHeight());
-		
+
 		flatLabel = createImageButton(flatPlanet);
-		flatLabel.setBounds(50, 2*screenY/3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(), flatPlanet.getHeight());
-		
+		flatLabel.setBounds(50, 2 * screenY / 3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(),
+				flatPlanet.getHeight());
+
 		potatoLabel = createImageButton(potatoPlanet);
-		potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(), potatoPlanet.getHeight());
-		
+		potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(),
+				potatoPlanet.getHeight());
+
 		speckleLabel = createImageButton(specklePlanet);
-		speckleLabel.setBounds(screenX/5 - specklePlanet.getWidth()/2, screenY/2 - specklePlanet.getHeight()/2, specklePlanet.getWidth(), specklePlanet.getHeight());
-		
+		speckleLabel.setBounds(screenX / 5 - specklePlanet.getWidth() / 2, screenY / 2 - specklePlanet.getHeight() / 2,
+				specklePlanet.getWidth(), specklePlanet.getHeight());
+
 		fracturedLabel = createImageButton(fracturedPlanet);
-		fracturedLabel.setBounds(screenX - yarnPlanet.getWidth() - 200, 500, yarnPlanet.getWidth(), yarnPlanet.getHeight());
-		
+		fracturedLabel.setBounds(screenX - yarnPlanet.getWidth() - 200, 500, yarnPlanet.getWidth(),
+				yarnPlanet.getHeight());
+
 		depotLabel = createImageButton(depot);
-		depotLabel.setBounds(screenX/2 - depot.getWidth()/2, screenY/2 - depot.getHeight(), depot.getWidth(), depot.getHeight());
-		
+		depotLabel.setBounds(screenX / 2 - depot.getWidth() / 2, screenY / 2 - depot.getHeight(), depot.getWidth(),
+				depot.getHeight());
+
 		jupiterLabel = createImageButton(jupiterPlanet);
-		jupiterLabel.setBounds(screenX - jupiterPlanet.getWidth() - 400, screenY/2, jupiterPlanet.getWidth(), jupiterPlanet.getHeight());
-		
+		jupiterLabel.setBounds(screenX - jupiterPlanet.getWidth() - 400, screenY / 2, jupiterPlanet.getWidth(),
+				jupiterPlanet.getHeight());
+
 		moonLabel = createImageButton(moonPlanet);
 		moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(), moonPlanet.getHeight());
 		
+		basketballLabel = createImageButton(basketballPlanet);
+		basketballLabel.setBounds(screenX/2 + 200, 200, screenX / 12, screenX / 12);
+		
+		bouncyLabel = createImageButton(bouncyPlanet);
+		bouncyLabel.setBounds(screenX/4, screenY/6, screenX / 12, screenX / 12);
+		
+		saturnLabel = createImageButton(saturnPlanet);
+		saturnLabel.setBounds(screenX/2 - screenX/24, 30, screenX / 12, screenX / 12);
+
 		JButton button = new JButton("Confirm Travel");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button.setBounds(screenX/2 - 150, screenY - 200, 300, 100);
+		button.setBounds(screenX / 2 - 150, screenY - 200, 300, 100);
 		button.addActionListener(new TravelButtonListener());
-		
+
 		this.add(yarnLabel);
 		this.add(flatLabel);
 		this.add(potatoLabel);
@@ -105,22 +136,26 @@ public class MapPanel extends JPanel {
 		this.add(depotLabel);
 		this.add(jupiterLabel);
 		this.add(moonLabel);
+		this.add(basketballLabel);
+		this.add(bouncyLabel);
+		this.add(saturnLabel);
 		this.add(button);
-		
 	}
 
 	/*
-	 * resizeImage 
-	 * resizes a Buffered image to specified size
-	 * @param BufferedImage to be resized, integers of width and height to be resized to
+	 * resizeImage resizes a Buffered image to specified size
+	 * 
+	 * @param BufferedImage to be resized, integers of width and height to be
+	 * resized to
+	 * 
 	 * @return BufferedImage that is resized
 	 */
 	public static BufferedImage resizeImage(BufferedImage image, int resizeWidth, int resizeHeight) {
-		//resize a buffered image into an image 
+		// resize a buffered image into an image
 		Image temp = image.getScaledInstance(resizeWidth, resizeHeight, Image.SCALE_DEFAULT);
 		BufferedImage originalImg = new BufferedImage(resizeWidth, resizeHeight, BufferedImage.TYPE_INT_ARGB);
 
-		//draw image onto Buffered image to copy it
+		// draw image onto Buffered image to copy it
 		Graphics2D g2d = originalImg.createGraphics();
 		g2d.drawImage(temp, 0, 0, null);
 		g2d.dispose();
@@ -129,9 +164,10 @@ public class MapPanel extends JPanel {
 	}
 
 	/*
-	 * createImageButton
-	 * creates JLabel with MouseListener so it acts like a button
+	 * createImageButton creates JLabel with MouseListener so it acts like a button
+	 * 
 	 * @param Buffered image to be turned into JLabel
+	 * 
 	 * @return button JLabel
 	 */
 	public JLabel createImageButton(final BufferedImage planet) {
@@ -139,101 +175,121 @@ public class MapPanel extends JPanel {
 		imageButton.addMouseListener(new PlanetListener(planet));
 		return imageButton;
 	}
-	
-	public class TravelButtonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			if(planetName.equals("Yarn Planet")) {
+
+	public class TravelButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (planetName.equals("Yarn Planet")) {
 				frame.setContentPane(new TravelPanel("Yarn Planet", 50));
 				frame.invalidate();
 				frame.validate();
-			}else if (planetName.equals("Flat Planet")){
+			} else if (planetName.equals("Flat Planet")) {
 				frame.setContentPane(new TravelPanel("Flat Planet", 50));
 				frame.invalidate();
-				frame.validate();				
-			}else if (planetName.equals("Potato Planet")){
+				frame.validate();
+			} else if (planetName.equals("Potato Planet")) {
 				frame.setContentPane(new TravelPanel("Potato Planet", 50));
 				frame.invalidate();
-				frame.validate();				
-			}else if (planetName.equals("Speckle Planet")){
+				frame.validate();
+			} else if (planetName.equals("Speckle Planet")) {
 				frame.setContentPane(new TravelPanel("Speckle Planet", 50));
 				frame.invalidate();
 				frame.validate();
-			}else if (planetName.equals("Fractured Planet")){
+			} else if (planetName.equals("Fractured Planet")) {
 				frame.setContentPane(new TravelPanel("Fractured Planet", 50));
 				frame.invalidate();
 				frame.validate();
-			}else if (planetName.equals("Depot")){
+			} else if (planetName.equals("Depot")) {
 				frame.setContentPane(new TravelPanel("Depot", 50));
 				frame.invalidate();
 				frame.validate();
-			}else if (planetName.equals("Jupiter Planet")){
+			} else if (planetName.equals("Jupiter Planet")) {
 				frame.setContentPane(new TravelPanel("Jupiter Planet", 50));
 				frame.invalidate();
 				frame.validate();
-			}else if (planetName.equals("Moon Planet")){
+			} else if (planetName.equals("Moon Planet")) {
 				frame.setContentPane(new TravelPanel("Moon Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			} else if (planetName.equals("Basketball Planet")) {
+				frame.setContentPane(new TravelPanel("Basketball Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			} else if (planetName.equals("Saturn Planet")) {
+				frame.setContentPane(new TravelPanel("Saturn Planet", 50));
+				frame.invalidate();
+				frame.validate();
+			} else if (planetName.equals("Bouncy Planet")) {
+				frame.setContentPane(new TravelPanel("Bouncy Planet", 50));
 				frame.invalidate();
 				frame.validate();
 			}
 		}
 	}
-	
-	//MouseAdapter for planets
+
+	// MouseAdapter for planets
 	public class PlanetListener extends MouseAdapter {
 		BufferedImage planet;
 		JLabel source;
-		
-		PlanetListener(BufferedImage planet){
+
+		PlanetListener(BufferedImage planet) {
 			this.planet = planet;
 		}
-		   public void mouseClicked(MouseEvent e) {
-			   boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
-				if (opaque) {
-					source = (JLabel)e.getSource();
 
-					if(source == yarnLabel) { //yarnLabel
-						planetName = "Yarn Planet";
-					}else if(source == flatLabel) { //flatLabel
-						planetName = "Flat Planet";
-					}else if (source == potatoLabel) { //potatoLabel
-						planetName = "Potato Planet";
-					}else if (source == speckleLabel) { //speckleLabel
-						planetName = "Speckle Planet";
-					}else if (source == fracturedLabel) { //fracturedLabel
-						planetName = "Fractured Planet";
-					}else if (source == depotLabel){ //depotLabel
-						planetName = "Depot";
-					}else if (source == jupiterLabel) { //jupiterLabel
-						planetName = "Jupiter Planet";
-					}else if (source == moonLabel) { //moonLabel
-						planetName = "Moon Planet";
-					}
+		public void mouseClicked(MouseEvent e) {
+			boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
+			if (opaque) {
+				source = (JLabel) e.getSource();
+
+				if (source == yarnLabel) { // yarnLabel
+					planetName = "Yarn Planet";
+				} else if (source == flatLabel) { // flatLabel
+					planetName = "Flat Planet";
+				} else if (source == potatoLabel) { // potatoLabel
+					planetName = "Potato Planet";
+				} else if (source == speckleLabel) { // speckleLabel
+					planetName = "Speckle Planet";
+				} else if (source == fracturedLabel) { // fracturedLabel
+					planetName = "Fractured Planet";
+				} else if (source == depotLabel) { // depotLabel
+					planetName = "Depot";
+				} else if (source == jupiterLabel) { // jupiterLabel
+					planetName = "Jupiter Planet";
+				} else if (source == moonLabel) { // moonLabel
+					planetName = "Moon Planet";
+				} else if (source == basketballLabel) {
+					planetName = "Basketball Planet";
+				} else if (source == saturnLabel) {
+					planetName = "Saturn Planet";
+				} else if (source == bouncyLabel) {
+					planetName = "Bouncy Planet";
 				}
-		   }
+			}
 		}
+	}
 
 	/*
 	 * paintComponent
+	 * 
 	 * @param Graphics g
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // required to ensure the panel is correctly redrawn
 		g.drawImage(backgroundImage, 0, 0, null);
-		
+
 		g.setColor(clearColour);
 		g.fillRect(0, 2 * screenY / 3, screenX, screenY / 3);
-		
+
 		g.setFont(bigFont);
 		g.setColor(textColour);
 		drawText1 = "Travel to: " + planetName;
-		if (!planetName.equals("Depot")) { //No projected resources for depot
+		if (!planetName.equals("Depot")) { // No projected resources for depot
 			drawText2 = "Deep Space Viewer projected Resources: " + tempCount;
-		}else {
+		} else {
 			drawText2 = "";
 		}
-		g.drawString(drawText1, 20, 2*screenY/3 + 50);
-		g.drawString(drawText2, 20, 2*screenY/3 + 150);
-		
+		g.drawString(drawText1, 20, 2 * screenY / 3 + 50);
+		g.drawString(drawText2, 20, 2 * screenY / 3 + 150);
+
 		repaint();
 	}
 
@@ -246,9 +302,9 @@ public class MapPanel extends JPanel {
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
-	
-	public void sendInstructions(String instructions){
-		
+
+	public void sendInstructions(String instructions) {
+
 	}
 
 }
