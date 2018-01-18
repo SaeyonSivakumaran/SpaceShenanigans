@@ -736,7 +736,7 @@ class SpaceServer extends JFrame {
 				}
 				//Outputting the players to the client
 				consoleOutput.append(players + "\n");
-				output.println(players);
+				output.println("playersUpdate:" + players);
 				output.flush();
 			} else if (command.equals("shipUpdate")) {
 				String username = msg;
@@ -755,7 +755,7 @@ class SpaceServer extends JFrame {
 				}
 				//Outputting the module info to the client
 				consoleOutput.append(shipInfo + "\n");
-				output.println(shipInfo);
+				output.println("shipUpdate:" + shipInfo);
 				output.flush();
 			} else if (command.equals("repair")) {
 				String username = msg;
