@@ -12,6 +12,7 @@ class Queuee<E>{
     
     tail.setNext(new Node<E>(item, null, tail));
     tail=tail.getNext();
+    return;
   }
   
   public boolean hasItem(){
@@ -22,6 +23,9 @@ class Queuee<E>{
   }
   
   public E dequeue(){
+	  if (this.head==null) {
+		  return null;
+	  }
     Node<E> tempNode=this.head;
     this.head=this.head.getNext();
     if (this.head!=null){
