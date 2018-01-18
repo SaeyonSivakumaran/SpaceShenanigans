@@ -30,11 +30,11 @@ public class DepotPanel extends JPanel {
 	int screenY = (int) screenSize.getHeight();
 	Image backgroundImage = null;
 	DepotPanel(){
-		this.setLayout(null);
 		JPanel upgrade = new UpgradePanel();
-		upgrade.setBounds(0, 3*screenY/4, screenX, screenY/4);
+		this.setLayout(null);
+		upgrade.setBounds(0, 2*screenY/3, screenX, screenY/3);
 		try { // loading images
-			backgroundImage = new ImageIcon("SpaceSationHangar.png").getImage();
+			backgroundImage = new ImageIcon("SpaceStationHangar.png").getImage();
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
 		}
@@ -46,6 +46,7 @@ public class DepotPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // required to ensure the panel is correctly redrawn
 		g.drawImage(backgroundImage, 0, 0, null);
+		repaint();
 	}
 	
 	public class UpgradePanel extends JPanel {
@@ -88,7 +89,7 @@ public class DepotPanel extends JPanel {
 				System.out.println("image didn't load");
 			}
 
-
+			this.setPreferredSize(new Dimension(screenX, screenY/3));
 			UIManager.put("TabbedPane.selected", new Color(0, 183, 229)); // change tab to white when it is selected
 			setOpaque(false);
 
@@ -112,6 +113,7 @@ public class DepotPanel extends JPanel {
 			label.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
 
 			JButton button = new JButton("");
+			button.addActionListener(new upgradeListener());
 			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button.setIcon(buttonIcon);
 
@@ -176,6 +178,7 @@ public class DepotPanel extends JPanel {
 			tabbedPane.addTab("Deep Space Viewer", null, DeepSpaceViewerPanel, null);
 
 			JButton button_1 = new JButton("");
+			button_1.addActionListener(new upgradeListener());
 			button_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button_1.setIcon(buttonIcon);
 
@@ -245,6 +248,7 @@ public class DepotPanel extends JPanel {
 			tabbedPane.addTab("Shield Module", null, ShieldPanel, null);
 
 			JButton button_2 = new JButton("");
+			button_2.addActionListener(new upgradeListener());
 			button_2.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button_2.setIcon(buttonIcon);
 
@@ -321,6 +325,7 @@ public class DepotPanel extends JPanel {
 			tabbedPane_1.addTab("Upgrade Weapons Module", null, UpgradeWeaponModule, null);
 
 			JButton button_3 = new JButton(buttonIcon);
+			button_3.addActionListener(new upgradeListener());
 			button_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
 
 			JLabel label_10 = new JLabel("Upgrade Weapon Module");
@@ -413,6 +418,7 @@ public class DepotPanel extends JPanel {
 			tabbedPane.addTab("Mining Module", null, MiningPanel, null);
 
 			JButton button_4 = new JButton("");
+			button_4.addActionListener(new upgradeListener());
 			button_4.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button_4.setIcon(buttonIcon);
 
@@ -478,6 +484,7 @@ public class DepotPanel extends JPanel {
 			tabbedPane.addTab("Repair Ship", null, RepairPanel, null);
 
 			JButton btnRepairShipTo = new JButton(repairIcon);
+			btnRepairShipTo.addActionListener(new upgradeListener());
 			btnRepairShipTo.setFont(new Font("Tw Cen MT", Font.BOLD, 24));
 
 			JLabel lblCost = new JLabel("Cost:");
