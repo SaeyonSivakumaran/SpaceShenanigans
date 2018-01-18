@@ -22,6 +22,8 @@ public class BattlePanel extends JPanel {
 	JButton button2;
 	String userName;
 	String opponentName;
+	String weapon1;
+	String weapon2;
 	
 	public BattlePanel(String planetName, BufferedImage userShip, BufferedImage opponentShip, String weapon1, String weapon2, String userName, String opponentName) {
 		try { // loading images
@@ -54,77 +56,83 @@ public class BattlePanel extends JPanel {
 		this.opponentShip = resizeImage(opponentShip, screenX/4, (screenX/4)/3);
 		this.userName = userName;
 		this.opponentName = opponentName;
+		this.weapon1 = weapon1;
+		this.weapon2 = weapon2;
 		
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
 		backgroundPlanet = resizeImage(backgroundPlanet, screenX / 3, screenX / 3);
 		
 		this.setLayout(null);
 		
-		//Create Panel with buttons to select attack
-		JPanel attackPanel = new JPanel();
-		attackPanel.setLayout(new BorderLayout());
-		attackPanel.setPreferredSize(new Dimension(screenX/2, screenY/3));
-		attackPanel.setBounds(0, 2*screenY/3, screenX/2, screenY);
-		attackPanel.setBackground(clearGreen);
-		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
-		buttonPanel.setBackground(clearGreen);
-		
-		JLabel attackLabel = new JLabel("Attack!", SwingConstants.CENTER);
-		attackLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		
-		button1 = new JButton("Use " + weapon1);
-		button1.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button1.addActionListener(new AttackButtonListener());
-		
-		button2 = new JButton("Use " + weapon2);
-		button2.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		button2.addActionListener(new AttackButtonListener());
-		
-		buttonPanel.add(button1);
-		buttonPanel.add(button2);
-		attackPanel.add(attackLabel, BorderLayout.NORTH);
-		attackPanel.add(buttonPanel, BorderLayout.CENTER);
-		
-		//Create Panel with text for when it's not this player's turn
-		JPanel textPanel = new JPanel();
-		textPanel.setLayout(new BorderLayout());
-		textPanel.setPreferredSize(new Dimension(screenX/2, screenY/3));
-		textPanel.setBounds(0, 2*screenY/3, screenX/2, screenY);
-		textPanel.setBackground(clearGreen);
-		
-		JLabel messageLabel;
-		if (true) { //messages to be displayed when your attack has hit
-			messageLabel = new JLabel("Your Laser has hit " + opponentName + "!", SwingConstants.CENTER);
-		} else if (true) {
-			messageLabel = new JLabel("Your ShieldJammer has hit " + opponentName + "!", SwingConstants.CENTER);
-		} else if (true) {
-			messageLabel = new JLabel("Your Missle has hit " + opponentName + "!", SwingConstants.CENTER);
-		} else if (true) {
-			messageLabel = new JLabel("Your attack has missed!", SwingConstants.CENTER);
-		}else if (true) {
-			messageLabel = new JLabel(opponentName + "'s ShieldJammer has hit!", SwingConstants.CENTER);
-		}else if (true) {
-			messageLabel = new JLabel(opponentName + "'s Laser has hit!", SwingConstants.CENTER);
-		}else if (true) {
-			messageLabel = new JLabel(opponentName + "'s Missile has hit!", SwingConstants.CENTER);
-		}else if (true) {
-			messageLabel = new JLabel(opponentName + "'s ShieldJammer has hit!", SwingConstants.CENTER);
-		}else if (true) {
-			messageLabel = new JLabel(opponentName + "'s attack has missed!", SwingConstants.CENTER);
-		}
-		
-		this.add(attackPanel);
+
 	}
 	
 	public class AttackButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button1){
-	
+				//Send server a message saying that button has been pressed
 			}else if (e.getSource() == button2) {
 				
 			}
+		}
+	}
+
+	//Panel for when it is not time to select attack
+	public class TextPanel extends JPanel {
+		TextPanel(String serverMsg) {
+			this.setPreferredSize(new Dimension(screenX/2, screenY/3));
+			this.setBounds(0, 2*screenY/3, screenX/2, screenY);
+			this.setBackground(clearGreen);
+			
+			JLabel messageLabel;
+			if (serverMsg.indexOf("damage") == 0) { // messages to be displayed when your attack has hit
+				messageLabel = new JLabel("Your attack has hit " + opponentName + "!", SwingConstants.CENTER);
+			} else if (serverMsg.indexOf("shieldDisabled") == 0) {
+				messageLabel = new JLabel("Your ShieldJammer has disabled " + opponentName + "'s shields!", SwingConstants.CENTER);
+			} else if (serverMsg.equals("attackMissed")) {
+				messageLabel = new JLabel("Your attack has missed!", SwingConstants.CENTER);
+			} else if (true) {
+				messageLabel = new JLabel(opponentName + "'s ShieldJammer has hit!", SwingConstants.CENTER);
+			} else if (true) {
+				messageLabel = new JLabel(opponentName + "'s ShieldJammer has hit!", SwingConstants.CENTER);
+			} else if (true) {
+				messageLabel = new JLabel(opponentName + "'s attack has missed!", SwingConstants.CENTER);
+			} else if (true) {
+				messageLabel = new JLabel("Waiting for " + opponentName);
+			}
+
+			messageLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
+			this.add(messageLabel);
+		}
+	}
+	
+	public class AttackPanel extends JPanel {
+		AttackPanel() {
+			// Create Panel with buttons to select attack
+			this.setLayout(new BorderLayout());
+			this.setPreferredSize(new Dimension(screenX / 2, screenY / 3));
+			this.setBounds(0, 2 * screenY / 3, screenX / 2, screenY);
+			this.setBackground(clearGreen);
+
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.setLayout(new FlowLayout());
+			buttonPanel.setBackground(clearGreen);
+
+			JLabel attackLabel = new JLabel("Attack!", SwingConstants.CENTER);
+			attackLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
+
+			button1 = new JButton("Use " + weapon1);
+			button1.setFont(new Font("Tahoma", Font.PLAIN, 28));
+			button1.addActionListener(new AttackButtonListener());
+
+			button2 = new JButton("Use " + weapon2);
+			button2.setFont(new Font("Tahoma", Font.PLAIN, 28));
+			button2.addActionListener(new AttackButtonListener());
+
+			buttonPanel.add(button1);
+			buttonPanel.add(button2);
+			this.add(attackLabel, BorderLayout.NORTH);
+			this.add(buttonPanel, BorderLayout.CENTER);
 		}
 	}
 	
@@ -157,18 +165,34 @@ public class BattlePanel extends JPanel {
 		// Draw translucent rectangle
 		g.setColor(clearRed);
 		g.fillRect(screenX/2, 0, screenX/2, screenY);
-		g.drawImage(userShip, 0, 0, null);
-		g.drawImage(opponentShip, screenX - opponentShip.getWidth(), 0, null);
+		g.drawImage(userShip, screenX/12, screenY/2 - userShip.getHeight(), null);
+		g.drawImage(opponentShip, screenX - opponentShip.getWidth() - screenX/12, screenY/2 - userShip.getHeight(), null);
 		repaint();
 	}
 	
-	public static BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine, BufferedImage weapon1, BufferedImage weapon2) {
-		BufferedImage builtShip = new BufferedImage(900, 300, BufferedImage.TYPE_INT_ARGB);
+	//Method to create spaceship image
+	public static BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine, BufferedImage weapon1, BufferedImage weapon2, int shieldLvl) {
+		Color shieldColour = null;
+		if(shieldLvl == 1) {
+			shieldColour = new Color(255, 0, 0, 100); //lvl 1 shield red
+		}else if(shieldLvl == 2) {
+			shieldColour = new Color(255, 97, 0, 100);//lvl 2 shield orange
+		}else if(shieldLvl == 3) {
+			shieldColour = new Color(255, 250, 0, 100);//lvl 3 shield yellow
+		}else if(shieldLvl == 4) {
+			shieldColour = new Color(49, 219, 2, 100);//lvl 4 shield green
+		}else if (shieldLvl == 5) {
+			shieldColour = new Color(2, 41, 219, 100);//lvl 5 shield blue
+		}
+		
+		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = builtShip.getGraphics();
-		g.drawImage(ship, 0, 0, null);
-		g.drawImage(engine, 0, 0, null);
-		g.drawImage(weapon1, 600, 150, null);
-		g.drawImage(weapon2, 600, 200, null);
+		g.drawImage(ship, 50, 50, null);
+		g.drawImage(engine, 50, 50, null);
+		g.drawImage(weapon1, 650, 200, null);
+		g.drawImage(weapon2, 650, 250, null);
+		g.setColor(shieldColour);
+		g.fillRect(0, 0, 1000, 400);
 		return builtShip;
 	}
 	
@@ -200,7 +224,7 @@ public class BattlePanel extends JPanel {
 		}
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(new BattlePanel("Jupiter Planet", combineSpaceship(ship, engine4, laser, shieldJammer), combineSpaceship(ship, engine2, laser, missile), "Laser", "ShieldJammer", "noob_1", "noob_2"));
+		frame.setContentPane(new BattlePanel("Jupiter Planet", combineSpaceship(ship, engine4, laser, shieldJammer, 3), combineSpaceship(ship, engine2, laser, missile, 5), "Laser", "ShieldJammer", "noob_1", "noob_2"));
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		frame.pack();
