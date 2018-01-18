@@ -47,10 +47,7 @@ public class MapPanel extends JPanel {
 	SpaceClient client;
 
 	public MapPanel() {
-<<<<<<< HEAD
 		//this.client = client;
-=======
->>>>>>> f153b390c91ea588c17d2b18d0212f3fb26b4766
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 			yarnPlanet = ImageIO.read(new File("yarnPlanet.png"));
