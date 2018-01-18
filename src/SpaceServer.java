@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import java.awt.BorderLayout;
-
 //Networking imports
 import java.net.Socket;
 import java.net.ServerSocket;
@@ -51,7 +50,7 @@ class SpaceServer extends JFrame {
 		// Initializing all the game variables
 		running = true;
 		players = new ArrayList<Player>();
-		onlinePlayers = new ArrayList<Player>();
+		onlinePlayers = new ArrayList<Player>(); 
 		connections = new ArrayList<PlayerConnection>();
 		depot = new SpaceDepot();
 		planets = new ArrayList<Planet>();
@@ -77,7 +76,7 @@ class SpaceServer extends JFrame {
 		this.add(mainPanel);
 		this.setVisible(true);
 	}
-
+	
 	/**
 	 * Method to start server
 	 * 
@@ -736,6 +735,7 @@ class SpaceServer extends JFrame {
 					}
 				}
 				//Outputting the players to the client
+				consoleOutput.append(players + "\n");
 				output.println(players);
 				output.flush();
 			} else if (command.equals("shipUpdate")) {
@@ -754,6 +754,7 @@ class SpaceServer extends JFrame {
 					shipInfo += modules[i].getUpgradeLevel() +",";
 				}
 				//Outputting the module info to the client
+				consoleOutput.append(shipInfo + "\n");
 				output.println(shipInfo);
 				output.flush();
 			} else if (command.equals("repair")) {
