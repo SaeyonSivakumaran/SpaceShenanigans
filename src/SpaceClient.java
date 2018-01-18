@@ -1,9 +1,25 @@
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.Thread;
 import java.net.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
 
 public class SpaceClient {
 	Socket mySocket; // socket for connection
@@ -11,8 +27,10 @@ public class SpaceClient {
 	PrintWriter output; // printwriter for network output
 	boolean running = true; // thread status via boolean
 	String command;
+	Queuee<String> commandd;
 	String input1,input2;
 	Scanner inputs;
+	Queuee<String> inputss;
 	String username;
 	int[] resources;
 	private EngineModule engine;
@@ -33,6 +51,7 @@ public class SpaceClient {
 	Queuee<String> instructions;
 	ArrayList<String> players;
 	String location;
+	static JFrame frame;
 
 
 	public static void main(String[] args) {
@@ -62,7 +81,7 @@ public class SpaceClient {
 		this.health=100;
 		this.location="depot";
 		try {
-			mySocket = new Socket("127.0.0.1", 79); // attempt socket connection (local address)
+			mySocket = new Socket("127.0.0.1", 799); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
@@ -113,6 +132,14 @@ public class SpaceClient {
 			Thread t= new Thread(new Input());
 			t.start();
 			
+			frame=new JFrame();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setContentPane(new MapPanel());
+			frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
+			frame.pack();
+			frame.setResizable(false);
+			frame.setVisible(true);
+			
 			output.println("playersUpdate:"+username);
 			output.flush();
 			output.println("shipUpdate:"+username);
@@ -120,9 +147,11 @@ public class SpaceClient {
 			running=true;
 			instructions=new Queuee<String>();
 			while(running){
-				command=inputs.nextLine();
+				command=commandd.dequeue();
 				if (command.equals("1")){
-					input2=inputs.nextLine();
+					while(!inputss.hasItem()) {
+					}
+					input2=inputss.dequeue();
 					output.println("travel:"+username+","+input2);
 				}else if(command.equals("2")){
 					output.println("arrived:"+username);	
@@ -292,5 +321,251 @@ public class SpaceClient {
 	}
 	public void sendCommand(String command) {
 		this.instructions.enqueue(command);
+	}
+	
+	public class MapPanel extends JPanel {
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenX = (int) screenSize.getWidth();
+		int screenY = (int) screenSize.getHeight();
+		Image backgroundImage = null;
+		BufferedImage yarnPlanet = null;
+		JLabel yarnLabel;
+		BufferedImage flatPlanet = null;
+		JLabel flatLabel;
+		BufferedImage potatoPlanet = null;
+		JLabel potatoLabel;
+		BufferedImage specklePlanet = null;
+		JLabel speckleLabel;
+		BufferedImage fracturedPlanet = null;
+		JLabel fracturedLabel;
+		BufferedImage depot = null;
+		JLabel depotLabel;
+		BufferedImage jupiterPlanet = null;
+		JLabel jupiterLabel;
+		BufferedImage moonPlanet = null;
+		JLabel moonLabel;
+		
+		Color clearColour = new Color(239, 161, 4, 225); // create 50% transparent colour
+		Font bigFont = new Font("Helvetica", Font.BOLD, 40);
+		Color textColour = new Color(209, 0, 198);
+		String planetName = "";
+		String drawText1 = "";
+		String drawText2 = "";
+		int tempCount = 0;
+		SpaceClient client;
+
+		public MapPanel() {
+			try { // loading images
+				backgroundImage = new ImageIcon("SpaceMap.png").getImage();
+				yarnPlanet = ImageIO.read(new File("yarnPlanet.png"));
+				flatPlanet = ImageIO.read(new File("flatEarth.png"));
+				potatoPlanet = ImageIO.read(new File("potatoPlanet.png"));
+				specklePlanet = ImageIO.read(new File("specklePlanet.png"));
+				fracturedPlanet = ImageIO.read(new File("fracturedPlanet.png"));
+				depot = ImageIO.read(new File("SpaceDepot.png"));
+				jupiterPlanet = ImageIO.read(new File("jupiter.png"));
+				moonPlanet = ImageIO.read(new File("moonPlanet.png"));
+			} catch (Exception ex) {
+				System.out.println("image didn't load");
+			}
+			
+			this.setLayout(null);
+
+			// Resize images
+			backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
+			yarnPlanet = resizeImage(yarnPlanet, screenX / 12, screenX / 12);
+			flatPlanet = resizeImage(flatPlanet, screenX / 12, screenX / 12);
+			potatoPlanet = resizeImage(potatoPlanet, screenX/12, screenX/12);
+			specklePlanet = resizeImage(specklePlanet, screenX/12, screenX/12);
+			fracturedPlanet = resizeImage(fracturedPlanet, screenX/12, screenX/12);
+			depot = resizeImage(depot, screenX/8, screenX/8);
+			jupiterPlanet = resizeImage(jupiterPlanet, screenX/12, screenX/12);
+			moonPlanet = resizeImage(moonPlanet, screenX/12, screenX/12);
+			
+			yarnLabel = createImageButton(yarnPlanet);
+			yarnLabel.setBounds(0, 100, yarnPlanet.getWidth(), yarnPlanet.getHeight());
+			
+			flatLabel = createImageButton(flatPlanet);
+			flatLabel.setBounds(50, 2*screenY/3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(), flatPlanet.getHeight());
+			
+			potatoLabel = createImageButton(potatoPlanet);
+			potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(), potatoPlanet.getHeight());
+			
+			speckleLabel = createImageButton(specklePlanet);
+			speckleLabel.setBounds(screenX/5 - specklePlanet.getWidth()/2, screenY/2 - specklePlanet.getHeight()/2, specklePlanet.getWidth(), specklePlanet.getHeight());
+			
+			fracturedLabel = createImageButton(fracturedPlanet);
+			fracturedLabel.setBounds(screenX - yarnPlanet.getWidth() - 200, 500, yarnPlanet.getWidth(), yarnPlanet.getHeight());
+			
+			depotLabel = createImageButton(depot);
+			depotLabel.setBounds(screenX/2 - depot.getWidth()/2, screenY/2 - depot.getHeight(), depot.getWidth(), depot.getHeight());
+			
+			jupiterLabel = createImageButton(jupiterPlanet);
+			jupiterLabel.setBounds(screenX - jupiterPlanet.getWidth() - 400, screenY/2, jupiterPlanet.getWidth(), jupiterPlanet.getHeight());
+			
+			moonLabel = createImageButton(moonPlanet);
+			moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(), moonPlanet.getHeight());
+			
+			JButton button = new JButton("Confirm Travel");
+			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
+			button.setBounds(screenX/2 - 150, screenY - 200, 300, 100);
+			button.addActionListener(new TravelButtonListener());
+			
+			this.add(yarnLabel);
+			this.add(flatLabel);
+			this.add(potatoLabel);
+			this.add(speckleLabel);
+			this.add(fracturedLabel);
+			this.add(depotLabel);
+			this.add(jupiterLabel);
+			this.add(moonLabel);
+			this.add(button);
+			
+		}
+
+		/*
+		 * resizeImage 
+		 * resizes a Buffered image to specified size
+		 * @param BufferedImage to be resized, integers of width and height to be resized to
+		 * @return BufferedImage that is resized
+		 */
+		public BufferedImage resizeImage(BufferedImage image, int resizeWidth, int resizeHeight) {
+			//resize a buffered image into an image 
+			Image temp = image.getScaledInstance(resizeWidth, resizeHeight, Image.SCALE_DEFAULT);
+			BufferedImage originalImg = new BufferedImage(resizeWidth, resizeHeight, BufferedImage.TYPE_INT_ARGB);
+
+			//draw image onto Buffered image to copy it
+			Graphics2D g2d = originalImg.createGraphics();
+			g2d.drawImage(temp, 0, 0, null);
+			g2d.dispose();
+
+			return originalImg;
+		}
+
+		/*
+		 * createImageButton
+		 * creates JLabel with MouseListener so it acts like a button
+		 * @param Buffered image to be turned into JLabel
+		 * @return button JLabel
+		 */
+		public JLabel createImageButton(final BufferedImage planet) {
+			JLabel imageButton = new JLabel(new ImageIcon(planet));
+			imageButton.addMouseListener(new PlanetListener(planet));
+			return imageButton;
+		}
+		
+		public class TravelButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				commandd.enqueue("1");
+				if(planetName.equals("Yarn Planet")) {
+					frame.setContentPane(new TravelPanel("Yarn Planet", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("yarnPlanet");
+				}else if (planetName.equals("Flat Planet")){
+					frame.setContentPane(new TravelPanel("Flat Planet", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("flatEarth");
+				}else if (planetName.equals("Potato Planet")){
+					frame.setContentPane(new TravelPanel("Potato Planet", 50));
+					frame.invalidate();
+					frame.validate();	
+					inputss.enqueue("potatoPlanet");
+				}else if (planetName.equals("Speckle Planet")){
+					frame.setContentPane(new TravelPanel("Speckle Planet", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("specklePlanet");
+				}else if (planetName.equals("Fractured Planet")){
+					frame.setContentPane(new TravelPanel("Fractured Planet", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("fracturedPlanet");
+				}else if (planetName.equals("Depot")){
+					frame.setContentPane(new TravelPanel("Depot", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("depot");
+				}else if (planetName.equals("Jupiter Planet")){
+					frame.setContentPane(new TravelPanel("Jupiter Planet", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("jupiter");
+				}else if (planetName.equals("Moon Planet")){
+					frame.setContentPane(new TravelPanel("Moon Planet", 50));
+					frame.invalidate();
+					frame.validate();
+					inputss.enqueue("moonPlanet");
+				}
+			}
+		}
+		
+		//MouseAdapter for planets
+		public class PlanetListener extends MouseAdapter {
+			BufferedImage planet;
+			JLabel source;
+			
+			PlanetListener(BufferedImage planet){
+				this.planet = planet;
+			}
+			   public void mouseClicked(MouseEvent e) {
+				   boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
+					if (opaque) {
+						source = (JLabel)e.getSource();
+
+						if(source == yarnLabel) { //yarnLabel
+							planetName = "Yarn Planet";
+						}else if(source == flatLabel) { //flatLabel
+							planetName = "Flat Planet";
+						}else if (source == potatoLabel) { //potatoLabel
+							planetName = "Potato Planet";
+						}else if (source == speckleLabel) { //speckleLabel
+							planetName = "Speckle Planet";
+						}else if (source == fracturedLabel) { //fracturedLabel
+							planetName = "Fractured Planet";
+						}else if (source == depotLabel){ //depotLabel
+							planetName = "Depot";
+						}else if (source == jupiterLabel) { //jupiterLabel
+							planetName = "Jupiter Planet";
+						}else if (source == moonLabel) { //moonLabel
+							planetName = "Moon Planet";
+						}
+					}
+			   }
+			}
+
+		/*
+		 * paintComponent
+		 * @param Graphics g
+		 */
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g); // required to ensure the panel is correctly redrawn
+			g.drawImage(backgroundImage, 0, 0, null);
+			
+			g.setColor(clearColour);
+			g.fillRect(0, 2 * screenY / 3, screenX, screenY / 3);
+			
+			g.setFont(bigFont);
+			g.setColor(textColour);
+			drawText1 = "Travel to: " + planetName;
+			if (!planetName.equals("Depot")) { //No projected resources for depot
+				drawText2 = "Deep Space Viewer projected Resources: " + tempCount;
+			}else {
+				drawText2 = "";
+			}
+			g.drawString(drawText1, 20, 2*screenY/3 + 50);
+			g.drawString(drawText2, 20, 2*screenY/3 + 150);
+			
+			repaint();
+		}
+
+		
+		
+		public void sendInstructions(String instructions){
+			
+		}
+
 	}
 }
