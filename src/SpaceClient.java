@@ -31,7 +31,7 @@ public class SpaceClient {
 	String input1,input2;
 	Scanner inputs;
 	Queuee<String> inputss;
-	String username;
+	String username="";
 	int[] resources;
 	private EngineModule engine;
 	private ShieldModule shield;
@@ -89,7 +89,7 @@ public class SpaceClient {
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
 
-			while(running){
+			while(username.length()==0){
 				command=inputs.nextLine();
 				if (command.equals("login")){
 
@@ -101,7 +101,6 @@ public class SpaceClient {
 					if (command.equals("loginaccepted")){
 						this.username=input1;
 						System.out.println("Connection made.");
-						running=false;
 					}else {
 						System.out.println("login failed");
 					}
@@ -147,50 +146,53 @@ public class SpaceClient {
 			output.println("shipUpdate:"+username);
 			output.flush();
 			running=true;
-			instructions=new Queuee<String>();
 			while(running){
-				while(!commandd.hasItem()) {
+				if(commandd.hasItem()) {
 
 					//System.out.println("input2");
-				}
-				command=commandd.dequeue();
-				if (command.equals("1")){
-					while(!inputss.hasItem()) {
-					}
-					input2=inputss.dequeue();
-					output.println("travel:"+username+","+input2);
-					output.flush();
-				}else if(command.equals("2")){
-					output.println("arrived:"+username);	
-				}else if(command.equals("3")){
-					input2=inputs.nextLine();
-					output.println("upgrade:"+username+","+input2);
-				}else if(command.equals("4")){
-					output.println("mine:"+username);
-				}else if(command.equals("5")){
-					input2=inputs.nextLine();
-					output.println("tradeInfoWanted:"+username+","+input2);
-				}else if(command.equals("6")){
-					input1=inputs.nextLine();
-					input2="";
-					while(!input1.equals(" ")){
-						input2+=input1;
-					}
-					input1=inputs.nextLine();
-					output.println("trade:"+username+","+input1);
-				}else if(command.equals("7")){
-					output.println("acceptTrade:"+input1);
-				}else if(command.equals("8")){
-					output.println("rejectTrade:"+input1);
-				}else if(command.equals("9")){
-					input1=inputs.nextLine();
-					output.println("attack:"+username+","+input2);
-				}else if(command.equals("10")){
-					output.println("logout:"+username);
-					running=false;
-				}
-				output.flush();
 
+					command=commandd.dequeue();
+					System.out.print(command);
+					if (command.equals("1")){
+						while(!inputss.hasItem()) {
+						}
+						input2=inputss.dequeue();
+						output.println("travel:"+username+","+input2);
+						//output.flush();
+					}else if(command.equals("2")){
+						output.println("arrived:"+username);	
+					}else if(command.equals("3")){
+						input2=inputs.nextLine();
+						output.println("upgrade:"+username+","+input2);
+					}else if(command.equals("4")){
+						output.println("mine:"+username);
+					}else if(command.equals("5")){
+						input2=inputs.nextLine();
+						output.println("tradeInfoWanted:"+username+","+input2);
+					}else if(command.equals("6")){
+						input1=inputs.nextLine();
+						input2="";
+						while(!input1.equals(" ")){
+							input2+=input1;
+						}
+						input1=inputs.nextLine();
+						output.println("trade:"+username+","+input1);
+					}else if(command.equals("7")){
+						output.println("acceptTrade:"+input1);
+					}else if(command.equals("8")){
+						output.println("rejectTrade:"+input1);
+					}else if(command.equals("9")){
+						input1=inputs.nextLine();
+						output.println("attack:"+username+","+input2);
+					}else if(command.equals("10")){
+						output.println("logout:"+username);
+						running=false;
+					}
+					output.flush();
+					command="";
+				}
+
+				//System.out.print(1);
 			}
 
 			try {  
@@ -317,6 +319,8 @@ public class SpaceClient {
 							command=command.substring(command.indexOf(",")+1);
 							moonPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
 						}
+						command="";
+						System.out.print(command);
 					}
 
 				} catch (IOException e) {
@@ -327,10 +331,6 @@ public class SpaceClient {
 
 		}
 	}
-	public void sendCommand(String command) {
-		this.instructions.enqueue(command);
-	}
-
 	public class MapPanel extends JPanel {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -466,7 +466,6 @@ public class SpaceClient {
 		public class TravelButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				commandd.enqueue("1");
-				System.out.println("input2");
 				if(planetName.equals("Yarn Planet")) {
 					inputss.enqueue("yarnPlanet");
 					frame.setContentPane(new TravelPanel("Yarn Planet", 50));

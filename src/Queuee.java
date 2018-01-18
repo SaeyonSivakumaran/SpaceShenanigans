@@ -12,6 +12,7 @@ class Queuee<E>{
     
     tail.setNext(new Node<E>(item, null, tail));
     tail=tail.getNext();
+    return;
   }
   
   public boolean hasItem(){
