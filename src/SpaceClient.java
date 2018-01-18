@@ -73,6 +73,8 @@ public class SpaceClient {
 	public void go() {
 		players=new ArrayList<String>();
 		inputs=new Scanner(System.in);
+		commandd=new Queuee<String>();
+		inputss=new Queuee<String>();
 		this.engine = new EngineModule();
 		this.shield = new ShieldModule();
 		this.weaponModule = new WeaponModule();
@@ -81,7 +83,7 @@ public class SpaceClient {
 		this.health=100;
 		this.location="depot";
 		try {
-			mySocket = new Socket("127.0.0.1", 799); // attempt socket connection (local address)
+			mySocket = new Socket("127.0.0.1", 797); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
@@ -131,7 +133,7 @@ public class SpaceClient {
 
 			Thread t= new Thread(new Input());
 			t.start();
-			
+
 			frame=new JFrame();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setContentPane(new MapPanel());
@@ -139,7 +141,7 @@ public class SpaceClient {
 			frame.pack();
 			frame.setResizable(false);
 			frame.setVisible(true);
-			
+
 			output.println("playersUpdate:"+username);
 			output.flush();
 			output.println("shipUpdate:"+username);
@@ -147,12 +149,17 @@ public class SpaceClient {
 			running=true;
 			instructions=new Queuee<String>();
 			while(running){
+				while(!commandd.hasItem()) {
+
+					//System.out.println("input2");
+				}
 				command=commandd.dequeue();
 				if (command.equals("1")){
 					while(!inputss.hasItem()) {
 					}
 					input2=inputss.dequeue();
 					output.println("travel:"+username+","+input2);
+					output.flush();
 				}else if(command.equals("2")){
 					output.println("arrived:"+username);	
 				}else if(command.equals("3")){
@@ -183,6 +190,7 @@ public class SpaceClient {
 					running=false;
 				}
 				output.flush();
+
 			}
 
 			try {  
@@ -322,7 +330,7 @@ public class SpaceClient {
 	public void sendCommand(String command) {
 		this.instructions.enqueue(command);
 	}
-	
+
 	public class MapPanel extends JPanel {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -345,7 +353,7 @@ public class SpaceClient {
 		JLabel jupiterLabel;
 		BufferedImage moonPlanet = null;
 		JLabel moonLabel;
-		
+
 		Color clearColour = new Color(239, 161, 4, 225); // create 50% transparent colour
 		Font bigFont = new Font("Helvetica", Font.BOLD, 40);
 		Color textColour = new Color(209, 0, 198);
@@ -369,7 +377,7 @@ public class SpaceClient {
 			} catch (Exception ex) {
 				System.out.println("image didn't load");
 			}
-			
+
 			this.setLayout(null);
 
 			// Resize images
@@ -382,36 +390,36 @@ public class SpaceClient {
 			depot = resizeImage(depot, screenX/8, screenX/8);
 			jupiterPlanet = resizeImage(jupiterPlanet, screenX/12, screenX/12);
 			moonPlanet = resizeImage(moonPlanet, screenX/12, screenX/12);
-			
+
 			yarnLabel = createImageButton(yarnPlanet);
 			yarnLabel.setBounds(0, 100, yarnPlanet.getWidth(), yarnPlanet.getHeight());
-			
+
 			flatLabel = createImageButton(flatPlanet);
 			flatLabel.setBounds(50, 2*screenY/3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(), flatPlanet.getHeight());
-			
+
 			potatoLabel = createImageButton(potatoPlanet);
 			potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(), potatoPlanet.getHeight());
-			
+
 			speckleLabel = createImageButton(specklePlanet);
 			speckleLabel.setBounds(screenX/5 - specklePlanet.getWidth()/2, screenY/2 - specklePlanet.getHeight()/2, specklePlanet.getWidth(), specklePlanet.getHeight());
-			
+
 			fracturedLabel = createImageButton(fracturedPlanet);
 			fracturedLabel.setBounds(screenX - yarnPlanet.getWidth() - 200, 500, yarnPlanet.getWidth(), yarnPlanet.getHeight());
-			
+
 			depotLabel = createImageButton(depot);
 			depotLabel.setBounds(screenX/2 - depot.getWidth()/2, screenY/2 - depot.getHeight(), depot.getWidth(), depot.getHeight());
-			
+
 			jupiterLabel = createImageButton(jupiterPlanet);
 			jupiterLabel.setBounds(screenX - jupiterPlanet.getWidth() - 400, screenY/2, jupiterPlanet.getWidth(), jupiterPlanet.getHeight());
-			
+
 			moonLabel = createImageButton(moonPlanet);
 			moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(), moonPlanet.getHeight());
-			
+
 			JButton button = new JButton("Confirm Travel");
 			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button.setBounds(screenX/2 - 150, screenY - 200, 300, 100);
 			button.addActionListener(new TravelButtonListener());
-			
+
 			this.add(yarnLabel);
 			this.add(flatLabel);
 			this.add(potatoLabel);
@@ -421,7 +429,7 @@ public class SpaceClient {
 			this.add(jupiterLabel);
 			this.add(moonLabel);
 			this.add(button);
-			
+
 		}
 
 		/*
@@ -454,87 +462,88 @@ public class SpaceClient {
 			imageButton.addMouseListener(new PlanetListener(planet));
 			return imageButton;
 		}
-		
+
 		public class TravelButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
 				commandd.enqueue("1");
+				System.out.println("input2");
 				if(planetName.equals("Yarn Planet")) {
+					inputss.enqueue("yarnPlanet");
 					frame.setContentPane(new TravelPanel("Yarn Planet", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("yarnPlanet");
 				}else if (planetName.equals("Flat Planet")){
+					inputss.enqueue("flatEarth");
 					frame.setContentPane(new TravelPanel("Flat Planet", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("flatEarth");
 				}else if (planetName.equals("Potato Planet")){
+					inputss.enqueue("potatoPlanet");
 					frame.setContentPane(new TravelPanel("Potato Planet", 50));
 					frame.invalidate();
 					frame.validate();	
-					inputss.enqueue("potatoPlanet");
 				}else if (planetName.equals("Speckle Planet")){
+					inputss.enqueue("specklePlanet");
 					frame.setContentPane(new TravelPanel("Speckle Planet", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("specklePlanet");
 				}else if (planetName.equals("Fractured Planet")){
+					inputss.enqueue("fracturedPlanet");
 					frame.setContentPane(new TravelPanel("Fractured Planet", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("fracturedPlanet");
 				}else if (planetName.equals("Depot")){
+					inputss.enqueue("depot");
 					frame.setContentPane(new TravelPanel("Depot", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("depot");
 				}else if (planetName.equals("Jupiter Planet")){
+					inputss.enqueue("jupiter");
 					frame.setContentPane(new TravelPanel("Jupiter Planet", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("jupiter");
 				}else if (planetName.equals("Moon Planet")){
+					inputss.enqueue("moonPlanet");
 					frame.setContentPane(new TravelPanel("Moon Planet", 50));
 					frame.invalidate();
 					frame.validate();
-					inputss.enqueue("moonPlanet");
 				}
 			}
 		}
-		
+
 		//MouseAdapter for planets
 		public class PlanetListener extends MouseAdapter {
 			BufferedImage planet;
 			JLabel source;
-			
+
 			PlanetListener(BufferedImage planet){
 				this.planet = planet;
 			}
-			   public void mouseClicked(MouseEvent e) {
-				   boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
-					if (opaque) {
-						source = (JLabel)e.getSource();
+			public void mouseClicked(MouseEvent e) {
+				boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
+				if (opaque) {
+					source = (JLabel)e.getSource();
 
-						if(source == yarnLabel) { //yarnLabel
-							planetName = "Yarn Planet";
-						}else if(source == flatLabel) { //flatLabel
-							planetName = "Flat Planet";
-						}else if (source == potatoLabel) { //potatoLabel
-							planetName = "Potato Planet";
-						}else if (source == speckleLabel) { //speckleLabel
-							planetName = "Speckle Planet";
-						}else if (source == fracturedLabel) { //fracturedLabel
-							planetName = "Fractured Planet";
-						}else if (source == depotLabel){ //depotLabel
-							planetName = "Depot";
-						}else if (source == jupiterLabel) { //jupiterLabel
-							planetName = "Jupiter Planet";
-						}else if (source == moonLabel) { //moonLabel
-							planetName = "Moon Planet";
-						}
+					if(source == yarnLabel) { //yarnLabel
+						planetName = "Yarn Planet";
+					}else if(source == flatLabel) { //flatLabel
+						planetName = "Flat Planet";
+					}else if (source == potatoLabel) { //potatoLabel
+						planetName = "Potato Planet";
+					}else if (source == speckleLabel) { //speckleLabel
+						planetName = "Speckle Planet";
+					}else if (source == fracturedLabel) { //fracturedLabel
+						planetName = "Fractured Planet";
+					}else if (source == depotLabel){ //depotLabel
+						planetName = "Depot";
+					}else if (source == jupiterLabel) { //jupiterLabel
+						planetName = "Jupiter Planet";
+					}else if (source == moonLabel) { //moonLabel
+						planetName = "Moon Planet";
 					}
-			   }
+				}
 			}
+		}
 
 		/*
 		 * paintComponent
@@ -543,10 +552,10 @@ public class SpaceClient {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			g.drawImage(backgroundImage, 0, 0, null);
-			
+
 			g.setColor(clearColour);
 			g.fillRect(0, 2 * screenY / 3, screenX, screenY / 3);
-			
+
 			g.setFont(bigFont);
 			g.setColor(textColour);
 			drawText1 = "Travel to: " + planetName;
@@ -557,14 +566,14 @@ public class SpaceClient {
 			}
 			g.drawString(drawText1, 20, 2*screenY/3 + 50);
 			g.drawString(drawText2, 20, 2*screenY/3 + 150);
-			
+
 			repaint();
 		}
 
-		
-		
+
+
 		public void sendInstructions(String instructions){
-			
+
 		}
 
 	}
