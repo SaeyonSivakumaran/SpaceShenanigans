@@ -11,8 +11,8 @@ public class Planet {
 	SpaceServer server;
 	static final String ALPHABET="abcdefghijklmnopqrstuvwxyz";
 
-	public Planet(long time, SpaceServer server){
-		name="";
+	public Planet(String name, long time, SpaceServer server){
+		this.name = name;
 		this.server=server;
 		int rand=(int) (Math.random()*15);
 		for (int i=0;i<rand;i++){
@@ -71,6 +71,9 @@ public class Planet {
 		return this.resource;
 	}
 	
+	public int getResource(){
+		return this.resourceAmount;
+	}
 	public boolean canTravel() {
 		if (player1 != null && player2 != null) {
 			return false;
@@ -113,6 +116,10 @@ public class Planet {
 		if (player2.getUsername().equals(player.getUsername())){
 			player2=null;
 		}
+	}
+	
+	public void setResource(int resource){
+		this.resourceAmount=resource;
 	}
 	
 }
