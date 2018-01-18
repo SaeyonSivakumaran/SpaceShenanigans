@@ -28,8 +28,10 @@ public class DepotPanel extends JPanel {
 	int screenX = (int) screenSize.getWidth();
 	int screenY = (int) screenSize.getHeight();
 	Image backgroundImage = null;
+	JFrame frame;
 
-	DepotPanel() {
+	DepotPanel(JFrame referenceFrame) {
+		this.frame = referenceFrame;
 		JPanel upgrade = new UpgradePanel();
 		this.setLayout(null);
 		upgrade.setBounds(0, 2 * screenY / 3, screenX, screenY / 3);
@@ -39,8 +41,23 @@ public class DepotPanel extends JPanel {
 			System.out.println("image didn't load");
 		}
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
+		
+		//Make a JButton to go back to the Map Panel
+		JButton mapButton = new JButton("Travel Elsewhere");
+		mapButton.addActionListener(new MapListener());
+		mapButton.setBounds(screenX/12, screenX/12, 400, 100);
+		mapButton.setFont(new Font("Tahoma", Font.BOLD, 29));
+		
 		this.add(upgrade);
-
+		this.add(mapButton);
+	}
+	
+	class MapListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			frame.setContentPane(new MapPanel());
+			frame.invalidate();
+			frame.validate();
+		}
 	}
 
 	public void paintComponent(Graphics g) {
@@ -125,7 +142,7 @@ public class DepotPanel extends JPanel {
 
 			JButton button = new JButton(buttonIcon);
 			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
-			button.addActionListener(new upgradeListener());
+			button.addActionListener(new UpgradeListener());
 
 			JLabel label_1 = new JLabel("Cost:");
 			label_1.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
@@ -250,8 +267,8 @@ public class DepotPanel extends JPanel {
 
 			JButton button_3 = new JButton(buttonIcon);
 			button_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
-			button_3.addActionListener(new upgradeListener());
-			
+			button_3.addActionListener(new UpgradeListener());
+
 			GroupLayout gl_UpgradeWeaponModule = new GroupLayout(UpgradeWeaponModule);
 			gl_UpgradeWeaponModule.setHorizontalGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGroup(gl_UpgradeWeaponModule
@@ -401,8 +418,8 @@ public class DepotPanel extends JPanel {
 
 			JButton button_1 = new JButton(buttonIcon);
 			button_1.setFont(new Font("Tahoma", Font.PLAIN, 28));
-			button_1.addActionListener(new upgradeListener());
-			
+			button_1.addActionListener(new UpgradeListener());
+
 			GroupLayout gl_MiningPanel = new GroupLayout(MiningPanel);
 			gl_MiningPanel
 					.setHorizontalGroup(gl_MiningPanel.createParallelGroup(Alignment.LEADING)
@@ -496,8 +513,8 @@ public class DepotPanel extends JPanel {
 
 			JButton button_5 = new JButton(buttonIcon);
 			button_5.setFont(new Font("Tahoma", Font.PLAIN, 28));
-			button_5.addActionListener(new upgradeListener());
-			
+			button_5.addActionListener(new UpgradeListener());
+
 			GroupLayout gl_DeepSpaceViewerPanel = new GroupLayout(DeepSpaceViewerPanel);
 			gl_DeepSpaceViewerPanel.setHorizontalGroup(gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(10).addComponent(label_24,
@@ -588,8 +605,8 @@ public class DepotPanel extends JPanel {
 
 			JButton button_2 = new JButton(buttonIcon);
 			button_2.setFont(new Font("Tahoma", Font.PLAIN, 28));
-			button_2.addActionListener(new upgradeListener());
-			
+			button_2.addActionListener(new UpgradeListener());
+
 			GroupLayout gl_ShieldPanel = new GroupLayout(ShieldPanel);
 			gl_ShieldPanel.setHorizontalGroup(gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
 					.addGap(0, 1183, Short.MAX_VALUE).addGap(0, 1183, Short.MAX_VALUE)
@@ -655,7 +672,7 @@ public class DepotPanel extends JPanel {
 
 			JButton btnRepairShipTo = new JButton(repairIcon);
 			btnRepairShipTo.setFont(new Font("Tw Cen MT", Font.BOLD, 24));
-			btnRepairShipTo.addActionListener(new upgradeListener());
+			btnRepairShipTo.addActionListener(new UpgradeListener());
 
 			JLabel lblCost = new JLabel("Cost:");
 			lblCost.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
@@ -748,7 +765,7 @@ public class DepotPanel extends JPanel {
 
 		}
 
-		class upgradeListener implements ActionListener {
+		class UpgradeListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getSource());
 			}
@@ -758,7 +775,7 @@ public class DepotPanel extends JPanel {
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(new DepotPanel());
+		frame.setContentPane(new DepotPanel(frame));
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		frame.pack();
