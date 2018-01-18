@@ -147,50 +147,50 @@ public class SpaceClient {
 			output.flush();
 			running=true;
 			while(running){
-				if(commandd.hasItem()) {
 
-					//System.out.println("input2");
+				//System.out.println("input2");
 
-					command=commandd.dequeue();
-					System.out.print(command);
-					if (command.equals("1")){
-						while(!inputss.hasItem()) {
-						}
-						input2=inputss.dequeue();
-						output.println("travel:"+username+","+input2);
-						//output.flush();
-					}else if(command.equals("2")){
-						output.println("arrived:"+username);	
-					}else if(command.equals("3")){
-						input2=inputs.nextLine();
-						output.println("upgrade:"+username+","+input2);
-					}else if(command.equals("4")){
-						output.println("mine:"+username);
-					}else if(command.equals("5")){
-						input2=inputs.nextLine();
-						output.println("tradeInfoWanted:"+username+","+input2);
-					}else if(command.equals("6")){
-						input1=inputs.nextLine();
-						input2="";
-						while(!input1.equals(" ")){
-							input2+=input1;
-						}
-						input1=inputs.nextLine();
-						output.println("trade:"+username+","+input1);
-					}else if(command.equals("7")){
-						output.println("acceptTrade:"+input1);
-					}else if(command.equals("8")){
-						output.println("rejectTrade:"+input1);
-					}else if(command.equals("9")){
-						input1=inputs.nextLine();
-						output.println("attack:"+username+","+input2);
-					}else if(command.equals("10")){
-						output.println("logout:"+username);
-						running=false;
-					}
-					output.flush();
+				command=commandd.dequeue();
+				if (command==null) {
 					command="";
 				}
+				System.out.print(command);
+				if (command.equals("1")){
+					input2=inputss.dequeue();
+					output.println("travel:"+username+","+input2);
+					//output.flush();
+				}else if(command.equals("2")){
+					output.println("arrived:"+username);	
+				}else if(command.equals("3")){
+					input2=inputs.nextLine();
+					output.println("upgrade:"+username+","+input2);
+				}else if(command.equals("4")){
+					output.println("mine:"+username);
+				}else if(command.equals("5")){
+					input2=inputs.nextLine();
+					output.println("tradeInfoWanted:"+username+","+input2);
+				}else if(command.equals("6")){
+					input1=inputs.nextLine();
+					input2="";
+					while(!input1.equals(" ")){
+						input2+=input1;
+					}
+					input1=inputs.nextLine();
+					output.println("trade:"+username+","+input1);
+				}else if(command.equals("7")){
+					output.println("acceptTrade:"+input1);
+				}else if(command.equals("8")){
+					output.println("rejectTrade:"+input1);
+				}else if(command.equals("9")){
+					input1=inputs.nextLine();
+					output.println("attack:"+username+","+input2);
+				}else if(command.equals("10")){
+					output.println("logout:"+username);
+					running=false;
+				}
+				output.flush();
+				command="";
+
 
 				//System.out.print(1);
 			}
@@ -227,12 +227,12 @@ public class SpaceClient {
 						System.out.println(msg);
 						// decipher server messages
 						if (msg.substring(0,msg.indexOf(":")).equals("arrived")) {
-							command=msg.substring(msg.indexOf(":")+1);
-							location=""+command;
+							msg=msg.substring(msg.indexOf(":")+1);
+							location=""+msg;
 							System.out.println(location);
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
-							command=msg.substring(msg.indexOf(":")+1);
-							switch (Integer.parseInt(command.substring(0,command.indexOf(",")))){
+							msg=msg.substring(msg.indexOf(":")+1);
+							switch (Integer.parseInt(msg.substring(0,msg.indexOf(",")))){
 							case 1: engine.upgrade();
 							case 2: shield.upgrade();
 							case 3: weaponModule.upgrade();
@@ -240,87 +240,86 @@ public class SpaceClient {
 							case 5: deepSpaceViewer.upgrade();
 							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
-							command=msg.substring(msg.indexOf(":")+1);
-							resources[Integer.parseInt(command)]+=Integer.parseInt(command.substring(command.indexOf(",")+1));
+							msg=msg.substring(msg.indexOf(":")+1);
+							resources[Integer.parseInt(msg.substring(0,msg.indexOf(",")))]+=Integer.parseInt(msg.substring(msg.indexOf(",")+1));
 							if (location.equals("yarnPlanet")){
-								yarnPlanet.setResource(yarnPlanet.getResource()-Integer.parseInt(command));
+								yarnPlanet.setResource(yarnPlanet.getResource()-Integer.parseInt(msg));
 							}else if (location.equals("flatEarth")){
-								flatEarth.setResource(flatEarth.getResource()-Integer.parseInt(command));
+								flatEarth.setResource(flatEarth.getResource()-Integer.parseInt(msg));
 							}else if (location.equals("potatoPlanet")){
-								potatoPlanet.setResource(potatoPlanet.getResource()-Integer.parseInt(command));
+								potatoPlanet.setResource(potatoPlanet.getResource()-Integer.parseInt(msg));
 							}else if (location.equals("specklePlanet")){
-								specklePlanet.setResource(specklePlanet.getResource()-Integer.parseInt(command));
+								specklePlanet.setResource(specklePlanet.getResource()-Integer.parseInt(msg));
 							}else if (location.equals("fracturedPlanet")){
-								fracturedPlanet.setResource(fracturedPlanet.getResource()-Integer.parseInt(command));
+								fracturedPlanet.setResource(fracturedPlanet.getResource()-Integer.parseInt(msg));
 							}else if (location.equals("jupiter")){
-								jupiter.setResource(jupiter.getResource()-Integer.parseInt(command));
+								jupiter.setResource(jupiter.getResource()-Integer.parseInt(msg));
 							}else if (location.equals("moonPlanet")){
-								moonPlanet.setResource(moonPlanet.getResource()-Integer.parseInt(command));
+								moonPlanet.setResource(moonPlanet.getResource()-Integer.parseInt(msg));
 							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
 
-							command=msg.substring(msg.indexOf(":")+1);
+							msg=msg.substring(msg.indexOf(":")+1);
 							//send to map
 							//display offer
 							//send back response
 						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
 
-							if (command.substring(0,command.indexOf(",")).equals("yarnPlanet")){
-								yarnPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
-							}else if (command.substring(0,command.indexOf(",")).equals("flatEarth")){
-								flatEarth.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
-							}else if (command.substring(0,command.indexOf(",")).equals("potatoPlanet")){
-								potatoPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
-							}else if (command.substring(0,command.indexOf(",")).equals("specklePlanet")){
-								specklePlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
-							}else if (command.substring(0,command.indexOf(",")).equals("fracturedPlanet")){
-								fracturedPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
-							}else if (command.substring(0,command.indexOf(",")).equals("jupiter")){
-								jupiter.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
-							}else if (command.substring(0,command.indexOf(",")).equals("moonPlanet")){
-								moonPlanet.setResource(Integer.parseInt(command.substring(command.indexOf(","))));
+							if (msg.substring(0,msg.indexOf(",")).equals("yarnPlanet")){
+								yarnPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}else if (msg.substring(0,msg.indexOf(",")).equals("flatEarth")){
+								flatEarth.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}else if (msg.substring(0,msg.indexOf(",")).equals("potatoPlanet")){
+								potatoPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}else if (msg.substring(0,msg.indexOf(",")).equals("specklePlanet")){
+								specklePlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}else if (msg.substring(0,msg.indexOf(",")).equals("fracturedPlanet")){
+								fracturedPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}else if (msg.substring(0,msg.indexOf(",")).equals("jupiter")){
+								jupiter.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}else if (msg.substring(0,msg.indexOf(",")).equals("moonPlanet")){
+								moonPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
 							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
-							command=msg.substring(msg.indexOf(":")+1);
-							health-=Integer.parseInt(command);
+							msg=msg.substring(msg.indexOf(":")+1);
+							health-=Integer.parseInt(msg);
 						}else if (msg.substring(0,msg.indexOf(":")).equals("playersUpdate")) {
 
-							command=msg.substring(msg.indexOf(":")+1);
+							msg=msg.substring(msg.indexOf(":")+1);
 							players.clear();
-							while(command.length()>1){
-								players.add(command.substring(0,command.indexOf(",")));
-								command=command.substring(command.indexOf(",")+1);
+							while(msg.length()>1){
+								players.add(msg.substring(0,msg.indexOf(",")));
+								msg=msg.substring(msg.indexOf(",")+1);
 							}
 						}else if (msg.substring(0,msg.indexOf(":")).equals("shipUpdate")) {
 
-							command=msg.substring(msg.indexOf(":")+1);
-							engine.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							shield.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							weaponModule.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							miningModule.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							deepSpaceViewer.setLevel(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							msg=msg.substring(msg.indexOf(":")+1);
+							engine.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							shield.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							weaponModule.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							miningModule.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							deepSpaceViewer.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
 						}else if (msg.substring(0,msg.indexOf(":")).equals("planetsUpdate")) {
-							command=msg.substring(msg.indexOf(":")+1);
-							yarnPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							flatEarth.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							potatoPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							specklePlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							fracturedPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							jupiter.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
-							command=command.substring(command.indexOf(",")+1);
-							moonPlanet.setResource(Integer.parseInt(command.substring(0,command.indexOf(","))));
+							msg=msg.substring(msg.indexOf(":")+1);
+							yarnPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							flatEarth.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							potatoPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							specklePlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							fracturedPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							jupiter.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg=msg.substring(msg.indexOf(",")+1);
+							moonPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
 						}
-						command="";
-						System.out.print(command);
+
 					}
 
 				} catch (IOException e) {
@@ -465,7 +464,6 @@ public class SpaceClient {
 
 		public class TravelButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent e){
-				commandd.enqueue("1");
 				if(planetName.equals("Yarn Planet")) {
 					inputss.enqueue("yarnPlanet");
 					frame.setContentPane(new TravelPanel("Yarn Planet", 50));
@@ -507,6 +505,7 @@ public class SpaceClient {
 					frame.invalidate();
 					frame.validate();
 				}
+				commandd.enqueue("1");
 			}
 		}
 
