@@ -89,7 +89,7 @@ class SpaceServer extends JFrame {
 		Socket client = null; // Socket for client
 		// Waiting for connection
 		try {
-			serverSocket = new ServerSocket(5000);
+			serverSocket = new ServerSocket(798);
 			while (running) {
 				client = serverSocket.accept(); // Creating the client socket
 				consoleOutput.append("Client connected\n");

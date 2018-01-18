@@ -62,14 +62,14 @@ public class SpaceClient {
 		this.health=100;
 		this.location="depot";
 		try {
-			mySocket = new Socket("209.221.91.250", 5000); // attempt socket connection (local address)
+			mySocket = new Socket("127.0.0.1", 798); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
 
-			command=inputs.nextLine();
 			while(running){
+				command=inputs.nextLine();
 				if (command.equals("login")){
 
 					input1=inputs.nextLine();
@@ -77,18 +77,24 @@ public class SpaceClient {
 					output.println("login:"+input1+","+input2);
 					output.flush();
 					command=input.readLine();
-					if (command.equals("loginAccepted")){
+					if (command.equals("loginaccepted")){
 						this.username=input1;
+						System.out.println("Connection made.");
 						running=false;
+					}else {
+						System.out.println("login failed");
 					}
-				}else if(command.equals("newAccount")){
+				}else if(command.equals("newaccount")){
 
 					input1=inputs.nextLine();
 					input2=inputs.nextLine();
-					output.println("newAccount:"+input1+","+input2);
+					output.println("newaccount:"+input1+","+input2);
 					output.flush();
 					command=input.readLine();
-					if (command.equals("accountValid")){
+					if (command.equals("accountvalid")){
+						System.out.println("account valid");
+					}else {
+						System.out.println("account invalid");
 					}
 				}
 				this.engine = new EngineModule();
@@ -98,7 +104,6 @@ public class SpaceClient {
 				this.deepSpaceViewer = new DeepSpaceViewer();
 				this.resources = new int[]{0, 0, 0, 0, 0, 0, 0};
 
-				System.out.println("Connection made.");
 
 			}
 
@@ -109,8 +114,9 @@ public class SpaceClient {
 			t.start();
 			
 			output.println("playersUpdate:"+username);
+			output.flush();
 			output.println("shipUpdate:"+username);
-			
+			output.flush();
 			running=true;
 			instructions=new Queuee<String>();
 			while(running){
@@ -144,18 +150,17 @@ public class SpaceClient {
 					input1=inputs.nextLine();
 					output.println("attack:"+username+","+input2);
 				}else if(command.equals("10")){
-					output.println("logout:"+input1);
-					running=false;
-				}else if(command.equals("11")){
-					output.println("logout:"+input1);
+					output.println("logout:"+username);
 					running=false;
 				}
+				output.flush();
 			}
 
 			try {  
 				input.close();
 				output.close();
 				mySocket.close();
+				System.out.println("im ey lamo");
 			}catch (Exception e) { 
 				System.out.println("Failed to close socket");
 			}
@@ -180,7 +185,7 @@ public class SpaceClient {
 				try {
 					if (input.ready()) { // check for an incoming messge
 						String msg = input.readLine(); // read the message
-
+						System.out.println(msg);
 						// decipher server messages
 						if (msg.substring(0,msg.indexOf(":")).equals("arrived")) {
 							command=msg.substring(msg.indexOf(":")+1);
