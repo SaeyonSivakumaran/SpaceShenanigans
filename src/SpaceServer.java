@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import java.awt.BorderLayout;
-
 //Networking imports
 import java.net.Socket;
 import java.net.ServerSocket;
@@ -51,6 +50,7 @@ class SpaceServer extends JFrame {
 		// Initializing all the game variables
 		running = true;
 		players = new ArrayList<Player>();
+		onlinePlayers = new ArrayList<Player>(); 
 		connections = new ArrayList<PlayerConnection>();
 		depot = new SpaceDepot();
 		planets = new ArrayList<Planet>();
@@ -76,7 +76,7 @@ class SpaceServer extends JFrame {
 		this.add(mainPanel);
 		this.setVisible(true);
 	}
-
+	
 	/**
 	 * Method to start server
 	 * 
@@ -88,7 +88,7 @@ class SpaceServer extends JFrame {
 		Socket client = null; // Socket for client
 		// Waiting for connection
 		try {
-			serverSocket = new ServerSocket(5000);
+			serverSocket = new ServerSocket(799);
 			while (running) {
 				client = serverSocket.accept(); // Creating the client socket
 				consoleOutput.append("Client connected\n");
@@ -537,8 +537,21 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempEngine.getSteel() && tempResources[1] > tempEngine.getGraphene()){
 								if (tempResources[2] > tempEngine.getPlut()){
 									onlinePlayers.get(i).getShip().upgradeEngineModule();
+									//Removing the resources from the player
+									onlinePlayers.get(i).changeResources(0, tempResources[0] - tempEngine.getSteel());
+									onlinePlayers.get(i).changeResources(1, tempResources[1] - tempEngine.getGraphene());
+									onlinePlayers.get(i).changeResources(2, tempResources[2] - tempEngine.getPlut());
 									//Outputting the success message to client
 									output.println("upgradeSuccessful");
+									output.flush();
+									//Updating the client with new resources
+									String newResources = "";
+									//Adding resources to the string
+									for (int j = 0; j < onlinePlayers.get(i).getResources().length; j++) {
+										newResources += Integer.toString(onlinePlayers.get(i).getResources()[j]) + ",";
+									}
+									//Sending the resource update
+									output.println("updateResource:" + newResources);
 									output.flush();
 								} else {
 									//Outputting the fail message to client
@@ -556,8 +569,21 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempMining.getSteel() && tempResources[1] > tempMining.getGraphene()){
 								if (tempResources[5] > tempMining.getCrystal()){
 									onlinePlayers.get(i).getShip().upgradeMiningModule();
+									//Removing the resources from the player
+									onlinePlayers.get(i).changeResources(0, tempResources[0] - tempMining.getSteel());
+									onlinePlayers.get(i).changeResources(1, tempResources[1] - tempMining.getGraphene());
+									onlinePlayers.get(i).changeResources(5, tempResources[5] - tempMining.getCrystal());
 									//Outputting the success message to client
 									output.println("upgradeSuccessful");
+									output.flush();
+									//Updating the client with new resources
+									String newResources = "";
+									//Adding resources to the string
+									for (int j = 0; j < onlinePlayers.get(i).getResources().length; j++) {
+										newResources += Integer.toString(onlinePlayers.get(i).getResources()[j]) + ",";
+									}
+									//Sending the resource update
+									output.println("updateResource:" + newResources);
 									output.flush();
 								} else {
 									//Outputting the fail message to client
@@ -575,8 +601,21 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempShield.getSteel() && tempResources[1] > tempShield.getGraphene()){
 								if (tempResources[3] > tempShield.getStarlite()){
 									onlinePlayers.get(i).getShip().upgradeShieldModule();
+									//Removing the resources from the player
+									onlinePlayers.get(i).changeResources(0, tempResources[0] - tempShield.getSteel());
+									onlinePlayers.get(i).changeResources(1, tempResources[1] - tempShield.getGraphene());
+									onlinePlayers.get(i).changeResources(3, tempResources[3] - tempShield.getStarlite());
 									//Outputting the success message to client
 									output.println("upgradeSuccessful");
+									output.flush();
+									//Updating the client with new resources
+									String newResources = "";
+									//Adding resources to the string
+									for (int j = 0; j < onlinePlayers.get(i).getResources().length; j++) {
+										newResources += Integer.toString(onlinePlayers.get(i).getResources()[j]) + ",";
+									}
+									//Sending the resource update
+									output.println("updateResource:" + newResources);
 									output.flush();
 								} else {
 									//Outputting the fail message to client
@@ -594,8 +633,21 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempWeapon.getSteel() && tempResources[1] > tempWeapon.getGraphene()){
 								if (tempResources[4] > tempWeapon.getPyro()){
 									onlinePlayers.get(i).getShip().upgradeWeaponModule();
+									//Removing the resources from the player
+									onlinePlayers.get(i).changeResources(0, tempResources[0] - tempWeapon.getSteel());
+									onlinePlayers.get(i).changeResources(1, tempResources[1] - tempWeapon.getGraphene());
+									onlinePlayers.get(i).changeResources(4, tempResources[4] - tempWeapon.getPyro());
 									//Outputting the success message to client
 									output.println("upgradeSuccessful");
+									output.flush();
+									//Updating the client with new resources
+									String newResources = "";
+									//Adding resources to the string
+									for (int j = 0; j < onlinePlayers.get(i).getResources().length; j++) {
+										newResources += Integer.toString(onlinePlayers.get(i).getResources()[j]) + ",";
+									}
+									//Sending the resource update
+									output.println("updateResource:" + newResources);
 									output.flush();
 								} else {
 									//Outputting the fail message to client
@@ -613,8 +665,21 @@ class SpaceServer extends JFrame {
 							if (tempResources[0] > tempViewer.getSteel() && tempResources[1] > tempViewer.getGraphene()){
 								if (tempResources[6] > tempViewer.getIntellectium()){
 									onlinePlayers.get(i).getShip().upgradeDeepSpaceViewer();
+									//Removing the resources from the player
+									onlinePlayers.get(i).changeResources(0, tempResources[0] - tempViewer.getSteel());
+									onlinePlayers.get(i).changeResources(1, tempResources[1] - tempViewer.getGraphene());
+									onlinePlayers.get(i).changeResources(6, tempResources[6] - tempViewer.getIntellectium());
 									//Outputting the success message to client
 									output.println("upgradeSuccessful");
+									output.flush();
+									//Updating the client with new resources
+									String newResources = "";
+									//Adding resources to the string
+									for (int j = 0; j < onlinePlayers.get(i).getResources().length; j++) {
+										newResources += Integer.toString(onlinePlayers.get(i).getResources()[j]) + ",";
+									}
+									//Sending the resource update
+									output.println("updateResource:" + newResources);
 									output.flush();
 								} else {
 									//Outputting the fail message to client
@@ -735,7 +800,8 @@ class SpaceServer extends JFrame {
 					}
 				}
 				//Outputting the players to the client
-				output.println(players);
+				consoleOutput.append(players + "\n");
+				output.println("playersUpdate:" + players);
 				output.flush();
 			} else if (command.equals("shipUpdate")) {
 				String username = msg;
@@ -753,7 +819,8 @@ class SpaceServer extends JFrame {
 					shipInfo += modules[i].getUpgradeLevel() +",";
 				}
 				//Outputting the module info to the client
-				output.println(shipInfo);
+				consoleOutput.append(shipInfo + "\n");
+				output.println("shipUpdate:" + shipInfo);
 				output.flush();
 			} else if (command.equals("repair")) {
 				String username = msg;
