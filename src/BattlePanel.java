@@ -151,7 +151,7 @@ public class BattlePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // required to ensure the panel is correctly redrawn
 		g.drawImage(backgroundImage, 0, 0, null);
-<<<<<<< HEAD
+
 		g.drawImage(backgroundPlanet, screenX / 20, screenX / 20, null);
 
 		// Draw translucent rectangle
@@ -159,10 +159,6 @@ public class BattlePanel extends JPanel {
 		g.fillRect(screenX/2, 0, screenX/2, screenY);
 		g.drawImage(userShip, 0, 0, null);
 		g.drawImage(opponentShip, screenX - opponentShip.getWidth(), 0, null);
-=======
-		g.drawImage();
-		
->>>>>>> 5f8c21feeb03bfda9a630f329f0cbba50144656c
 		repaint();
 	}
 	

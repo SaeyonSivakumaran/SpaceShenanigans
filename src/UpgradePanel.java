@@ -27,6 +27,7 @@ public class UpgradePanel extends JPanel {
 		ImageIcon buttonIcon = null;
 		ImageIcon blastCrystalIcon = null;
 		ImageIcon grapheneIcon = null;
+		ImageIcon intellectiumIcon = null;
 		ImageIcon plutoniumIcon = null;
 		ImageIcon pyroxiumIcon = null;
 		ImageIcon starliteIcon = null;
@@ -36,13 +37,13 @@ public class UpgradePanel extends JPanel {
 		ImageIcon shieldIcon = null;
 		ImageIcon repairKitIcon = null;
 		ImageIcon shieldJammerIcon = null;
-		ImageIcon blackHoleIcon = null;
 		ImageIcon laserIcon = null;
 		ImageIcon missileIcon = null;
 		
 		try { //loading images
 			blastCrystalIcon = new ImageIcon(ImageIO.read(new File("BlastCrystal.png")));
 			grapheneIcon = new ImageIcon(ImageIO.read(new File("Graphene.png")));
+			intellectiumIcon = new ImageIcon(ImageIO.read(new File("I.png")));
 			plutoniumIcon = new ImageIcon(ImageIO.read(new File("Plutonium.png")));
 			pyroxiumIcon = new ImageIcon(ImageIO.read(new File("Pyroxium.png")));
 			starliteIcon = new ImageIcon(ImageIO.read(new File("Starlite.png")));
@@ -53,7 +54,6 @@ public class UpgradePanel extends JPanel {
 			shieldIcon = new ImageIcon(ImageIO.read(new File("ShieldSupercharger.png")));
 			repairKitIcon = new ImageIcon(ImageIO.read(new File("RepairKit.png")));
 			shieldJammerIcon = new ImageIcon(ImageIO.read(new File("ShieldJammer.png")));
-			blackHoleIcon = new ImageIcon(ImageIO.read(new File("MercifulBlackHoleLauncher.png")));
 			laserIcon = new ImageIcon(ImageIO.read(new File("Laser.png")));
 			missileIcon = new ImageIcon(ImageIO.read(new File("MissileLauncher.png")));
 			
@@ -431,8 +431,6 @@ public class UpgradePanel extends JPanel {
 		PurchaseWeapons.setBackground(Color.LIGHT_GRAY);
 		tabbedPane_1.addTab("Purchase Weapons", null, PurchaseWeapons, null);
 		
-		JLabel lblNewLabel_2 = new JLabel(blackHoleIcon);
-		
 		JLabel lblNewLabel_3 = new JLabel(shieldJammerIcon);
 		
 		JLabel lblNewLabel_4 = new JLabel(laserIcon);
@@ -447,9 +445,7 @@ public class UpgradePanel extends JPanel {
 					.addGap(90)
 					.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_PurchaseWeapons.createSequentialGroup()
-					.addGap(48)
-					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-					.addGap(32)
+					.addGap(286)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_PurchaseWeapons.setVerticalGroup(
@@ -462,9 +458,7 @@ public class UpgradePanel extends JPanel {
 							.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
 					.addGap(64)
-					.addGroup(gl_PurchaseWeapons.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
+					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
 		);
 		PurchaseWeapons.setLayout(gl_PurchaseWeapons);
 		
