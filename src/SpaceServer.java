@@ -51,6 +51,7 @@ class SpaceServer extends JFrame {
 		// Initializing all the game variables
 		running = true;
 		players = new ArrayList<Player>();
+		onlinePlayers = new ArrayList<Player>();
 		connections = new ArrayList<PlayerConnection>();
 		depot = new SpaceDepot();
 		planets = new ArrayList<Planet>();
