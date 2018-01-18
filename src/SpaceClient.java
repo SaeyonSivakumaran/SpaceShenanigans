@@ -62,7 +62,7 @@ public class SpaceClient {
 		this.health=100;
 		this.location="depot";
 		try {
-			mySocket = new Socket("127.0.0.1", 798); // attempt socket connection (local address)
+			mySocket = new Socket("127.0.0.1", 79); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
@@ -190,6 +190,7 @@ public class SpaceClient {
 						if (msg.substring(0,msg.indexOf(":")).equals("arrived")) {
 							command=msg.substring(msg.indexOf(":")+1);
 							location=""+command;
+							System.out.println(location);
 						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
 							command=msg.substring(msg.indexOf(":")+1);
 							switch (Integer.parseInt(command.substring(0,command.indexOf(",")))){
