@@ -550,47 +550,47 @@ public class SpaceClient {
 		public class TravelButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				if (planetName.equals("Yarn Planet")) {
-					frame.setContentPane(new TravelPanel("Yarn Planet", 50));
+					frame.setContentPane(new TravelPanel("Yarn Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Flat Planet")) {
-					frame.setContentPane(new TravelPanel("Flat Planet", 50));
+					frame.setContentPane(new TravelPanel("Flat Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Potato Planet")) {
-					frame.setContentPane(new TravelPanel("Potato Planet", 50));
+					frame.setContentPane(new TravelPanel("Potato Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Speckle Planet")) {
-					frame.setContentPane(new TravelPanel("Speckle Planet", 50));
+					frame.setContentPane(new TravelPanel("Speckle Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Fractured Planet")) {
-					frame.setContentPane(new TravelPanel("Fractured Planet", 50));
+					frame.setContentPane(new TravelPanel("Fractured Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Depot")) {
-					frame.setContentPane(new TravelPanel("Depot", 50));
+					frame.setContentPane(new TravelPanel("Depot", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Jupiter Planet")) {
-					frame.setContentPane(new TravelPanel("Jupiter Planet", 50));
+					frame.setContentPane(new TravelPanel("Jupiter Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Moon Planet")) {
-					frame.setContentPane(new TravelPanel("Moon Planet", 50));
+					frame.setContentPane(new TravelPanel("Moon Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Basketball Planet")) {
-					frame.setContentPane(new TravelPanel("Basketball Planet", 50));
+					frame.setContentPane(new TravelPanel("Basketball Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Saturn Planet")) {
-					frame.setContentPane(new TravelPanel("Saturn Planet", 50));
+					frame.setContentPane(new TravelPanel("Saturn Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				} else if (planetName.equals("Bouncy Planet")) {
-					frame.setContentPane(new TravelPanel("Bouncy Planet", 50));
+					frame.setContentPane(new TravelPanel("Bouncy Planet", 5));
 					frame.invalidate();
 					frame.validate();
 				}
@@ -1639,8 +1639,8 @@ public class SpaceClient {
 			g.drawString("Plutonium: " + resources[2], 20, screenY / 3 + 200);
 			g.drawString("Starlite: " + resources[3], 20, screenY / 3 + 250);
 			g.drawString("Pyroxium: " + resources[4], 20, screenY / 3 + 300);
-			g.drawString("Blast Crystal: " + resources[5], 20, screenY / 3 + 150);
-			g.drawString("Intellectium: " + resources[6], 20, screenY / 3 + 150);
+			g.drawString("Blast Crystal: " + resources[5], 20, screenY / 3 + 350);
+			g.drawString("Intellectium: " + resources[6], 20, screenY / 3 + 400);
 
 			repaint();
 		}
