@@ -10,6 +10,9 @@
  * type newaccount
  * type *username*
  * type *password*
+ * type login
+ * type *username*
+ * type *password*
  */
 import java.awt.Color;
 import java.awt.Dimension;
