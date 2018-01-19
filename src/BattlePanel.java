@@ -23,11 +23,9 @@ public class BattlePanel extends JPanel {
 	JButton button3;
 	String userName;
 	String opponentName;
-	Color shieldColour1 = null;	
-	Color shieldColour2 = null;
 	
 	
-	public BattlePanel(String planetName, BufferedImage userShip, BufferedImage opponentShip, String userName, String opponentName, int shieldLvl1, int shieldLvl2) {
+	public BattlePanel(String planetName, BufferedImage userShip, BufferedImage opponentShip, String userName, String opponentName) {
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 			if(planetName.equals("Yarn Planet")) {
@@ -59,29 +57,6 @@ public class BattlePanel extends JPanel {
 		this.userName = userName;
 		this.opponentName = opponentName;
 		
-		if(shieldLvl1 == 1) {
-			shieldColour1 = new Color(255, 0, 0, 100); //lvl 1 shield red
-		}else if(shieldLvl1 == 2) {
-			shieldColour1 = new Color(255, 97, 0, 100);//lvl 2 shield orange
-		}else if(shieldLvl1 == 3) {
-			shieldColour1 = new Color(255, 250, 0, 100);//lvl 3 shield yellow
-		}else if(shieldLvl1 == 4) {
-			shieldColour1 = new Color(49, 219, 2, 100);//lvl 4 shield green
-		}else if (shieldLvl1 == 5) {
-			shieldColour1 = new Color(2, 41, 219, 100);//lvl 5 shield blue
-		}
-		
-		if(shieldLvl2 == 1) {
-			shieldColour2 = new Color(255, 0, 0, 100); //lvl 1 shield red
-		}else if(shieldLvl2 == 2) {
-			shieldColour2 = new Color(255, 97, 0, 100);//lvl 2 shield orange
-		}else if(shieldLvl2 == 3) {
-			shieldColour2= new Color(255, 250, 0, 100);//lvl 3 shield yellow
-		}else if(shieldLvl2 == 4) {
-			shieldColour2 = new Color(49, 219, 2, 100);//lvl 4 shield green
-		}else if (shieldLvl2 == 5) {
-			shieldColour2 = new Color(2, 41, 219, 100);//lvl 5 shield blue
-		}
 		//TODO no need to resize backgroundImage
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
 		backgroundPlanet = resizeImage(backgroundPlanet, screenX / 3, screenX / 3);
@@ -197,24 +172,20 @@ public class BattlePanel extends JPanel {
 		
 		g.drawImage(userShip, screenX/12, screenY/2 - userShip.getHeight(), null);
 		g.drawImage(opponentShip, screenX - opponentShip.getWidth() - screenX/12, screenY/2 - userShip.getHeight(), null);
-		
-		
-		g.setColor(shieldColour1);
-		g.fillRect(0, 0, 1000, 400);
-		g.setColor(shieldColour2);
-		g.fillRect(0, 0, 1000, 400);
+
 		repaint();
 	}
 	
 	//Method to create spaceship image
-	public static BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine, BufferedImage weapon1, BufferedImage weapon2) {
+	public static BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine, BufferedImage laser, BufferedImage shieldJammer, BufferedImage missile) {
 		
 		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = builtShip.getGraphics();
 		g.drawImage(ship, 0, 0, null);
 		g.drawImage(engine, 0, 0, null);
-		g.drawImage(weapon1, 600, 150, null);
-		g.drawImage(weapon2, 600, 200, null);
+		g.drawImage(laser, 600, 150, null);
+		g.drawImage(missile, 600, 200, null);
+		g.drawImage(shieldJammer, 600, 250, null);
 		return builtShip;
 	}
 	
@@ -246,7 +217,7 @@ public class BattlePanel extends JPanel {
 		}
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(new BattlePanel("Jupiter Planet", combineSpaceship(ship, engine4, laser, shieldJammer), combineSpaceship(ship, engine2, laser, missile), "noob_1", "noob_2", 5, 2));
+		frame.setContentPane(new BattlePanel("Jupiter Planet", combineSpaceship(ship, engine4, laser, shieldJammer, missile), combineSpaceship(ship, engine2, laser, shieldJammer, missile), "noob_1", "noob_2"));
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		frame.pack();

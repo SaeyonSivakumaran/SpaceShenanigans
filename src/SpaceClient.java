@@ -292,7 +292,7 @@ public class SpaceClient {
 						System.out.println(msg);
 						// decipher server messages
 						if (msg.indexOf(":") != -1) {
-							if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
+							if (msg.equals("upgradeSuccessful"))) {
 								msg = msg.substring(msg.indexOf(":") + 1);
 								switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
 								case 1:
@@ -1755,7 +1755,6 @@ public class SpaceClient {
 	}
 
 	public BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine) {
-
 		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = builtShip.getGraphics();
 		g.drawImage(ship, 0, 0, null);
