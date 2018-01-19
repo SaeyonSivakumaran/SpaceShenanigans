@@ -718,21 +718,16 @@ class SpaceServer extends JFrame {
 								if (onlinePlayers.get(k).getUsername().equals(username)) {
 									Module[] playerModules = onlinePlayers.get(k).getShip().getModules();
 									int travelTime =  180 * ((EngineModule)(playerModules[0])).getSpeed();
-									//Finding the connection
-									for (int m = 0; m < connections.size(); m++) {
-										if (connections.get(m).getName().equals(username)) {
-											connections.get(m).output(Integer.toString(travelTime));  //Outputting travel time in seconds
-										}
-									}
+									//Outputting the travel time
+									output.println(Integer.toString(travelTime));  //Outputting travel time in seconds
+									output.flush();
+
 								}
 							}
 						} else {
-							//Send the user a command stating that the planet is unavailable
-							for (int n = 0; n < connections.size(); n++) {
-								if (connections.get(n).getName().equals(username)) {
-									connections.get(n).output("-1");
-								}
-							}
+							//Outputting an error command
+							output.println("-1"); 
+							output.flush();
 						}
 						break;  //Leaving the loop
 					}
