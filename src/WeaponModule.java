@@ -1,4 +1,9 @@
-
+/**
+ * WeaponModule.java
+ * class for the weapon module, holds weapons
+ * @author Carl Zhang
+ * @version 1.0
+ */
 public class WeaponModule extends Module{
 	
 	private Weapon weapon1, weapon2, weapon3;

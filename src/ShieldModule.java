@@ -1,3 +1,9 @@
+/**
+ * ShieldModule.java
+ * class for the shield module
+ * @author Carl Zhang
+ * @version 1.0
+ */
 public class ShieldModule extends Module{
 	
 	int deflectionRate, starliteNeeded;

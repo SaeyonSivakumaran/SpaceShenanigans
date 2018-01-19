@@ -1,4 +1,16 @@
+/**
+ * SpaceClient.java
+ * class for the main client side program
+ * @author carl zhang (not for inner graphics classes)
+ * @version 2
+ */
 
+/*
+ * To login: (enter in separate lines)
+ * type newaccount
+ * type *username*
+ * type *password*
+ */
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;

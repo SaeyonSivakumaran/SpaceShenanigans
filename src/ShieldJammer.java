@@ -1,4 +1,9 @@
-
+/**
+ * ShieldJammer.java
+ * class for the shield jammer weapon
+ * @author Car l Zhang
+ * @version 1.0
+ */
 public class ShieldJammer extends Weapon{
 
 	int jamRate;

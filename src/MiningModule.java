@@ -1,3 +1,9 @@
+/**
+ * MiningModule.java
+ * class for the mining module on the ship
+ * @author Carl Zhang 
+ * @version 1.1
+ */
 public class MiningModule extends Module{
 
 	int mineSpeed, crystalNeeded;

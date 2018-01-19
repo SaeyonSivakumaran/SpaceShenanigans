@@ -1,4 +1,9 @@
-
+/**
+ * DeepSpaceViewer.java
+ * class for a weapon
+ * @author carl zhang
+ * @version 1.0
+ */
 public class DeepSpaceViewer extends Module {
 
 	int accuracy, intellectiumNeeded;

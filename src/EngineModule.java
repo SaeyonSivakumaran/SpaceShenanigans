@@ -1,3 +1,9 @@
+/**
+ * EngineModule.java
+ * class for the engine module on the ship
+ * @author Carl Zhang
+ * @version 1.0
+ */
 public class EngineModule extends Module{
 
 	int travelSpeed, plutNeeded;
