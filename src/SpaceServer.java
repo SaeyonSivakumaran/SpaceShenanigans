@@ -721,7 +721,6 @@ class SpaceServer extends JFrame {
 									//Outputting the travel time
 									output.println(Integer.toString(travelTime));  //Outputting travel time in seconds
 									output.flush();
-
 								}
 							}
 						} else {
