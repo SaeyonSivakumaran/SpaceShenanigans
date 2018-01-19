@@ -84,13 +84,13 @@ public class SpaceClient {
 	private Planet saturnPlanet;//all of the planets
 	// Ship health
 	private int health;
-	MapPanel display;
-	Queuee<String> instructions;
-	ArrayList<String> players;
-	String location;
-	static JFrame frame;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int screenX = (int) screenSize.getWidth();
+	MapPanel display;//panel for display
+	Queuee<String> instructions;//queue of instructions from server
+	ArrayList<String> players;//arraylist of online players
+	String location;//location of player
+	static JFrame frame;//frame for display
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//dimensions
+	int screenX = (int) screenSize.getWidth();//screen size
 	int screenY = (int) screenSize.getHeight();
 
 	ImageIcon buttonIcon = null;
@@ -104,7 +104,7 @@ public class SpaceClient {
 	ImageIcon repairIcon = null;
 	ImageIcon shieldJammerIcon = null;
 	ImageIcon laserIcon = null;
-	ImageIcon missileIcon = null;
+	ImageIcon missileIcon = null;//all of the buttons on the screen
 	BufferedImage ship = null;
 	BufferedImage laser = null;
 	BufferedImage shieldJammer = null;
@@ -114,12 +114,13 @@ public class SpaceClient {
 	BufferedImage engine3 = null;
 	BufferedImage engine4 = null;
 	BufferedImage engine5 = null;
-	BufferedImage userShip = null;
+	BufferedImage userShip = null;//images for all objects
 	
 	Image hyperImage = null;
 	Image backgroundImage = null;
-	Image shipImage = null;
+	Image shipImage = null;//images for backgrounds
 
+	//constructor
 	SpaceClient() {
 		try { // loading images
 			shipp=new Ship();
@@ -152,21 +153,22 @@ public class SpaceClient {
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize space background to fit screen
 	}
 
+	/**
+	 * main
+	 * main class
+	 */
 	public static void main(String[] args) {
 		SpaceClient client = new SpaceClient(); // start the client
 		client.go(); // begin the connection
 	}
 
-	public void getMap(MapPanel display2) {
-		this.display = display2;
-	}
 
 	/**
-	 * go This method sets up the login frame and calls messengerLaunch(which
+	 * go 
+	 * This method sets up the login frame and calls messengerLaunch(which
 	 * constructs the main frame but leaves it invisible)
-	 * 
-	 * @param N/A
-	 * @return N/A
+	 * @param void
+	 * @return void
 	 */
 	public void go() {
 		players = new ArrayList<String>();
