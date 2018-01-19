@@ -792,14 +792,6 @@ public class SpaceClient {
 			this.add(mapButton);
 		}
 
-		class MapListener implements ActionListener {
-			public void actionPerformed(ActionEvent e) {
-				frame.setContentPane(new MapPanel());
-				frame.invalidate();
-				frame.validate();
-			}
-		}
-
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			g.drawImage(backgroundImage, 0, 0, null);
@@ -1688,10 +1680,16 @@ public class SpaceClient {
 				System.out.println("images didn't load");
 			}
 			backgroundPlanet = resizeImage(backgroundPlanet, screenX / 2, screenX / 2);
+			
+			JButton mapButton = new JButton("Travel Elsewhere");
+			mapButton.addActionListener(new MapListener());
+			mapButton.setBounds(screenX / 12, screenX / 12, 400, 100);
+			mapButton.setFont(new Font("Tahoma", Font.BOLD, 29));
 
 			// Create new thread to "mine" in the background
 			Thread thread = new Thread(new MineThread());
 			thread.start();
+			this.add(mapButton);
 		}
 
 		class MineThread implements Runnable {
@@ -1766,5 +1764,13 @@ public class SpaceClient {
 		g.drawImage(shieldJammer, 600, 200, null);
 		g.drawImage(missile, 600, 250, null);
 		return builtShip;
+	}
+	
+	class MapListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			frame.setContentPane(new MapPanel());
+			frame.invalidate();
+			frame.validate();
+		}
 	}
 }
