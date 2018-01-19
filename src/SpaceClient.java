@@ -1694,6 +1694,7 @@ public class SpaceClient {
 				} else if (planetName.equals("Saturn Planet")) {
 					backgroundPlanet = ImageIO.read(new File("saturnPlanet.png"));
 				}
+				this.planetName = planetName;
 			} catch (Exception ex) {
 				System.out.println("images didn't load");
 			}
