@@ -231,6 +231,7 @@ public class SpaceClient {
 					output.println("upgrade:" + username + "," + input2);
 				} else if (command.equals("4")) {
 					input2 = inputss.dequeue();
+					System.out.println("input2: " + input2);
 					output.println("mine:" + username + "," + input2);
 				} else if (command.equals("5")) {
 					input2 = inputs.nextLine();
@@ -393,8 +394,6 @@ public class SpaceClient {
 								msg = msg.substring(msg.indexOf(",") + 1);
 								moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							}
-<<<<<<< HEAD
-=======
 						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
 
 							msg = msg.substring(msg.indexOf(":") + 1);
@@ -422,7 +421,6 @@ public class SpaceClient {
 							jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
 							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
->>>>>>> 6150273dffeacf1853e61536f2f8dac6f4efe7fa
 						}
 
 					}
