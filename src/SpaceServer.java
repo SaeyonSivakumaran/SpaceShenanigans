@@ -717,7 +717,7 @@ class SpaceServer extends JFrame {
 							for (int k = 0; k < onlinePlayers.size(); k++) {
 								if (onlinePlayers.get(k).getUsername().equals(username)) {
 									Module[] playerModules = onlinePlayers.get(k).getShip().getModules();
-									int travelTime =  180 * ((EngineModule)(playerModules[0])).getSpeed();
+									int travelTime =  30 * ((EngineModule)(playerModules[0])).getSpeed();
 									//Outputting the travel time
 									output.println(Integer.toString(travelTime));  //Outputting travel time in seconds
 									output.flush();
