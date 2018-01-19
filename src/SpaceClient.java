@@ -14,6 +14,8 @@
  * type *username*
  * type *password*
  */
+
+//imports
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -26,36 +28,50 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.lang.Thread;
-import java.net.*;
+import java.net.Socket;
 import java.util.Scanner;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JTabbedPane;
+import javax.swing.ImageIcon;
+import javax.swing.GroupLayout;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.MatteBorder;
 
+//main class
 public class SpaceClient {
+	
+	//vars
 	Socket mySocket; // socket for connection
 	BufferedReader input; // reader for network stream
 	PrintWriter output; // printwriter for network output
 	boolean running = true; // thread status via boolean
-	String command;
-	Queuee<String> commandd;
-	String input1, input2;
-	Scanner inputs;
-	Queuee<String> inputss;
-	String username = "";
-	int[] resources;
-	private EngineModule engine;
+	String command;//string used to save commands from user
+	Queuee<String> commandd;//queue of user commands
+	String input1, input2;//strings for saving multiple user messages
+	Scanner inputs;//scanner for console input
+	Queuee<String> inputss;//queue for user messages
+	String username = "";//string for username
+	int[] resources;//array of resources
+	private EngineModule engine;//
 	private ShieldModule shield;
 	private WeaponModule weaponModule;
 	private MiningModule miningModule;
-	private DeepSpaceViewer deepSpaceViewer;
-	private Ship shipp;
+	private DeepSpaceViewer deepSpaceViewer;//all of the modules
+	private Ship shipp;//player's ship
 	private Planet yarnPlanet;
 	private Planet flatEarth;
 	private Planet potatoPlanet;
@@ -65,7 +81,7 @@ public class SpaceClient {
 	private Planet moonPlanet;
 	private Planet bouncyPlanet;
 	private Planet basketballPlanet;
-	private Planet saturnPlanet;
+	private Planet saturnPlanet;//all of the planets
 	// Ship health
 	private int health;
 	MapPanel display;
