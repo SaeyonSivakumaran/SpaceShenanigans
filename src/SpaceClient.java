@@ -1632,7 +1632,7 @@ public class SpaceClient {
 
 			g.setFont(bigFont);
 			g.setColor(textColour);
-			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 50); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 100); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
 			g.drawString("Graphene: " + resources[1], 20, screenY / 3 + 150);
 			g.drawString("Plutonium: " + resources[2], 20, screenY / 3 + 200);
 			g.drawString("Starlite: " + resources[3], 20, screenY / 3 + 250);
