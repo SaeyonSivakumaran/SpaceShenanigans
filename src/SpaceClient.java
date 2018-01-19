@@ -83,7 +83,8 @@ public class SpaceClient {
 	BufferedImage engine3 = null;
 	BufferedImage engine4 = null;
 	BufferedImage engine5 = null;
-
+	BufferedImage userShip = null;
+	
 	Image hyperImage = null;
 	Image backgroundImage = null;
 	Image shipImage = null;
@@ -242,6 +243,7 @@ public class SpaceClient {
 				} else if (command.equals("4")) {
 					input2 = inputss.dequeue();
 					output.println("mine:" + username + "," + input2);
+					userShip = resizeImage(combineSpaceship(engine.getUpgradeLevel()), screenX/4, (screenX/4)/3);
 				} else if (command.equals("5")) {
 					input2 = inputs.nextLine();
 					output.println("tradeInfoWanted:" + username + "," + input2);
@@ -587,7 +589,7 @@ public class SpaceClient {
 			saturnLabel = createImageButton(saturnPlanet);
 			saturnLabel.setBounds(screenX/2 - screenX/24, 30, screenX / 12, screenX / 12);
 
-
+			userShip = resizeImage(combineSpaceship(engine.getUpgradeLevel()), screenX/4, (screenX/4)/3);
 
 			JButton button = new JButton("Confirm Travel");
 			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -754,10 +756,8 @@ public class SpaceClient {
 	 */
 	public class DepotPanel extends JPanel {
 		Image backgroundImage = null;
-		JFrame frame;
 
-		DepotPanel(JFrame referenceFrame) {
-			this.frame = referenceFrame;
+		DepotPanel() {
 			JPanel upgrade = new UpgradePanel();
 			this.setLayout(null);
 			upgrade.setBounds(0, 2 * screenY / 3, screenX, screenY / 3);
@@ -770,7 +770,7 @@ public class SpaceClient {
 
 			// Make a JButton to go back to the Map Panel
 			JButton mapButton = new JButton("Travel Elsewhere");
-			mapButton.addActionListener(new MapListener());
+			mapButton.addActionListener(new backListener());
 			mapButton.setBounds(screenX / 12, screenX / 12, 400, 100);
 			mapButton.setFont(new Font("Tahoma", Font.BOLD, 29));
 
@@ -782,6 +782,14 @@ public class SpaceClient {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			g.drawImage(backgroundImage, 0, 0, null);
 			repaint();
+		}
+		
+		class backListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				frame.setContentPane(new MapPanel());
+				frame.invalidate();
+				frame.validate();
+			}
 		}
 
 		public class UpgradePanel extends JPanel {
@@ -795,7 +803,7 @@ public class SpaceClient {
 			JButton button_5; // Deepspaceviewer
 
 			public UpgradePanel() {
-
+				
 				this.setPreferredSize(new Dimension(screenX, screenY / 3));
 				UIManager.put("TabbedPane.selected", new Color(0, 183, 229)); // change tab to white when it is selected
 				setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -1555,7 +1563,7 @@ public class SpaceClient {
 			g.drawImage(scrollBackground, screenX - x, 0, screenX, screenY, 0, 0, x, screenY, null); // draw the rest of
 			// the
 			// background
-			g.drawImage(shipImage, 200, 50, null);
+			g.drawImage(userShip, screenX/5, screenY/20, null);
 
 			// Draw translucent rectangle
 			g.setColor(clearColour);
@@ -1576,13 +1584,9 @@ public class SpaceClient {
 				}
 			} else {
 				// exit to mine/depot
-				if (planetName.equals("Depot")) { // turns into DepotPanel
-
-				} else { // MinePanel for respective planet
-					commandd.enqueue("2");
-					inputss.enqueue(planetName);
-					repaint = false;
-				}
+				commandd.enqueue("2");
+				inputss.enqueue(planetName);
+				repaint = false;
 			}
 			drawText1 = "Travelling to: " + planetName;
 			drawText2 = "Time remaining: " + timeString;
@@ -1599,7 +1603,12 @@ public class SpaceClient {
 			if (repaint) {
 				repaint();
 			}else {
-				frame.setContentPane(new MinePanel(planetName));
+				System.out.println(planetName);
+				if (!planetName.equals("Depot")) {
+					frame.setContentPane(new MinePanel(planetName));
+				} else {
+					frame.setContentPane(new DepotPanel());
+				}
 				frame.invalidate();
 				frame.validate();
 			}
@@ -1692,6 +1701,15 @@ public class SpaceClient {
 				}
 			}
 		}
+		
+		class MapListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				frame.setContentPane(new MapPanel());
+				frame.invalidate();
+				frame.validate();
+				exit = true;
+			}
+		}
 
 		/*
 		 * paintComponent
@@ -1702,12 +1720,13 @@ public class SpaceClient {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			g.drawImage(backgroundImage, 0, 0, null);
 			g.drawImage(backgroundPlanet, screenX - backgroundPlanet.getWidth(), 0, null);
+			g.drawImage(userShip, screenX/5, screenY/20, null);
 			g.setColor(clearColour);
 			g.fillRect(0, screenY / 3, screenX / 4, 2 * screenY / 3);
 
 			g.setFont(bigFont);
 			g.setColor(textColour);
-			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 50); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 100); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
 			g.drawString("Graphene: " + resources[1], 20, screenY / 3 + 150);
 			g.drawString("Plutonium: " + resources[2], 20, screenY / 3 + 200);
 			g.drawString("Starlite: " + resources[3], 20, screenY / 3 + 250);
@@ -1760,22 +1779,24 @@ public class SpaceClient {
 		return originalImg;
 	}
 
-	public BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine) {
+	public BufferedImage combineSpaceship(int engineLevel) {
 		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = builtShip.getGraphics();
 		g.drawImage(ship, 0, 0, null);
-		g.drawImage(engine, 0, 0, null);
+		if(engineLevel == 1) {
+			g.drawImage(engine1, 0, 0, null);
+		}else if(engineLevel == 2) {
+			g.drawImage(engine2, 0, 0, null);
+		}else if(engineLevel == 3) {
+			g.drawImage(engine3, 0, 0, null);
+		}else if(engineLevel == 4) {
+			g.drawImage(engine4, 0, 0, null);
+		}else if(engineLevel == 5) {
+			g.drawImage(engine5, 0, 0, null);
+		}
 		g.drawImage(laser, 600, 150, null);
 		g.drawImage(shieldJammer, 600, 200, null);
 		g.drawImage(missile, 600, 250, null);
 		return builtShip;
-	}
-	
-	class MapListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			frame.setContentPane(new MapPanel());
-			frame.invalidate();
-			frame.validate();
-		}
 	}
 }
