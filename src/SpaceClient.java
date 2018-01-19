@@ -156,6 +156,7 @@ public class SpaceClient {
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
 			
+			/*
 			JFrame menuFrame = new JFrame();
 			menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			menuFrame.setContentPane(new LoginPanel());
@@ -163,7 +164,7 @@ public class SpaceClient {
 					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 			menuFrame.pack();
 			menuFrame.setResizable(false);
-			menuFrame.setVisible(true);
+			menuFrame.setVisible(true);*/
 			
 			while (username.length() == 0) {
 				command = inputs.nextLine();
@@ -1718,6 +1719,7 @@ public class SpaceClient {
 		}
 	}
 	
+	/*
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public class LoginPanel extends JPanel {
 		JButton newAccount;
@@ -1735,7 +1737,7 @@ public class SpaceClient {
 				frame.validate();
 			}
 		}
-	}
+	}*/
 
 	/*
 	 * resizeImage resizes a Buffered image to specified size
