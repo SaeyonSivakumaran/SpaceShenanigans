@@ -6,7 +6,7 @@
  */
 public class Planet {
 	
-	//vars
+	//Class variables
 	String name;
 	String resource;
 	int resourceAmount;
@@ -18,14 +18,20 @@ public class Planet {
 	SpaceServer server;
 	static final String ALPHABET="abcdefghijklmnopqrstuvwxyz";
 
+	/*
+	 * Constructor for the Planet class
+	 */
 	public Planet(String name, long time, SpaceServer server){
+		//Assigning variables
 		this.name = name;
 		this.server=server;
+		//Creating a name
 		int rand=(int) (Math.random()*15);
 		for (int i=0;i<rand;i++){
 			int letter=(int) (Math.random()*24);
 			name+=ALPHABET.substring(letter,letter+1);
 		}
+		//Assigning a random resource to the planet
 		rand=(int) (Math.random()*7);
 		switch (rand){
 
@@ -70,17 +76,38 @@ public class Planet {
 
 	}
 
+	/**
+	 * getName
+	 * Getter for the planet's name
+	 * @return String name
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * getResourceType
+	 * Getter for the planet's resource type
+	 * @return String getResourceType
+	 */
 	public String getResourceType() {
 		return this.resource;
 	}
 	
+	/**
+	 * getResource
+	 * Getter for the planet's amount of resources
+	 * @return int resourceAmount
+	 */
 	public int getResource(){
 		return this.resourceAmount;
 	}
+	
+	/**
+	 * canTravrel
+	 * Checking whether you can travel to the planet
+	 * @return boolean Variable for if you can travel
+	 */
 	public boolean canTravel() {
 		if (player1 != null && player2 != null) {
 			return false;
@@ -89,6 +116,11 @@ public class Planet {
 		}
 	}
 	
+	/**
+	 * addPlayer
+	 * Method to add a player to the planet
+	 * @param player
+	 */
 	public void addPlayer(Player player){
 		if (player1!=null){
 			player2=player;
@@ -98,7 +130,11 @@ public class Planet {
 		player1=player;
 	}
 
-	
+	/**
+	 * update
+	 * Updates the planet's resources
+	 * @param long timeNow
+	 */
 	public void update(long timeNow){
 		if ((timeNow-updateTime)/1000000000.0>1){
 			updateTime=timeNow;
@@ -107,6 +143,11 @@ public class Planet {
 		
 	}
 	
+	/**
+	 * mine
+	 * Method to mine the planet
+	 * @param long timeNow
+	 */
 	public int mine(long timeNow){
 		if (((timeNow-updateTime)/1000000000.0>1)&&(mineRate>=resourceAmount)){
 			updateTime=timeNow;
@@ -116,6 +157,12 @@ public class Planet {
 		return 0;
 		
 	}
+	
+	/**
+	 * removePlayer
+	 * Method to remove a player from the planet
+	 * @param player
+	 */
 	public void removePlayer(Player player){
 		if (player1.getUsername().equals(player.getUsername())){
 			player1=null;
@@ -125,6 +172,11 @@ public class Planet {
 		}
 	}
 	
+	/**
+	 * setResource
+	 * Set the amount of resources on the planet
+	 * @param int resource
+	 */
 	public void setResource(int resource){
 		this.resourceAmount=resource;
 	}
