@@ -291,6 +291,7 @@ public class SpaceClient {
 						String msg = input.readLine(); // read the message
 						System.out.println(msg);
 						// decipher server messages
+<<<<<<< HEAD
 						if (msg.indexOf(":") != -1) {
 							if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
 								msg = msg.substring(msg.indexOf(":") + 1);
@@ -390,11 +391,81 @@ public class SpaceClient {
 								fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 								msg = msg.substring(msg.indexOf(",") + 1);
 								jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-								msg = msg.substring(msg.indexOf(",") + 1);
-								moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							}
-<<<<<<< HEAD
 =======
+						if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
+							case 1:
+								engine.upgrade();
+							case 2:
+								shield.upgrade();
+							case 3:
+								weaponModule.upgrade();
+							case 4:
+								miningModule.upgrade();
+							case 5:
+								deepSpaceViewer.upgrade();
+							}
+						} else if (msg.substring(0, msg.indexOf(":")).equals("mine")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							resources[Integer.parseInt(msg.substring(0, msg.indexOf(",")))] += Integer
+									.parseInt(msg.substring(msg.indexOf(",") + 1));
+							if (location.equals("Yarn Planet")) {
+								yarnPlanet.setResource(yarnPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Flat Planet")) {
+								flatEarth.setResource(flatEarth.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Potato Planet")) {
+								potatoPlanet.setResource(potatoPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Speckle Planet")) {
+								specklePlanet.setResource(specklePlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Fractured Planet")) {
+								fracturedPlanet.setResource(fracturedPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Jupiter Planet")) {
+								jupiter.setResource(jupiter.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Moon Planet")) {
+								moonPlanet.setResource(moonPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Bouncy Planet")) {
+								bouncyPlanet.setResource(bouncyPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Basketball Planet")) {
+								basketballPlanet.setResource(basketballPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Saturn Planet")) {
+								saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
+							}
+						} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
+
+							msg = msg.substring(msg.indexOf(":") + 1);
+							// send to map
+							// display offer
+							// send back response
+						} else if (msg.substring(0, msg.indexOf(":")).equals("updateResource")) {
+
+							if (msg.substring(0, msg.indexOf(",")).equals("yarnPlanet")) {
+								yarnPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							} else if (msg.substring(0, msg.indexOf(",")).equals("flatEarth")) {
+								flatEarth.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							} else if (msg.substring(0, msg.indexOf(",")).equals("potatoPlanet")) {
+								potatoPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							} else if (msg.substring(0, msg.indexOf(",")).equals("specklePlanet")) {
+								specklePlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							} else if (msg.substring(0, msg.indexOf(",")).equals("fracturedPlanet")) {
+								fracturedPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							} else if (msg.substring(0, msg.indexOf(",")).equals("jupiter")) {
+								jupiter.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							} else if (msg.substring(0, msg.indexOf(",")).equals("moonPlanet")) {
+								moonPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+							}
+						} else if (msg.substring(0, msg.indexOf(":")).equals("battle")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							health -= Integer.parseInt(msg);
+						} else if (msg.substring(0, msg.indexOf(":")).equals("playersUpdate")) {
+
+							msg = msg.substring(msg.indexOf(":") + 1);
+							players.clear();
+							while (msg.length() > 1) {
+								players.add(msg.substring(0, msg.indexOf(",")));
+>>>>>>> parent of 3ca5384... Merge branch 'master' of
+								msg = msg.substring(msg.indexOf(",") + 1);
+							}
 						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
 
 							msg = msg.substring(msg.indexOf(":") + 1);
@@ -422,7 +493,6 @@ public class SpaceClient {
 							jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
 							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
->>>>>>> 6150273dffeacf1853e61536f2f8dac6f4efe7fa
 						}
 
 					}
@@ -1662,7 +1732,7 @@ public class SpaceClient {
 
 			g.setFont(bigFont);
 			g.setColor(textColour);
-			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 100); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 50); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
 			g.drawString("Graphene: " + resources[1], 20, screenY / 3 + 150);
 			g.drawString("Plutonium: " + resources[2], 20, screenY / 3 + 200);
 			g.drawString("Starlite: " + resources[3], 20, screenY / 3 + 250);
