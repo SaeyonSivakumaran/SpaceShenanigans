@@ -1701,7 +1701,7 @@ public class SpaceClient {
 					commandd.enqueue("4");
 					inputss.enqueue(planetName);
 					try { // pause for 5 seconds before sending again
-						Thread.sleep(5000);
+						Thread.sleep(500);
 					} catch (Exception e) {
 						System.out.println("couldn't sleep thread");
 					}

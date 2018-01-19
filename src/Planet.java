@@ -93,18 +93,18 @@ public class Planet {
 
 	
 	public void update(long timeNow){
-		if ((timeNow-updateTime)/1000000000.0>60){
-			updateTime=timeNow-updateTime;
+		if ((timeNow-updateTime)/1000000000.0>1){
+			updateTime=timeNow;
 			resourceAmount+=resourceRate;
 		}
 		
 	}
 	
 	public int mine(long timeNow){
-		if ((timeNow-updateTime)/1000000000.0>60){
-			updateTime=timeNow-updateTime;
-			resourceAmount-=resourceRate;
-			return resourceRate;
+		if (((timeNow-updateTime)/1000000000.0>1)&&(mineRate>=resourceAmount)){
+			updateTime=timeNow;
+			resourceAmount-=mineRate;
+			return mineRate;
 		}
 		return 0;
 		
