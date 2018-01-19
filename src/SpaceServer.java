@@ -88,7 +88,7 @@ class SpaceServer extends JFrame {
 		Socket client = null; // Socket for client
 		// Waiting for connection
 		try {
-			serverSocket = new ServerSocket(798);
+			serverSocket = new ServerSocket(5000);
 			while (running) {
 				client = serverSocket.accept(); // Creating the client socket
 				consoleOutput.append("Client connected\n");
@@ -193,10 +193,15 @@ class SpaceServer extends JFrame {
 									if (player1.getUsername().equals(username)) {
 										player2.getShip().removeHealth(((Laser)weapon).getDamage());
 										connection2.output("damage:" + ((Laser)weapon).getDamage());
+										connection1.output("hitLaser");
 									} else {
 										player1.getShip().removeHealth(((Laser)weapon).getDamage());
 										connection1.output("damage:" + ((Laser)weapon).getDamage());
+										connection1.output("hitLaser");
 									}
+								}else { //attack has missed
+									connection1.output("missed");
+									connection2.output("missed");
 								}
 							} else if (weapon instanceof Missile) {
 								int accuracyRand = (int)(Math.random() * 100);
@@ -205,10 +210,15 @@ class SpaceServer extends JFrame {
 									if (player1.getUsername().equals(username)) {
 										player2.getShip().removeHealth(((Missile)weapon).getDamage());
 										connection2.output("damage:" + ((Laser)weapon).getDamage());
+										connection1.output("hitMissile");
 									} else {
 										player1.getShip().removeHealth(((Missile)weapon).getDamage());
 										connection1.output("damage:" + ((Laser)weapon).getDamage());
+										connection2.output("hitMissile");
 									}
+								}else { //attack has missed
+									connection1.output("missed");
+									connection2.output("missed");
 								}
 							} else if (weapon instanceof ShieldJammer) {
 								int jamChance = ((ShieldJammer)weapon).getJamRate();
@@ -219,9 +229,14 @@ class SpaceServer extends JFrame {
 									//Sending the shield disabled command
 									if (player1.getUsername().equals(username)) {
 										connection2.output("shieldDisabled");
+										connection1.output("hitShield");
 									} else {
 										connection1.output("shieldDisabled");
+										connection2.output("hitShield");
 									}
+								}else { //attack has missed
+									connection1.output("missed");
+									connection2.output("missed");
 								}
 							}
 						}
