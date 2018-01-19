@@ -291,11 +291,7 @@ public class SpaceClient {
 						String msg = input.readLine(); // read the message
 						System.out.println(msg);
 						// decipher server messages
-						if (msg.substring(0, msg.indexOf(":")).equals("arrived")) {
-							msg = msg.substring(msg.indexOf(":") + 1);
-							location = "" + msg;
-							System.out.println(location);
-						} else if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
+						if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
 							msg = msg.substring(msg.indexOf(":") + 1);
 							switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
 							case 1:
@@ -596,6 +592,7 @@ public class SpaceClient {
 				}
 				inputss.enqueue(planetName);
 				commandd.enqueue("1");
+				location=planetName;
 			}
 		}
 
