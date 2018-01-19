@@ -155,7 +155,16 @@ public class SpaceClient {
 			input = new BufferedReader(stream1);
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
-
+			
+			JFrame menuFrame = new JFrame();
+			menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			menuFrame.setContentPane(new LoginPanel());
+			menuFrame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
+			menuFrame.pack();
+			menuFrame.setResizable(false);
+			menuFrame.setVisible(true);
+			
 			while (username.length() == 0) {
 				command = inputs.nextLine();
 				if (command.equals("login")) {
@@ -292,7 +301,7 @@ public class SpaceClient {
 						System.out.println(msg);
 						// decipher server messages
 						if (msg.indexOf(":") != -1) {
-							if (msg.equals("upgradeSuccessful"))) {
+							if (msg.equals("upgradeSuccessful")) {
 								msg = msg.substring(msg.indexOf(":") + 1);
 								switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
 								case 1:
@@ -1375,10 +1384,10 @@ public class SpaceClient {
 				JLabel lblCost = new JLabel("Cost:");
 				lblCost.setFont(new Font("Tw Cen MT", Font.PLAIN, 28));
 
-				JLabel lblNewLabel = new JLabel("Current Ship Health: ~~~");
+				JLabel lblNewLabel = new JLabel("Current Ship Health: " + health);
 				lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 30));
 
-				JLabel lblMaximumShipHealth = new JLabel("Maximum Ship Health: ~~~");
+				JLabel lblMaximumShipHealth = new JLabel("Maximum Ship Health: " + 100);
 				lblMaximumShipHealth.setFont(new Font("Tw Cen MT", Font.PLAIN, 30));
 
 				JLabel label_40 = new JLabel(steelIcon);
@@ -1706,6 +1715,25 @@ public class SpaceClient {
 			g.drawString("Intellectium: " + resources[6], 20, screenY / 3 + 400);
 
 			repaint();
+		}
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public class LoginPanel extends JPanel {
+		JButton newAccount;
+		JButton login;
+		
+		LoginPanel(){
+			newAccount = new JButton("New Account");
+			login = new JButton("Login");
+		}
+		
+		class MapListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				frame.setContentPane(new MapPanel());
+				frame.invalidate();
+				frame.validate();
+			}
 		}
 	}
 

@@ -192,11 +192,11 @@ class SpaceServer extends JFrame {
 									//Removing health from the player
 									if (player1.getUsername().equals(username)) {
 										player2.getShip().removeHealth(((Laser)weapon).getDamage());
-										connection2.output("damage:" + ((Laser)weapon).getDamage());
+										connection2.output("laserDamage:" + ((Laser)weapon).getDamage());
 										connection1.output("hitLaser");
 									} else {
 										player1.getShip().removeHealth(((Laser)weapon).getDamage());
-										connection1.output("damage:" + ((Laser)weapon).getDamage());
+										connection1.output("laserDamage:" + ((Laser)weapon).getDamage());
 										connection1.output("hitLaser");
 									}
 								}else { //attack has missed
@@ -209,11 +209,11 @@ class SpaceServer extends JFrame {
 									//Removing health from the player
 									if (player1.getUsername().equals(username)) {
 										player2.getShip().removeHealth(((Missile)weapon).getDamage());
-										connection2.output("damage:" + ((Laser)weapon).getDamage());
+										connection2.output("missileDamage:" + ((Laser)weapon).getDamage());
 										connection1.output("hitMissile");
 									} else {
 										player1.getShip().removeHealth(((Missile)weapon).getDamage());
-										connection1.output("damage:" + ((Laser)weapon).getDamage());
+										connection1.output("missileDamage:" + ((Laser)weapon).getDamage());
 										connection2.output("hitMissile");
 									}
 								}else { //attack has missed
@@ -229,10 +229,10 @@ class SpaceServer extends JFrame {
 									//Sending the shield disabled command
 									if (player1.getUsername().equals(username)) {
 										connection2.output("shieldDisabled");
-										connection1.output("hitShield");
+										connection1.output("disabledShield");
 									} else {
 										connection1.output("shieldDisabled");
-										connection2.output("hitShield");
+										connection2.output("disabledShield");
 									}
 								}else { //attack has missed
 									connection1.output("missed");

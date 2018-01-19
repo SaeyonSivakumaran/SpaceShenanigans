@@ -79,32 +79,37 @@ public class BattlePanel extends JPanel {
 	//Panel for when it is not time to select attack
 	public class TextPanel extends JPanel {
 		TextPanel(String serverMsg) {
-			this.setPreferredSize(new Dimension(screenX/2, screenY/3));
-			this.setBounds(0, 2*screenY/3, screenX/2, screenY);
+			this.setPreferredSize(new Dimension(screenX / 2, screenY / 3));
+			this.setBounds(0, 2 * screenY / 3, screenX / 2, screenY);
 			this.setBackground(clearGreen);
-			
+
 			JLabel messageLabel;
-			if (serverMsg.indexOf("damage") == 0) { // messages to be displayed when your attack has hit
-				messageLabel = new JLabel("Your attack has hit " + opponentName + "!", SwingConstants.CENTER);
-			} else if (serverMsg.indexOf("shieldDisabled") == 0) {
-				messageLabel = new JLabel("Your ShieldJammer has disabled " + opponentName + "'s shields!", SwingConstants.CENTER);
-			} else if (serverMsg.equals("attackMissed")) {
-				messageLabel = new JLabel("Your attack has missed!", SwingConstants.CENTER);
-			} else if (true) {
+			if (serverMsg.equals("hitMissile")) { // messages to be displayed when your attack has hit
+				messageLabel = new JLabel("Your missile has hit " + opponentName + "!", SwingConstants.CENTER);
+			} else if (serverMsg.equals("hitMissile")) {
+				messageLabel = new JLabel("Your laser has hit " + opponentName + "!", SwingConstants.CENTER);
+			} else if (serverMsg.equals("disabledShield")) {
+				messageLabel = new JLabel("Your ShieldJammer has disabled " + opponentName + "'s shields!",
+						SwingConstants.CENTER);
+			} else if (serverMsg.equals("shieldDisabled")) {
 				messageLabel = new JLabel(opponentName + "'s ShieldJammer has hit!", SwingConstants.CENTER);
-			} else if (true) {
-				messageLabel = new JLabel(opponentName + "'s ShieldJammer has hit!", SwingConstants.CENTER);
-			} else if (true) {
-				messageLabel = new JLabel(opponentName + "'s attack has missed!", SwingConstants.CENTER);
-			} else if (true) {
-				messageLabel = new JLabel("Waiting for " + opponentName);
+			} else if (serverMsg.indexOf("laserDamage") == 0) {
+				messageLabel = new JLabel(opponentName + "'s Laser has hit!", SwingConstants.CENTER);
+			} else if (serverMsg.indexOf("missileDamage") == 0) {
+				messageLabel = new JLabel(opponentName + "'s Missile has hit!", SwingConstants.CENTER);
+			} else if (serverMsg.equals("missed")) {
+				messageLabel = new JLabel("Attack has missed!", SwingConstants.CENTER);
+			} else {
+					if() {
+					messageLabel = new JLabel("Waiting for " + opponentName);
+					}
 			}
 
 			messageLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
 			this.add(messageLabel);
 		}
 	}
-	
+
 	public class AttackPanel extends JPanel {
 		AttackPanel() {
 			// Create Panel with buttons to select attack
