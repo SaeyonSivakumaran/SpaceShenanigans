@@ -83,7 +83,7 @@ public class SpaceClient {
 	BufferedImage engine3 = null;
 	BufferedImage engine4 = null;
 	BufferedImage engine5 = null;
-	
+
 	Image hyperImage = null;
 	Image backgroundImage = null;
 	Image shipImage = null;
@@ -118,7 +118,7 @@ public class SpaceClient {
 			System.out.println("image didn't load");
 		}
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize background
-																									// with stars
+		// with stars
 	}
 
 	public static void main(String[] args) {
@@ -332,33 +332,22 @@ public class SpaceClient {
 									saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
 								}
 							} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
-	
+
 								msg = msg.substring(msg.indexOf(":") + 1);
 								// send to map
 								// display offer
 								// send back response
 							} else if (msg.substring(0, msg.indexOf(":")).equals("updateResource")) {
-	
-								if (msg.substring(0, msg.indexOf(",")).equals("yarnPlanet")) {
-									yarnPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-								} else if (msg.substring(0, msg.indexOf(",")).equals("flatEarth")) {
-									flatEarth.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-								} else if (msg.substring(0, msg.indexOf(",")).equals("potatoPlanet")) {
-									potatoPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-								} else if (msg.substring(0, msg.indexOf(",")).equals("specklePlanet")) {
-									specklePlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-								} else if (msg.substring(0, msg.indexOf(",")).equals("fracturedPlanet")) {
-									fracturedPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-								} else if (msg.substring(0, msg.indexOf(",")).equals("jupiter")) {
-									jupiter.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-								} else if (msg.substring(0, msg.indexOf(",")).equals("moonPlanet")) {
-									moonPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+								msg = msg.substring(msg.indexOf(":") + 1);
+								for (int i=0; i<resources.length;i++) {
+									resources[i]=(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
 								}
 							} else if (msg.substring(0, msg.indexOf(":")).equals("battle")) {
 								msg = msg.substring(msg.indexOf(":") + 1);
 								health -= Integer.parseInt(msg);
 							} else if (msg.substring(0, msg.indexOf(":")).equals("playersUpdate")) {
-	
+
 								msg = msg.substring(msg.indexOf(":") + 1);
 								players.clear();
 								while (msg.length() > 1) {
@@ -366,7 +355,7 @@ public class SpaceClient {
 									msg = msg.substring(msg.indexOf(",") + 1);
 								}
 							} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
-	
+
 								msg = msg.substring(msg.indexOf(":") + 1);
 								engine.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 								msg = msg.substring(msg.indexOf(",") + 1);
@@ -390,112 +379,112 @@ public class SpaceClient {
 								fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 								msg = msg.substring(msg.indexOf(",") + 1);
 								jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-						if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
-							msg = msg.substring(msg.indexOf(":") + 1);
-							switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
-							case 1:
-								engine.upgrade();
-							case 2:
-								shield.upgrade();
-							case 3:
-								weaponModule.upgrade();
-							case 4:
-								miningModule.upgrade();
-							case 5:
-								deepSpaceViewer.upgrade();
-							}
-						} else if (msg.substring(0, msg.indexOf(":")).equals("mine")) {
-							msg = msg.substring(msg.indexOf(":") + 1);
-							resources[Integer.parseInt(msg.substring(0, msg.indexOf(",")))] += Integer
-									.parseInt(msg.substring(msg.indexOf(",") + 1));
-							if (location.equals("Yarn Planet")) {
-								yarnPlanet.setResource(yarnPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Flat Planet")) {
-								flatEarth.setResource(flatEarth.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Potato Planet")) {
-								potatoPlanet.setResource(potatoPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Speckle Planet")) {
-								specklePlanet.setResource(specklePlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Fractured Planet")) {
-								fracturedPlanet.setResource(fracturedPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Jupiter Planet")) {
-								jupiter.setResource(jupiter.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Moon Planet")) {
-								moonPlanet.setResource(moonPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Bouncy Planet")) {
-								bouncyPlanet.setResource(bouncyPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Basketball Planet")) {
-								basketballPlanet.setResource(basketballPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Saturn Planet")) {
-								saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
-							}
-						} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
+								if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
+									msg = msg.substring(msg.indexOf(":") + 1);
+									switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
+									case 1:
+										engine.upgrade();
+									case 2:
+										shield.upgrade();
+									case 3:
+										weaponModule.upgrade();
+									case 4:
+										miningModule.upgrade();
+									case 5:
+										deepSpaceViewer.upgrade();
+									}
+								} else if (msg.substring(0, msg.indexOf(":")).equals("mine")) {
+									msg = msg.substring(msg.indexOf(":") + 1);
+									resources[Integer.parseInt(msg.substring(0, msg.indexOf(",")))] += Integer
+											.parseInt(msg.substring(msg.indexOf(",") + 1));
+									if (location.equals("Yarn Planet")) {
+										yarnPlanet.setResource(yarnPlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Flat Planet")) {
+										flatEarth.setResource(flatEarth.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Potato Planet")) {
+										potatoPlanet.setResource(potatoPlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Speckle Planet")) {
+										specklePlanet.setResource(specklePlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Fractured Planet")) {
+										fracturedPlanet.setResource(fracturedPlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Jupiter Planet")) {
+										jupiter.setResource(jupiter.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Moon Planet")) {
+										moonPlanet.setResource(moonPlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Bouncy Planet")) {
+										bouncyPlanet.setResource(bouncyPlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Basketball Planet")) {
+										basketballPlanet.setResource(basketballPlanet.getResource() - Integer.parseInt(msg));
+									} else if (location.equals("Saturn Planet")) {
+										saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
+									}
+								} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
 
-							msg = msg.substring(msg.indexOf(":") + 1);
-							// send to map
-							// display offer
-							// send back response
-						} else if (msg.substring(0, msg.indexOf(":")).equals("updateResource")) {
+									msg = msg.substring(msg.indexOf(":") + 1);
+									// send to map
+									// display offer
+									// send back response
+								} else if (msg.substring(0, msg.indexOf(":")).equals("updateResource")) {
 
-							if (msg.substring(0, msg.indexOf(",")).equals("yarnPlanet")) {
-								yarnPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							} else if (msg.substring(0, msg.indexOf(",")).equals("flatEarth")) {
-								flatEarth.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							} else if (msg.substring(0, msg.indexOf(",")).equals("potatoPlanet")) {
-								potatoPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							} else if (msg.substring(0, msg.indexOf(",")).equals("specklePlanet")) {
-								specklePlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							} else if (msg.substring(0, msg.indexOf(",")).equals("fracturedPlanet")) {
-								fracturedPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							} else if (msg.substring(0, msg.indexOf(",")).equals("jupiter")) {
-								jupiter.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							} else if (msg.substring(0, msg.indexOf(",")).equals("moonPlanet")) {
-								moonPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									if (msg.substring(0, msg.indexOf(",")).equals("yarnPlanet")) {
+										yarnPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									} else if (msg.substring(0, msg.indexOf(",")).equals("flatEarth")) {
+										flatEarth.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									} else if (msg.substring(0, msg.indexOf(",")).equals("potatoPlanet")) {
+										potatoPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									} else if (msg.substring(0, msg.indexOf(",")).equals("specklePlanet")) {
+										specklePlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									} else if (msg.substring(0, msg.indexOf(",")).equals("fracturedPlanet")) {
+										fracturedPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									} else if (msg.substring(0, msg.indexOf(",")).equals("jupiter")) {
+										jupiter.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									} else if (msg.substring(0, msg.indexOf(",")).equals("moonPlanet")) {
+										moonPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
+									}
+								} else if (msg.substring(0, msg.indexOf(":")).equals("battle")) {
+									msg = msg.substring(msg.indexOf(":") + 1);
+									health -= Integer.parseInt(msg);
+								} else if (msg.substring(0, msg.indexOf(":")).equals("playersUpdate")) {
+
+									msg = msg.substring(msg.indexOf(":") + 1);
+									players.clear();
+									while (msg.length() > 1) {
+										players.add(msg.substring(0, msg.indexOf(",")));
+										msg = msg.substring(msg.indexOf(",") + 1);
+									}
+								} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
+
+									msg = msg.substring(msg.indexOf(":") + 1);
+									shipp.setEngineModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									shipp.setShieldModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									shipp.setWeaponModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									shipp.setMiningModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									shipp.setDeepSpaceViewer(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+								} else if (msg.substring(0, msg.indexOf(":")).equals("planetsUpdate")) {
+									msg = msg.substring(msg.indexOf(":") + 1);
+									yarnPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									flatEarth.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									potatoPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									specklePlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+									msg = msg.substring(msg.indexOf(",") + 1);
+									moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+								}
+
 							}
-						} else if (msg.substring(0, msg.indexOf(":")).equals("battle")) {
-							msg = msg.substring(msg.indexOf(":") + 1);
-							health -= Integer.parseInt(msg);
-						} else if (msg.substring(0, msg.indexOf(":")).equals("playersUpdate")) {
 
-							msg = msg.substring(msg.indexOf(":") + 1);
-							players.clear();
-							while (msg.length() > 1) {
-								players.add(msg.substring(0, msg.indexOf(",")));
-								msg = msg.substring(msg.indexOf(",") + 1);
-							}
-						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
-
-							msg = msg.substring(msg.indexOf(":") + 1);
-							shipp.setEngineModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							shipp.setShieldModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							shipp.setWeaponModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							shipp.setMiningModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							shipp.setDeepSpaceViewer(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-						} else if (msg.substring(0, msg.indexOf(":")).equals("planetsUpdate")) {
-							msg = msg.substring(msg.indexOf(":") + 1);
-							yarnPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							flatEarth.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							potatoPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							specklePlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-							msg = msg.substring(msg.indexOf(",") + 1);
-							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 						}
 
-					}
-							
-				}
-						
 					}
 
 				} catch (IOException e) {
@@ -602,17 +591,17 @@ public class SpaceClient {
 
 			moonLabel = createImageButton(moonPlanet);
 			moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(), moonPlanet.getHeight());
-			
+
 			basketballLabel = createImageButton(basketballPlanet);
 			basketballLabel.setBounds(screenX/2 + 200, 200, screenX / 12, screenX / 12);
-			
+
 			bouncyLabel = createImageButton(bouncyPlanet);
 			bouncyLabel.setBounds(screenX/4, screenY/6, screenX / 12, screenX / 12);
-			
+
 			saturnLabel = createImageButton(saturnPlanet);
 			saturnLabel.setBounds(screenX/2 - screenX/24, 30, screenX / 12, screenX / 12);
-			
-			
+
+
 
 			JButton button = new JButton("Confirm Travel");
 			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -899,9 +888,9 @@ public class SpaceClient {
 												lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
 										.addGroup(
 												gl_EnginePanel.createSequentialGroup()
-														.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 92,
-																Short.MAX_VALUE)
-														.addGap(49)))
+												.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 92,
+														Short.MAX_VALUE)
+												.addGap(49)))
 								.addGap(10).addComponent(lblX, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(7)
 								.addComponent(label_9, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE).addGap(10)
 								.addComponent(label_16, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(42)
@@ -913,45 +902,45 @@ public class SpaceClient {
 								.addComponent(button, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(308, Short.MAX_VALUE)));
 				gl_EnginePanel
-						.setVerticalGroup(
-								gl_EnginePanel.createParallelGroup(Alignment.LEADING).addGroup(
-										gl_EnginePanel.createSequentialGroup().addGroup(gl_EnginePanel
-												.createParallelGroup(Alignment.LEADING,
-														false)
-												.addGroup(gl_EnginePanel.createSequentialGroup().addGap(11)
-														.addComponent(label, GroupLayout.PREFERRED_SIZE, 43,
-																GroupLayout.PREFERRED_SIZE)
-														.addGap(46)
-														.addComponent(
-																lblUpgradeEngines, GroupLayout.PREFERRED_SIZE, 43,
-																GroupLayout.PREFERRED_SIZE)
-														.addGap(7)
-														.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
-																.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE,
-																		50, GroupLayout.PREFERRED_SIZE)
-																.addGroup(gl_EnginePanel.createSequentialGroup()
-																		.addGap(18).addComponent(label_1,
-																				GroupLayout.PREFERRED_SIZE, 20,
-																				GroupLayout.PREFERRED_SIZE))
-																.addGroup(gl_EnginePanel
-																		.createSequentialGroup().addGap(18)
-																		.addComponent(lblX, GroupLayout.PREFERRED_SIZE,
-																				20, GroupLayout.PREFERRED_SIZE))
-																.addComponent(label_9, GroupLayout.PREFERRED_SIZE, 50,
-																		GroupLayout.PREFERRED_SIZE)
-																.addGroup(gl_EnginePanel.createSequentialGroup()
-																		.addGap(18).addComponent(label_16,
-																				GroupLayout.PREFERRED_SIZE, 20,
-																				GroupLayout.PREFERRED_SIZE))
-																.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 50,
-																		GroupLayout.PREFERRED_SIZE))
-														.addGap(42))
-												.addGroup(Alignment.TRAILING, gl_EnginePanel.createSequentialGroup()
-														.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(label_20).addGap(51)))
-												.addComponent(button, GroupLayout.PREFERRED_SIZE, 69,
+				.setVerticalGroup(
+						gl_EnginePanel.createParallelGroup(Alignment.LEADING).addGroup(
+								gl_EnginePanel.createSequentialGroup().addGroup(gl_EnginePanel
+										.createParallelGroup(Alignment.LEADING,
+												false)
+										.addGroup(gl_EnginePanel.createSequentialGroup().addGap(11)
+												.addComponent(label, GroupLayout.PREFERRED_SIZE, 43,
 														GroupLayout.PREFERRED_SIZE)
-												.addGap(106)));
+												.addGap(46)
+												.addComponent(
+														lblUpgradeEngines, GroupLayout.PREFERRED_SIZE, 43,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(7)
+												.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE,
+																50, GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_EnginePanel.createSequentialGroup()
+																.addGap(18).addComponent(label_1,
+																		GroupLayout.PREFERRED_SIZE, 20,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGroup(gl_EnginePanel
+																.createSequentialGroup().addGap(18)
+																.addComponent(lblX, GroupLayout.PREFERRED_SIZE,
+																		20, GroupLayout.PREFERRED_SIZE))
+														.addComponent(label_9, GroupLayout.PREFERRED_SIZE, 50,
+																GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_EnginePanel.createSequentialGroup()
+																.addGap(18).addComponent(label_16,
+																		GroupLayout.PREFERRED_SIZE, 20,
+																		GroupLayout.PREFERRED_SIZE))
+														.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 50,
+																GroupLayout.PREFERRED_SIZE))
+												.addGap(42))
+										.addGroup(Alignment.TRAILING, gl_EnginePanel.createSequentialGroup()
+												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(label_20).addGap(51)))
+								.addComponent(button, GroupLayout.PREFERRED_SIZE, 69,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(106)));
 				EnginePanel.setLayout(gl_EnginePanel);
 
 				// Tab for weapons upgrades
@@ -1159,9 +1148,9 @@ public class SpaceClient {
 												.addComponent(label_5, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
 										.addGroup(
 												gl_MiningPanel.createSequentialGroup()
-														.addComponent(label_6, GroupLayout.DEFAULT_SIZE, 92,
-																Short.MAX_VALUE)
-														.addGap(49)))
+												.addComponent(label_6, GroupLayout.DEFAULT_SIZE, 92,
+														Short.MAX_VALUE)
+												.addGap(49)))
 								.addGap(10).addComponent(label_7, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 								.addGap(7).addComponent(label_8, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
 								.addGap(10).addComponent(label_13, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
@@ -1172,9 +1161,9 @@ public class SpaceClient {
 								.addGap(337))
 						.addGroup(
 								gl_MiningPanel.createSequentialGroup().addGap(220)
-										.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 655,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(308, Short.MAX_VALUE))
+								.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 655,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(308, Short.MAX_VALUE))
 						.addGroup(gl_MiningPanel.createSequentialGroup().addContainerGap()
 								.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(846, Short.MAX_VALUE)));
@@ -1256,9 +1245,9 @@ public class SpaceClient {
 												.addComponent(label_33, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
 										.addGroup(
 												gl_DeepSpaceViewerPanel.createSequentialGroup()
-														.addComponent(label_34, GroupLayout.DEFAULT_SIZE, 92,
-																Short.MAX_VALUE)
-														.addGap(49)))
+												.addComponent(label_34, GroupLayout.DEFAULT_SIZE, 92,
+														Short.MAX_VALUE)
+												.addGap(49)))
 								.addGap(10).addComponent(label_35, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 								.addGap(7).addComponent(label_36, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
 								.addGap(10).addComponent(label_37, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
@@ -1269,9 +1258,9 @@ public class SpaceClient {
 								.addGap(337))
 						.addGroup(
 								gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(220)
-										.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 655,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(308, Short.MAX_VALUE))
+								.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 655,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(308, Short.MAX_VALUE))
 						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addContainerGap()
 								.addComponent(label_32, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(807, Short.MAX_VALUE)));
@@ -1357,9 +1346,9 @@ public class SpaceClient {
 												.addComponent(label_19, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
 										.addGroup(
 												gl_ShieldPanel.createSequentialGroup()
-														.addComponent(label_21, GroupLayout.DEFAULT_SIZE, 92,
-																Short.MAX_VALUE)
-														.addGap(49)))
+												.addComponent(label_21, GroupLayout.DEFAULT_SIZE, 92,
+														Short.MAX_VALUE)
+												.addGap(49)))
 								.addGap(10).addComponent(label_22, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 								.addGap(7).addComponent(label_23, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
 								.addGap(10).addComponent(label_29, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
@@ -1399,8 +1388,8 @@ public class SpaceClient {
 												.addComponent(label_30, GroupLayout.PREFERRED_SIZE, 50,
 														GroupLayout.PREFERRED_SIZE))
 										.addGap(42))
-										.addGroup(gl_ShieldPanel.createSequentialGroup().addComponent(label_31)
-												.addGap(51)))
+								.addGroup(gl_ShieldPanel.createSequentialGroup().addComponent(label_31)
+										.addGap(51)))
 								.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 								.addGap(106)));
 				ShieldPanel.setLayout(gl_ShieldPanel);
@@ -1565,8 +1554,8 @@ public class SpaceClient {
 				System.out.println("image didn't load");
 			}
 			scrollBackground = scrollBackground.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize
-																										// background //
-																										// image
+			// background //
+			// image
 			this.planetName = planetName;
 			this.travelSec = travelSec;
 		}
@@ -1582,12 +1571,12 @@ public class SpaceClient {
 			boolean repaint = true;
 
 			g.drawImage(scrollBackground, 0, 0, screenX - x, screenY, x, 0, screenX, screenY, null); // draw the part of
-																									// the
-																									// background from
-																									// the left
+			// the
+			// background from
+			// the left
 			g.drawImage(scrollBackground, screenX - x, 0, screenX, screenY, 0, 0, x, screenY, null); // draw the rest of
-																									// the
-																									// background
+			// the
+			// background
 			g.drawImage(shipImage, 200, 50, null);
 
 			// Draw translucent rectangle
@@ -1766,7 +1755,7 @@ public class SpaceClient {
 
 		return originalImg;
 	}
-	
+
 	public BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine) {
 
 		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
