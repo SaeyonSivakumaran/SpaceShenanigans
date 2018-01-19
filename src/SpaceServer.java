@@ -358,6 +358,14 @@ class SpaceServer extends JFrame {
 						onlinePlayers.remove(i); // Removing the user
 						consoleOutput.append(username + " logged OUT\n");
 						playerRunning = false;
+						//Closing all the streams
+						try {
+							client.close();
+							input.close();
+							output.close();
+						} catch (IOException e) {
+							consoleOutput.append("Streams failed to close\n");
+						}
 						break;
 					}
 				}
