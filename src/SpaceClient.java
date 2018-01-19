@@ -149,8 +149,7 @@ public class SpaceClient {
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
 		}
-		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize background
-		// with stars
+		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize space background to fit screen
 	}
 
 	public static void main(String[] args) {
@@ -187,16 +186,7 @@ public class SpaceClient {
 			input = new BufferedReader(stream1);
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
-			
-			/*
-			JFrame menuFrame = new JFrame();
-			menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			menuFrame.setContentPane(new LoginPanel());
-			menuFrame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
-			menuFrame.pack();
-			menuFrame.setResizable(false);
-			menuFrame.setVisible(true);*/
+
 			
 			while (username.length() == 0) {
 				command = inputs.nextLine();
@@ -516,6 +506,11 @@ public class SpaceClient {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * MapPanel
+	 * Draws planet selection screen
+	 * @author Felix Tai
+	 */
 	public class MapPanel extends JPanel {
 
 		BufferedImage yarnPlanet = null;
@@ -641,11 +636,10 @@ public class SpaceClient {
 			this.add(button);
 		}
 
-		/*
-		 * createImageButton creates JLabel with MouseListener so it acts like a button
-		 * 
+		/**
+		 * createImageButton 
+		 * creates JLabel with MouseListener so it acts like a button
 		 * @param Buffered image to be turned into JLabel
-		 * 
 		 * @return button JLabel
 		 */
 		public JLabel createImageButton(final BufferedImage planet) {
@@ -716,11 +710,11 @@ public class SpaceClient {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
+				boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0; //check colour of clicked planetlabel
 				if (opaque) {
 					source = (JLabel) e.getSource();
-					//Change label 
-					if (source == yarnLabel) {
+					//Change planet name according to which planet has been clicked
+					if (source == yarnLabel) { 
 						planetName = "Yarn Planet";
 					} else if (source == flatLabel) {
 						planetName = "Flat Planet";
@@ -781,8 +775,8 @@ public class SpaceClient {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 * DepotPanel Inner class for displaying depot panel
-	 * 
+	 * DepotPanel
+	 * Inner class for displaying depot panel
 	 * @author Felix Tai
 	 */
 	public class DepotPanel extends JPanel {
@@ -809,12 +803,14 @@ public class SpaceClient {
 			this.add(mapButton);
 		}
 
+		//Paint component to draw background
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			g.drawImage(backgroundImage, 0, 0, null);
 			repaint();
 		}
 		
+		//ActionListener for going back to map selection
 		class backListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				frame.setContentPane(new MapPanel());
@@ -823,10 +819,13 @@ public class SpaceClient {
 			}
 		}
 
+		/**
+		 * UpgradePanel
+		 * Panel for upgrading
+		 * @author Felix Tai
+		 */
 		public class UpgradePanel extends JPanel {
-			/**
-			 * Create the panel.
-			 */
+
 			JButton button; // engine
 			JButton button_1; // mining
 			JButton button_2; // shields
@@ -1556,11 +1555,9 @@ public class SpaceClient {
 		String timeString = "";
 		Image scrollBackground = null;
 
-		/*
+		/**
 		 * constructor
-		 * 
 		 * @param planetName String containing name of planet being traveled to
-		 * 
 		 * @param travelSec Integer representing the amount of time in seconds needed to
 		 * travel to the planet
 		 */
@@ -1577,23 +1574,13 @@ public class SpaceClient {
 			this.travelSec = travelSec;
 		}
 
-		/*
-		 * paintComponent
-		 * 
-		 * @param Graphics g
-		 */
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			clock.update(); // update time
 			boolean repaint = true;
 
-			g.drawImage(scrollBackground, 0, 0, screenX - x, screenY, x, 0, screenX, screenY, null); // draw the part of
-			// the
-			// background from
-			// the left
-			g.drawImage(scrollBackground, screenX - x, 0, screenX, screenY, 0, 0, x, screenY, null); // draw the rest of
-			// the
-			// background
+			g.drawImage(scrollBackground, 0, 0, screenX - x, screenY, x, 0, screenX, screenY, null); // draw the part of the background from the left
+			g.drawImage(scrollBackground, screenX - x, 0, screenX, screenY, 0, 0, x, screenY, null); // draw the rest of the background
 			g.drawImage(userShip, screenX/5, screenY/20, null);
 
 			// Draw translucent rectangle
@@ -1668,6 +1655,12 @@ public class SpaceClient {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * MinePanel
+	 * Displays screen with mining in progress
+	 * @author Felix Tai
+	 * @param name of planet being mined
+	 */
 	public class MinePanel extends JPanel {
 		Color clearColour = new Color(239, 161, 4, 225); // create 50% transparent colour
 		Font bigFont = new Font("Helvetica", Font.BOLD, 40);
@@ -1677,9 +1670,11 @@ public class SpaceClient {
 		String drawText2 = "";
 		boolean exit = false;
 		BufferedImage backgroundPlanet;
-
+		
+		//constructor
 		MinePanel(String planetName) {
 			try {
+				//load planet for background
 				if (planetName.equals("Yarn Planet")) {
 					backgroundPlanet = ImageIO.read(new File("yarnPlanet.png"));
 				} else if (planetName.equals("Flat Planet")) {
@@ -1718,6 +1713,11 @@ public class SpaceClient {
 			this.add(mapButton);
 		}
 
+		/**
+		 * MineThread
+		 * seperate thread to run mine
+		 * @author Felix Tai
+		 */
 		class MineThread implements Runnable {
 
 			public void run() {
@@ -1733,6 +1733,7 @@ public class SpaceClient {
 			}
 		}
 		
+		//ButtonListener for selecting new planet
 		class MapListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				frame.setContentPane(new MapPanel());
@@ -1769,32 +1770,11 @@ public class SpaceClient {
 		}
 	}
 	
-	/*
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public class LoginPanel extends JPanel {
-		JButton newAccount;
-		JButton login;
-		
-		LoginPanel(){
-			newAccount = new JButton("New Account");
-			login = new JButton("Login");
-		}
-		
-		class MapListener implements ActionListener {
-			public void actionPerformed(ActionEvent e) {
-				frame.setContentPane(new MapPanel());
-				frame.invalidate();
-				frame.validate();
-			}
-		}
-	}*/
 
-	/*
-	 * resizeImage resizes a Buffered image to specified size
-	 * 
-	 * @param BufferedImage to be resized, integers of width and height to be
-	 * resized to
-	 * 
+	/**
+	 * resizeImage 
+	 * resizes a Buffered image to specified size
+	 * @param BufferedImage to be resized, integers of width and height to be resized to
 	 * @return BufferedImage that is resized
 	 */
 	public BufferedImage resizeImage(BufferedImage image, int resizeWidth, int resizeHeight) {
@@ -1809,12 +1789,19 @@ public class SpaceClient {
 
 		return originalImg;
 	}
+	
+	/**
+	 * combineSpaceship
+	 * Combines base ship with engine and weapons
+	 * @param engineLevel
+	 * @return combined ship BufferedImage
+	 */
 
 	public BufferedImage combineSpaceship(int engineLevel) {
 		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = builtShip.getGraphics();
-		g.drawImage(ship, 0, 0, null);
-		if(engineLevel == 1) {
+		Graphics g = builtShip.getGraphics(); //Create graphics to draw onto image
+		g.drawImage(ship, 0, 0, null); //draw ship
+		if(engineLevel == 1) { //draw engine
 			g.drawImage(engine1, 0, 0, null);
 		}else if(engineLevel == 2) {
 			g.drawImage(engine2, 0, 0, null);
@@ -1825,7 +1812,7 @@ public class SpaceClient {
 		}else if(engineLevel == 5) {
 			g.drawImage(engine5, 0, 0, null);
 		}
-		g.drawImage(laser, 600, 150, null);
+		g.drawImage(laser, 600, 150, null); //draw all weapons
 		g.drawImage(shieldJammer, 600, 200, null);
 		g.drawImage(missile, 600, 250, null);
 		return builtShip;

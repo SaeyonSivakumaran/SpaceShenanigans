@@ -8,6 +8,12 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 
+/**
+ * BattlePanel.java
+ * prototype for panel for battle (not implemented into game right now)
+ * @author Felix Tai
+ */
+
 public class BattlePanel extends JPanel {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int screenX = (int) screenSize.getWidth();
