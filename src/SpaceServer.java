@@ -63,9 +63,9 @@ class SpaceServer extends JFrame {
 		planets.add(new Planet("Fractured Planet", time, this));
 		planets.add(new Planet("Jupiter Planet", time, this));
 		planets.add(new Planet("Moon Planet", time, this));
-		planets.add(new Planet("name", time, this));
-		planets.add(new Planet("name", time, this));
-		planets.add(new Planet("name", time, this));
+		planets.add(new Planet("Bouncy Planet", time, this));
+		planets.add(new Planet("Basketball Planet", time, this));
+		planets.add(new Planet("Saturn Planet", time, this));
 		// Initializing all GUI components
 		mainPanel = new JPanel(new BorderLayout());
 		consoleOutput = new JTextArea();

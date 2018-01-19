@@ -82,6 +82,7 @@ public class SpaceClient {
 	BufferedImage engine3 = null;
 	BufferedImage engine4 = null;
 	BufferedImage engine5 = null;
+	
 	Image hyperImage = null;
 	Image backgroundImage = null;
 	Image shipImage = null;
@@ -312,7 +313,7 @@ public class SpaceClient {
 									.parseInt(msg.substring(msg.indexOf(",") + 1));
 							if (location.equals("Yarn Planet")) {
 								yarnPlanet.setResource(yarnPlanet.getResource() - Integer.parseInt(msg));
-							} else if (location.equals("Flat Planet") {
+							} else if (location.equals("Flat Planet")) {
 								flatEarth.setResource(flatEarth.getResource() - Integer.parseInt(msg));
 							} else if (location.equals("Potato Planet")) {
 								potatoPlanet.setResource(potatoPlanet.getResource() - Integer.parseInt(msg));
@@ -1575,8 +1576,13 @@ public class SpaceClient {
 
 			g.setFont(bigFont);
 			g.setColor(textColour);
-			g.drawString(drawText1, 20, 2 * screenY / 3 + 50);
-			g.drawString(drawText2, 20, 2 * screenY / 3 + 150);
+			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 50); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+			g.drawString("Graphene: " + resources[1], 20, screenY / 3 + 150);
+			g.drawString("Plutonium: " + resources[2], 20, screenY / 3 + 200);
+			g.drawString("Starlite: " + resources[3], 20, screenY / 3 + 250);
+			g.drawString("Pyroxium: " + resources[4], 20, screenY / 3 + 300);
+			g.drawString("Blast Crystal: " + resources[5], 20, screenY / 3 + 150);
+			g.drawString("Intellectium: " + resources[6], 20, screenY / 3 + 150);
 
 			repaint();
 		}
@@ -1601,5 +1607,17 @@ public class SpaceClient {
 		g2d.dispose();
 
 		return originalImg;
+	}
+	
+	public BufferedImage combineSpaceship(BufferedImage ship, BufferedImage engine) {
+
+		BufferedImage builtShip = new BufferedImage(1000, 400, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = builtShip.getGraphics();
+		g.drawImage(ship, 0, 0, null);
+		g.drawImage(engine, 0, 0, null);
+		g.drawImage(laser, 600, 150, null);
+		g.drawImage(shieldJammer, 600, 200, null);
+		g.drawImage(missile, 600, 250, null);
+		return builtShip;
 	}
 }

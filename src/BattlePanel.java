@@ -85,7 +85,7 @@ public class BattlePanel extends JPanel {
 		}else if (shieldLvl2 == 5) {
 			shieldColour2 = new Color(2, 41, 219, 100);//lvl 5 shield blue
 		}
-		
+		//TODO no need to resize backgroundImage
 		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
 		backgroundPlanet = resizeImage(backgroundPlanet, screenX / 3, screenX / 3);
 		
