@@ -133,4 +133,24 @@ public class Ship {
 		this.deepSpaceViewer.upgrade();
 	}
 	
+	public void setEngineModule(int level) {
+		this.engine.setLevel(level);
+	}
+	
+	public void setShieldModule(int level) {
+		this.shield.setLevel(level);
+	}
+	
+	public void setWeaponModule(int level) {
+		this.weaponModule.setLevel(level);
+	}
+	
+	public void setMiningModule(int level) {
+		this.miningModule.setLevel(level);
+	}
+	
+	public void setDeepSpaceViewer(int level) {
+		this.deepSpaceViewer.setLevel(level);
+	}
+	
 }
