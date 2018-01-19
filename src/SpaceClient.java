@@ -181,7 +181,7 @@ public class SpaceClient {
 		this.miningModule = new MiningModule();
 		this.deepSpaceViewer = new DeepSpaceViewer();
 		this.health = 100;
-		this.location = "depot";
+		this.location = "depot";//constructs all objects
 		try {
 			mySocket = new Socket("127.0.0.1", 798); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
@@ -190,32 +190,32 @@ public class SpaceClient {
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
 
 			
-			while (username.length() == 0) {
-				command = inputs.nextLine();
+			while (username.length() == 0) {//while no username logged in with
+				command = inputs.nextLine();//get user input
 				if (command.equals("login")) {
 
 					input1 = inputs.nextLine();
 					input2 = inputs.nextLine();
 					output.println("login:" + input1 + "," + input2);
-					output.flush();
-					command = input.readLine();
+					output.flush();//send to server
+					command = input.readLine();//gets server response
 					if (command.equals("loginaccepted")) {
 						this.username = input1;
-						System.out.println("Connection made.");
+						System.out.println("Connection made.");//if login successful set username
 					} else {
 						System.out.println("login failed");
 					}
-				} else if (command.equals("newaccount")) {
+				} else if (command.equals("newaccount")) {//making new account
 
 					input1 = inputs.nextLine();
-					input2 = inputs.nextLine();
-					output.println("newaccount:" + input1 + "," + input2);
+					input2 = inputs.nextLine();//get user input
+					output.println("newaccount:" + input1 + "," + input2);//send to server
 					output.flush();
-					command = input.readLine();
+					command = input.readLine();//get server response
 					if (command.equals("accountvalid")) {
 						System.out.println("account valid");
 					} else {
-						System.out.println("account invalid");
+						System.out.println("account invalid");//indicates whether the account can be created
 					}
 				}
 				this.engine = new EngineModule();
@@ -223,12 +223,12 @@ public class SpaceClient {
 				this.weaponModule = new WeaponModule();
 				this.miningModule = new MiningModule();
 				this.deepSpaceViewer = new DeepSpaceViewer();
-				this.resources = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+				this.resources = new int[] { 0, 0, 0, 0, 0, 0, 0 };//initiates modules and resources
 
 			}
 
 			Thread t = new Thread(new Input());
-			t.start();
+			t.start();//start thread for receiving server input
 
 			frame = new JFrame();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -237,56 +237,56 @@ public class SpaceClient {
 					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 			frame.pack();
 			frame.setResizable(false);
-			frame.setVisible(true);
+			frame.setVisible(true);//start the main frame
 
 			output.println("playersUpdate:" + username);
 			output.flush();
 			output.println("shipUpdate:" + username);
-			output.flush();
+			output.flush();//asks server for update on online players and player's ship
 			running = true;
-			while (running) {
+			while (running) {//main game loop
 
 				// System.out.println("input2");
 
-				command = commandd.dequeue();
+				command = commandd.dequeue();//take user command
 				if (command == null) {
 					command = "";
 				}
 				System.out.print(command);
-				if (command.equals("1")) {
-					input2 = inputss.dequeue();
-					output.println("travel:" + username + "," + input2);
+				if (command.equals("1")) {//if command is travel
+					input2 = inputss.dequeue();//take location
+					output.println("travel:" + username + "," + input2);//send to server
 					// output.flush();
-				} else if (command.equals("2")) {
-					input2 = inputss.dequeue();
-					output.println("arrived:" + username + "," + input2);
-				} else if (command.equals("3")) {
-					input2 = inputs.nextLine();
-					output.println("upgrade:" + username + "," + input2);
-				} else if (command.equals("4")) {
-					input2 = inputss.dequeue();
-					output.println("mine:" + username + "," + input2);
+				} else if (command.equals("2")) {//if command is arrived
+					input2 = inputss.dequeue();//take location
+					output.println("arrived:" + username + "," + input2);//send to server
+				} else if (command.equals("3")) {//if command is upgrade
+					input2 = inputs.nextLine();//take upgrade module
+					output.println("upgrade:" + username + "," + input2);//send to server
+				} else if (command.equals("4")) {//if command is mine
+					input2 = inputss.dequeue();//take planet
+					output.println("mine:" + username + "," + input2);//send to server
 					userShip = resizeImage(combineSpaceship(engine.getUpgradeLevel()), screenX/4, (screenX/4)/3);
-				} else if (command.equals("5")) {
-					input2 = inputs.nextLine();
-					output.println("tradeInfoWanted:" + username + "," + input2);
-				} else if (command.equals("6")) {
-					input1 = inputs.nextLine();
+				} else if (command.equals("5")) {//if command is asking for player inventory
+					input2 = inputs.nextLine();//take player name
+					output.println("tradeInfoWanted:" + username + "," + input2);//send to server
+				} else if (command.equals("6")) {//if command is sending trade offer
+					input1 = inputs.nextLine();//take resource offer
 					input2 = "";
 					while (!input1.equals(" ")) {
 						input2 += input1;
 					}
 					input1 = inputs.nextLine();
-					output.println("trade:" + username + "," + input1);
-				} else if (command.equals("7")) {
-					output.println("acceptTrade:" + input1);
-				} else if (command.equals("8")) {
-					output.println("rejectTrade:" + input1);
-				} else if (command.equals("9")) {
-					input1 = inputs.nextLine();
-					output.println("attack:" + username + "," + input2);
-				} else if (command.equals("10")) {
-					output.println("logout:" + username);
+					output.println("trade:" + username + "," + input1);//send to server
+				} else if (command.equals("7")) {//if command is accept trade offer
+					output.println("acceptTrade:" + input1);//send to server
+				} else if (command.equals("8")) {//if command is reject offer
+					output.println("rejectTrade:" + input1);//send to server
+				} else if (command.equals("9")) {//if command is attack
+					input1 = inputs.nextLine();//take weapon used
+					output.println("attack:" + username + "," + input2);//send to server
+				} else if (command.equals("10")) {//if command is logout
+					output.println("logout:" + username);//send to server
 					running = false;
 				}
 				output.flush();
@@ -310,6 +310,12 @@ public class SpaceClient {
 
 	}
 
+	/**
+	 * Input.class
+	 * class for server inputs
+	 * @author Carl Zhang
+	 *
+	 */
 	class Input implements Runnable {
 		/**
 		 * receive This method continually loops and receives data from the server
@@ -339,12 +345,12 @@ public class SpaceClient {
 								case 4:
 									miningModule.upgrade();
 								case 5:
-									deepSpaceViewer.upgrade();
+									deepSpaceViewer.upgrade();//server send upgrade, upgrade module
 								}
 							
 							} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
 
-								msg = msg.substring(msg.indexOf(":") + 1);
+								msg = msg.substring(msg.indexOf(":") + 1);//server sends inventory of player
 								// send to map
 								// display offer
 								// send back response
@@ -352,15 +358,15 @@ public class SpaceClient {
 								msg = msg.substring(msg.indexOf(":") + 1);
 								for (int i=0; i<resources.length;i++) {
 									resources[i]=(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-									msg = msg.substring(msg.indexOf(",") + 1);
+									msg = msg.substring(msg.indexOf(",") + 1);//server sends resource update for player
 								}
 							} else if (msg.substring(0, msg.indexOf(":")).equals("battle")) {
 								msg = msg.substring(msg.indexOf(":") + 1);
-								health -= Integer.parseInt(msg);
+								health -= Integer.parseInt(msg);//server sends health lost from battle
 							} else if (msg.substring(0, msg.indexOf(":")).equals("playersUpdate")) {
 
 								msg = msg.substring(msg.indexOf(":") + 1);
-								players.clear();
+								players.clear();//server sends update of online player list
 								while (msg.length() > 1) {
 									players.add(msg.substring(0, msg.indexOf(",")));
 									msg = msg.substring(msg.indexOf(",") + 1);
@@ -376,7 +382,7 @@ public class SpaceClient {
 								msg = msg.substring(msg.indexOf(",") + 1);
 								miningModule.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 								msg = msg.substring(msg.indexOf(",") + 1);
-								deepSpaceViewer.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+								deepSpaceViewer.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));//server sends update of ship modules
 							} else if (msg.substring(0, msg.indexOf(":")).equals("planetsUpdate")) {
 								msg = msg.substring(msg.indexOf(":") + 1);
 								yarnPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
@@ -389,7 +395,7 @@ public class SpaceClient {
 								msg = msg.substring(msg.indexOf(",") + 1);
 								fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 								msg = msg.substring(msg.indexOf(",") + 1);
-								jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+								jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));//server sends update of planet resources
 								if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
 									msg = msg.substring(msg.indexOf(":") + 1);
 									switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
@@ -402,7 +408,7 @@ public class SpaceClient {
 									case 4:
 										miningModule.upgrade();
 									case 5:
-										deepSpaceViewer.upgrade();
+										deepSpaceViewer.upgrade();//server sends module updates
 									}
 								} else if (msg.substring(0, msg.indexOf(":")).equals("mine")) {
 									msg = msg.substring(msg.indexOf(":") + 1);
@@ -427,7 +433,7 @@ public class SpaceClient {
 									} else if (location.equals("Basketball Planet")) {
 										basketballPlanet.setResource(basketballPlanet.getResource() - Integer.parseInt(msg));
 									} else if (location.equals("Saturn Planet")) {
-										saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
+										saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));//server sends mining
 									}
 								} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
 
