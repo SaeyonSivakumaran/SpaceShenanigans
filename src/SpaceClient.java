@@ -40,6 +40,7 @@ public class SpaceClient {
 	private WeaponModule weaponModule;
 	private MiningModule miningModule;
 	private DeepSpaceViewer deepSpaceViewer;
+	private Ship shipp;
 	private Planet yarnPlanet;
 	private Planet flatEarth;
 	private Planet potatoPlanet;
@@ -89,6 +90,7 @@ public class SpaceClient {
 
 	SpaceClient() {
 		try { // loading images
+			shipp=new Ship();
 			blastCrystalIcon = new ImageIcon(ImageIO.read(new File("BlastCrystal.png")));
 			grapheneIcon = new ImageIcon(ImageIO.read(new File("Graphene.png")));
 			intellectiumIcon = new ImageIcon(ImageIO.read(new File("Intellectium.png")));
@@ -369,15 +371,15 @@ public class SpaceClient {
 						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
 
 							msg = msg.substring(msg.indexOf(":") + 1);
-							engine.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							shipp.setEngineModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
-							shield.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							shipp.setShieldModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
-							weaponModule.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							shipp.setWeaponModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
-							miningModule.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							shipp.setMiningModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
-							deepSpaceViewer.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							shipp.setDeepSpaceViewer(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 						} else if (msg.substring(0, msg.indexOf(":")).equals("planetsUpdate")) {
 							msg = msg.substring(msg.indexOf(":") + 1);
 							yarnPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
