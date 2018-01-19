@@ -827,7 +827,12 @@ class SpaceServer extends JFrame {
 				//Finding the player
 				for (int i = 0; i < onlinePlayers.size(); i++) {
 					if (onlinePlayers.get(i).getUsername().equals(username)) {
-						onlinePlayers.get(i).getShip().setHealth(100);  //Setting health to max
+						int[] resources = onlinePlayers.get(i).getResources();
+						if (resources[0] > 50 & resources[1] > 50 && resources[3] > 50) {
+							onlinePlayers.get(i).getShip().setHealth(100);  //Setting health to max
+							output.println("repairComplete");
+							output.flush();
+						}
 					}
 				}
 			}
