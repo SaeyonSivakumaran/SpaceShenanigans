@@ -23,7 +23,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.MatteBorder;
 
-
 public class SpaceClient {
 	Socket mySocket; // socket for connection
 	BufferedReader input; // reader for network stream
@@ -31,16 +30,16 @@ public class SpaceClient {
 	boolean running = true; // thread status via boolean
 	String command;
 	Queuee<String> commandd;
-	String input1,input2;
+	String input1, input2;
 	Scanner inputs;
 	Queuee<String> inputss;
-	String username="";
+	String username = "";
 	int[] resources;
 	private EngineModule engine;
 	private ShieldModule shield;
 	private WeaponModule weaponModule;
 	private MiningModule miningModule;
-	private DeepSpaceViewer deepSpaceViewer; 
+	private DeepSpaceViewer deepSpaceViewer;
 	private Planet yarnPlanet;
 	private Planet flatEarth;
 	private Planet potatoPlanet;
@@ -48,7 +47,10 @@ public class SpaceClient {
 	private Planet fracturedPlanet;
 	private Planet jupiter;
 	private Planet moonPlanet;
-	//Ship health
+	private Planet bouncyPlanet;
+	private Planet basketballPlanet;
+	private Planet saturnPlanet;
+	// Ship health
 	private int health;
 	MapPanel display;
 	Queuee<String> instructions;
@@ -71,6 +73,18 @@ public class SpaceClient {
 	ImageIcon shieldJammerIcon = null;
 	ImageIcon laserIcon = null;
 	ImageIcon missileIcon = null;
+	BufferedImage ship = null;
+	BufferedImage laser = null;
+	BufferedImage shieldJammer = null;
+	BufferedImage missile = null;
+	BufferedImage engine1 = null;
+	BufferedImage engine2 = null;
+	BufferedImage engine3 = null;
+	BufferedImage engine4 = null;
+	BufferedImage engine5 = null;
+	Image hyperImage = null;
+	Image backgroundImage = null;
+	Image shipImage = null;
 
 	SpaceClient() {
 		try { // loading images
@@ -86,10 +100,22 @@ public class SpaceClient {
 			shieldJammerIcon = new ImageIcon(ImageIO.read(new File("ShieldJammer.png")));
 			laserIcon = new ImageIcon(ImageIO.read(new File("Laser.png")));
 			missileIcon = new ImageIcon(ImageIO.read(new File("MissileLauncher.png")));
-
+			ship = ImageIO.read(new File("SpaceShip.png"));
+			engine1 = ImageIO.read(new File("EngineModule1.png"));
+			engine2 = ImageIO.read(new File("EngineModule2.png"));
+			engine3 = ImageIO.read(new File("EngineModule3.png"));
+			engine4 = ImageIO.read(new File("EngineModule4.png"));
+			engine5 = ImageIO.read(new File("EngineModule5.png"));
+			laser = ImageIO.read(new File("Laser.png"));
+			missile = ImageIO.read(new File("MissileLauncher.png"));
+			shieldJammer = ImageIO.read(new File("ShieldJammer.png"));
+			hyperImage = new ImageIcon("SpaceBackground.png").getImage();
+			backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 		} catch (Exception ex) {
 			System.out.println("image didn't load");
 		}
+		backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize background
+																									// with stars
 	}
 
 	public static void main(String[] args) {
@@ -98,7 +124,7 @@ public class SpaceClient {
 	}
 
 	public void getMap(MapPanel display2) {
-		this.display=display2;
+		this.display = display2;
 	}
 
 	/**
@@ -109,17 +135,17 @@ public class SpaceClient {
 	 * @return N/A
 	 */
 	public void go() {
-		players=new ArrayList<String>();
-		inputs=new Scanner(System.in);
-		commandd=new Queuee<String>();
-		inputss=new Queuee<String>();
+		players = new ArrayList<String>();
+		inputs = new Scanner(System.in);
+		commandd = new Queuee<String>();
+		inputss = new Queuee<String>();
 		this.engine = new EngineModule();
 		this.shield = new ShieldModule();
 		this.weaponModule = new WeaponModule();
 		this.miningModule = new MiningModule();
 		this.deepSpaceViewer = new DeepSpaceViewer();
-		this.health=100;
-		this.location="depot";
+		this.health = 100;
+		this.location = "depot";
 		try {
 			mySocket = new Socket("127.0.0.1", 797); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
@@ -127,31 +153,31 @@ public class SpaceClient {
 
 			output = new PrintWriter(mySocket.getOutputStream()); // assign printwriter to network stream
 
-			while(username.length()==0){
-				command=inputs.nextLine();
-				if (command.equals("login")){
+			while (username.length() == 0) {
+				command = inputs.nextLine();
+				if (command.equals("login")) {
 
-					input1=inputs.nextLine();
-					input2=inputs.nextLine();
-					output.println("login:"+input1+","+input2);
+					input1 = inputs.nextLine();
+					input2 = inputs.nextLine();
+					output.println("login:" + input1 + "," + input2);
 					output.flush();
-					command=input.readLine();
-					if (command.equals("loginaccepted")){
-						this.username=input1;
+					command = input.readLine();
+					if (command.equals("loginaccepted")) {
+						this.username = input1;
 						System.out.println("Connection made.");
-					}else {
+					} else {
 						System.out.println("login failed");
 					}
-				}else if(command.equals("newaccount")){
+				} else if (command.equals("newaccount")) {
 
-					input1=inputs.nextLine();
-					input2=inputs.nextLine();
-					output.println("newaccount:"+input1+","+input2);
+					input1 = inputs.nextLine();
+					input2 = inputs.nextLine();
+					output.println("newaccount:" + input1 + "," + input2);
 					output.flush();
-					command=input.readLine();
-					if (command.equals("accountvalid")){
+					command = input.readLine();
+					if (command.equals("accountvalid")) {
 						System.out.println("account valid");
-					}else {
+					} else {
 						System.out.println("account invalid");
 					}
 				}
@@ -160,85 +186,83 @@ public class SpaceClient {
 				this.weaponModule = new WeaponModule();
 				this.miningModule = new MiningModule();
 				this.deepSpaceViewer = new DeepSpaceViewer();
-				this.resources = new int[]{0, 0, 0, 0, 0, 0, 0};
-
+				this.resources = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 
 			}
 
-
-
-
-			Thread t= new Thread(new Input());
+			Thread t = new Thread(new Input());
 			t.start();
 
-			frame=new JFrame();
+			frame = new JFrame();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setContentPane(new MapPanel());
-			frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
+			frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 			frame.pack();
 			frame.setResizable(false);
 			frame.setVisible(true);
 
-			output.println("playersUpdate:"+username);
+			output.println("playersUpdate:" + username);
 			output.flush();
-			output.println("shipUpdate:"+username);
+			output.println("shipUpdate:" + username);
 			output.flush();
-			running=true;
-			while(running){
+			running = true;
+			while (running) {
 
-				//System.out.println("input2");
+				// System.out.println("input2");
 
-				command=commandd.dequeue();
-				if (command==null) {
-					command="";
+				command = commandd.dequeue();
+				if (command == null) {
+					command = "";
 				}
 				System.out.print(command);
-				if (command.equals("1")){
-					input2=inputss.dequeue();
-					output.println("travel:"+username+","+input2);
-					//output.flush();
-				}else if(command.equals("2")){
-					output.println("arrived:"+username);	
-				}else if(command.equals("3")){
-					input2=inputs.nextLine();
-					output.println("upgrade:"+username+","+input2);
-				}else if(command.equals("4")){
-					output.println("mine:"+username);
-				}else if(command.equals("5")){
-					input2=inputs.nextLine();
-					output.println("tradeInfoWanted:"+username+","+input2);
-				}else if(command.equals("6")){
-					input1=inputs.nextLine();
-					input2="";
-					while(!input1.equals(" ")){
-						input2+=input1;
+				if (command.equals("1")) {
+					input2 = inputss.dequeue();
+					output.println("travel:" + username + "," + input2);
+					// output.flush();
+				} else if (command.equals("2")) {
+					input2 = inputss.dequeue();
+					output.println("arrived:" + username + "," + input2);
+				} else if (command.equals("3")) {
+					input2 = inputs.nextLine();
+					output.println("upgrade:" + username + "," + input2);
+				} else if (command.equals("4")) {
+					input2 = inputss.dequeue();
+					output.println("mine:" + username + "," + input2);
+				} else if (command.equals("5")) {
+					input2 = inputs.nextLine();
+					output.println("tradeInfoWanted:" + username + "," + input2);
+				} else if (command.equals("6")) {
+					input1 = inputs.nextLine();
+					input2 = "";
+					while (!input1.equals(" ")) {
+						input2 += input1;
 					}
-					input1=inputs.nextLine();
-					output.println("trade:"+username+","+input1);
-				}else if(command.equals("7")){
-					output.println("acceptTrade:"+input1);
-				}else if(command.equals("8")){
-					output.println("rejectTrade:"+input1);
-				}else if(command.equals("9")){
-					input1=inputs.nextLine();
-					output.println("attack:"+username+","+input2);
-				}else if(command.equals("10")){
-					output.println("logout:"+username);
-					running=false;
+					input1 = inputs.nextLine();
+					output.println("trade:" + username + "," + input1);
+				} else if (command.equals("7")) {
+					output.println("acceptTrade:" + input1);
+				} else if (command.equals("8")) {
+					output.println("rejectTrade:" + input1);
+				} else if (command.equals("9")) {
+					input1 = inputs.nextLine();
+					output.println("attack:" + username + "," + input2);
+				} else if (command.equals("10")) {
+					output.println("logout:" + username);
+					running = false;
 				}
 				output.flush();
-				command="";
+				command = "";
 
-
-				//System.out.print(1);
+				// System.out.print(1);
 			}
 
-			try {  
+			try {
 				input.close();
 				output.close();
 				mySocket.close();
 				System.out.println("im ey lamo");
-			}catch (Exception e) { 
+			} catch (Exception e) {
 				System.out.println("Failed to close socket");
 			}
 		} catch (IOException e) { // connection error occured
@@ -248,7 +272,7 @@ public class SpaceClient {
 
 	}
 
-	class Input implements Runnable{
+	class Input implements Runnable {
 		/**
 		 * receive This method continually loops and receives data from the server
 		 * 
@@ -264,98 +288,110 @@ public class SpaceClient {
 						String msg = input.readLine(); // read the message
 						System.out.println(msg);
 						// decipher server messages
-						if (msg.substring(0,msg.indexOf(":")).equals("arrived")) {
-							msg=msg.substring(msg.indexOf(":")+1);
-							location=""+msg;
+						if (msg.substring(0, msg.indexOf(":")).equals("arrived")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							location = "" + msg;
 							System.out.println(location);
-						}else if (msg.substring(0,msg.indexOf(":")).equals("upgrade")) {
-							msg=msg.substring(msg.indexOf(":")+1);
-							switch (Integer.parseInt(msg.substring(0,msg.indexOf(",")))){
-							case 1: engine.upgrade();
-							case 2: shield.upgrade();
-							case 3: weaponModule.upgrade();
-							case 4: miningModule.upgrade();
-							case 5: deepSpaceViewer.upgrade();
+						} else if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
+							case 1:
+								engine.upgrade();
+							case 2:
+								shield.upgrade();
+							case 3:
+								weaponModule.upgrade();
+							case 4:
+								miningModule.upgrade();
+							case 5:
+								deepSpaceViewer.upgrade();
 							}
-						}else if (msg.substring(0,msg.indexOf(":")).equals("mine")) {
-							msg=msg.substring(msg.indexOf(":")+1);
-							resources[Integer.parseInt(msg.substring(0,msg.indexOf(",")))]+=Integer.parseInt(msg.substring(msg.indexOf(",")+1));
-							if (location.equals("yarnPlanet")){
-								yarnPlanet.setResource(yarnPlanet.getResource()-Integer.parseInt(msg));
-							}else if (location.equals("flatEarth")){
-								flatEarth.setResource(flatEarth.getResource()-Integer.parseInt(msg));
-							}else if (location.equals("potatoPlanet")){
-								potatoPlanet.setResource(potatoPlanet.getResource()-Integer.parseInt(msg));
-							}else if (location.equals("specklePlanet")){
-								specklePlanet.setResource(specklePlanet.getResource()-Integer.parseInt(msg));
-							}else if (location.equals("fracturedPlanet")){
-								fracturedPlanet.setResource(fracturedPlanet.getResource()-Integer.parseInt(msg));
-							}else if (location.equals("jupiter")){
-								jupiter.setResource(jupiter.getResource()-Integer.parseInt(msg));
-							}else if (location.equals("moonPlanet")){
-								moonPlanet.setResource(moonPlanet.getResource()-Integer.parseInt(msg));
+						} else if (msg.substring(0, msg.indexOf(":")).equals("mine")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							resources[Integer.parseInt(msg.substring(0, msg.indexOf(",")))] += Integer
+									.parseInt(msg.substring(msg.indexOf(",") + 1));
+							if (location.equals("Yarn Planet")) {
+								yarnPlanet.setResource(yarnPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Flat Planet") {
+								flatEarth.setResource(flatEarth.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Potato Planet")) {
+								potatoPlanet.setResource(potatoPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Speckle Planet")) {
+								specklePlanet.setResource(specklePlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Fractured Planet")) {
+								fracturedPlanet.setResource(fracturedPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Jupiter Planet")) {
+								jupiter.setResource(jupiter.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Moon Planet")) {
+								moonPlanet.setResource(moonPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Bouncy Planet")) {
+								bouncyPlanet.setResource(bouncyPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Basketball Planet")) {
+								basketballPlanet.setResource(basketballPlanet.getResource() - Integer.parseInt(msg));
+							} else if (location.equals("Saturn Planet")) {
+								saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
 							}
-						}else if (msg.substring(0,msg.indexOf(":")).equals("inventory")) {
+						} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
 
-							msg=msg.substring(msg.indexOf(":")+1);
-							//send to map
-							//display offer
-							//send back response
-						}else if (msg.substring(0,msg.indexOf(":")).equals("updateResource")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							// send to map
+							// display offer
+							// send back response
+						} else if (msg.substring(0, msg.indexOf(":")).equals("updateResource")) {
 
-							if (msg.substring(0,msg.indexOf(",")).equals("yarnPlanet")){
+							if (msg.substring(0, msg.indexOf(",")).equals("yarnPlanet")) {
 								yarnPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							}else if (msg.substring(0,msg.indexOf(",")).equals("flatEarth")){
+							} else if (msg.substring(0, msg.indexOf(",")).equals("flatEarth")) {
 								flatEarth.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							}else if (msg.substring(0,msg.indexOf(",")).equals("potatoPlanet")){
+							} else if (msg.substring(0, msg.indexOf(",")).equals("potatoPlanet")) {
 								potatoPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							}else if (msg.substring(0,msg.indexOf(",")).equals("specklePlanet")){
+							} else if (msg.substring(0, msg.indexOf(",")).equals("specklePlanet")) {
 								specklePlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							}else if (msg.substring(0,msg.indexOf(",")).equals("fracturedPlanet")){
+							} else if (msg.substring(0, msg.indexOf(",")).equals("fracturedPlanet")) {
 								fracturedPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							}else if (msg.substring(0,msg.indexOf(",")).equals("jupiter")){
+							} else if (msg.substring(0, msg.indexOf(",")).equals("jupiter")) {
 								jupiter.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
-							}else if (msg.substring(0,msg.indexOf(",")).equals("moonPlanet")){
+							} else if (msg.substring(0, msg.indexOf(",")).equals("moonPlanet")) {
 								moonPlanet.setResource(Integer.parseInt(msg.substring(msg.indexOf(","))));
 							}
-						}else if (msg.substring(0,msg.indexOf(":")).equals("battle")) {
-							msg=msg.substring(msg.indexOf(":")+1);
-							health-=Integer.parseInt(msg);
-						}else if (msg.substring(0,msg.indexOf(":")).equals("playersUpdate")) {
+						} else if (msg.substring(0, msg.indexOf(":")).equals("battle")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							health -= Integer.parseInt(msg);
+						} else if (msg.substring(0, msg.indexOf(":")).equals("playersUpdate")) {
 
-							msg=msg.substring(msg.indexOf(":")+1);
+							msg = msg.substring(msg.indexOf(":") + 1);
 							players.clear();
-							while(msg.length()>1){
-								players.add(msg.substring(0,msg.indexOf(",")));
-								msg=msg.substring(msg.indexOf(",")+1);
+							while (msg.length() > 1) {
+								players.add(msg.substring(0, msg.indexOf(",")));
+								msg = msg.substring(msg.indexOf(",") + 1);
 							}
-						}else if (msg.substring(0,msg.indexOf(":")).equals("shipUpdate")) {
+						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
 
-							msg=msg.substring(msg.indexOf(":")+1);
-							engine.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							shield.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							weaponModule.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							miningModule.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							deepSpaceViewer.setLevel(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-						}else if (msg.substring(0,msg.indexOf(":")).equals("planetsUpdate")) {
-							msg=msg.substring(msg.indexOf(":")+1);
-							yarnPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							flatEarth.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							potatoPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							specklePlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							fracturedPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							jupiter.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
-							msg=msg.substring(msg.indexOf(",")+1);
-							moonPlanet.setResource(Integer.parseInt(msg.substring(0,msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(":") + 1);
+							engine.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							shield.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							weaponModule.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							miningModule.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							deepSpaceViewer.setLevel(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+						} else if (msg.substring(0, msg.indexOf(":")).equals("planetsUpdate")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							yarnPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							flatEarth.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							potatoPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							specklePlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 						}
 
 					}
@@ -368,9 +404,10 @@ public class SpaceClient {
 
 		}
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public class MapPanel extends JPanel {
 
-		Image backgroundImage = null;
 		BufferedImage yarnPlanet = null;
 		JLabel yarnLabel;
 		BufferedImage flatPlanet = null;
@@ -398,7 +435,6 @@ public class SpaceClient {
 
 		public MapPanel() {
 			try { // loading images
-				backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 				yarnPlanet = ImageIO.read(new File("yarnPlanet.png"));
 				flatPlanet = ImageIO.read(new File("flatEarth.png"));
 				potatoPlanet = ImageIO.read(new File("potatoPlanet.png"));
@@ -414,43 +450,49 @@ public class SpaceClient {
 			this.setLayout(null);
 
 			// Resize images
-			backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
 			yarnPlanet = resizeImage(yarnPlanet, screenX / 12, screenX / 12);
 			flatPlanet = resizeImage(flatPlanet, screenX / 12, screenX / 12);
-			potatoPlanet = resizeImage(potatoPlanet, screenX/12, screenX/12);
-			specklePlanet = resizeImage(specklePlanet, screenX/12, screenX/12);
-			fracturedPlanet = resizeImage(fracturedPlanet, screenX/12, screenX/12);
-			depot = resizeImage(depot, screenX/8, screenX/8);
-			jupiterPlanet = resizeImage(jupiterPlanet, screenX/12, screenX/12);
-			moonPlanet = resizeImage(moonPlanet, screenX/12, screenX/12);
+			potatoPlanet = resizeImage(potatoPlanet, screenX / 12, screenX / 12);
+			specklePlanet = resizeImage(specklePlanet, screenX / 12, screenX / 12);
+			fracturedPlanet = resizeImage(fracturedPlanet, screenX / 12, screenX / 12);
+			depot = resizeImage(depot, screenX / 8, screenX / 8);
+			jupiterPlanet = resizeImage(jupiterPlanet, screenX / 12, screenX / 12);
+			moonPlanet = resizeImage(moonPlanet, screenX / 12, screenX / 12);
 
 			yarnLabel = createImageButton(yarnPlanet);
 			yarnLabel.setBounds(0, 100, yarnPlanet.getWidth(), yarnPlanet.getHeight());
 
 			flatLabel = createImageButton(flatPlanet);
-			flatLabel.setBounds(50, 2*screenY/3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(), flatPlanet.getHeight());
+			flatLabel.setBounds(50, 2 * screenY / 3 - flatPlanet.getWidth() - 100, flatPlanet.getWidth(),
+					flatPlanet.getHeight());
 
 			potatoLabel = createImageButton(potatoPlanet);
-			potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(), potatoPlanet.getHeight());
+			potatoLabel.setBounds(screenX - potatoPlanet.getWidth() - 50, 50, potatoPlanet.getWidth(),
+					potatoPlanet.getHeight());
 
 			speckleLabel = createImageButton(specklePlanet);
-			speckleLabel.setBounds(screenX/5 - specklePlanet.getWidth()/2, screenY/2 - specklePlanet.getHeight()/2, specklePlanet.getWidth(), specklePlanet.getHeight());
+			speckleLabel.setBounds(screenX / 5 - specklePlanet.getWidth() / 2,
+					screenY / 2 - specklePlanet.getHeight() / 2, specklePlanet.getWidth(), specklePlanet.getHeight());
 
 			fracturedLabel = createImageButton(fracturedPlanet);
-			fracturedLabel.setBounds(screenX - yarnPlanet.getWidth() - 200, 500, yarnPlanet.getWidth(), yarnPlanet.getHeight());
+			fracturedLabel.setBounds(screenX - yarnPlanet.getWidth() - 200, 500, yarnPlanet.getWidth(),
+					yarnPlanet.getHeight());
 
 			depotLabel = createImageButton(depot);
-			depotLabel.setBounds(screenX/2 - depot.getWidth()/2, screenY/2 - depot.getHeight(), depot.getWidth(), depot.getHeight());
+			depotLabel.setBounds(screenX / 2 - depot.getWidth() / 2, screenY / 2 - depot.getHeight(), depot.getWidth(),
+					depot.getHeight());
 
 			jupiterLabel = createImageButton(jupiterPlanet);
-			jupiterLabel.setBounds(screenX - jupiterPlanet.getWidth() - 400, screenY/2, jupiterPlanet.getWidth(), jupiterPlanet.getHeight());
+			jupiterLabel.setBounds(screenX - jupiterPlanet.getWidth() - 400, screenY / 2, jupiterPlanet.getWidth(),
+					jupiterPlanet.getHeight());
 
 			moonLabel = createImageButton(moonPlanet);
-			moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(), moonPlanet.getHeight());
+			moonLabel.setBounds(screenX - moonPlanet.getWidth() - 400, 200, moonPlanet.getWidth(),
+					moonPlanet.getHeight());
 
 			JButton button = new JButton("Confirm Travel");
 			button.setFont(new Font("Tahoma", Font.PLAIN, 28));
-			button.setBounds(screenX/2 - 150, screenY - 200, 300, 100);
+			button.setBounds(screenX / 2 - 150, screenY - 200, 300, 100);
 			button.addActionListener(new TravelButtonListener());
 
 			this.add(yarnLabel);
@@ -465,11 +507,11 @@ public class SpaceClient {
 
 		}
 
-
 		/*
-		 * createImageButton
-		 * creates JLabel with MouseListener so it acts like a button
+		 * createImageButton creates JLabel with MouseListener so it acts like a button
+		 * 
 		 * @param Buffered image to be turned into JLabel
+		 * 
 		 * @return button JLabel
 		 */
 		public JLabel createImageButton(final BufferedImage planet) {
@@ -478,81 +520,75 @@ public class SpaceClient {
 			return imageButton;
 		}
 
-		public class TravelButtonListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
-				if(planetName.equals("Yarn Planet")) {
-					inputss.enqueue("yarnPlanet");
+		public class TravelButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				if (planetName.equals("Yarn Planet")) {
 					frame.setContentPane(new TravelPanel("Yarn Planet", 50));
 					frame.invalidate();
 					frame.validate();
-				}else if (planetName.equals("Flat Planet")){
-					inputss.enqueue("flatEarth");
+				} else if (planetName.equals("Flat Planet")) {
 					frame.setContentPane(new TravelPanel("Flat Planet", 50));
 					frame.invalidate();
 					frame.validate();
-				}else if (planetName.equals("Potato Planet")){
-					inputss.enqueue("potatoPlanet");
+				} else if (planetName.equals("Potato Planet")) {
 					frame.setContentPane(new TravelPanel("Potato Planet", 50));
 					frame.invalidate();
-					frame.validate();	
-				}else if (planetName.equals("Speckle Planet")){
-					inputss.enqueue("specklePlanet");
+					frame.validate();
+				} else if (planetName.equals("Speckle Planet")) {
 					frame.setContentPane(new TravelPanel("Speckle Planet", 50));
 					frame.invalidate();
 					frame.validate();
-				}else if (planetName.equals("Fractured Planet")){
-					inputss.enqueue("fracturedPlanet");
+				} else if (planetName.equals("Fractured Planet")) {
 					frame.setContentPane(new TravelPanel("Fractured Planet", 50));
 					frame.invalidate();
 					frame.validate();
-				}else if (planetName.equals("Depot")){
-					inputss.enqueue("depot");
+				} else if (planetName.equals("Depot")) {
 					frame.setContentPane(new TravelPanel("Depot", 50));
 					frame.invalidate();
 					frame.validate();
-				}else if (planetName.equals("Jupiter Planet")){
-					inputss.enqueue("jupiter");
+				} else if (planetName.equals("Jupiter Planet")) {
 					frame.setContentPane(new TravelPanel("Jupiter Planet", 50));
 					frame.invalidate();
 					frame.validate();
-				}else if (planetName.equals("Moon Planet")){
-					inputss.enqueue("moonPlanet");
+				} else if (planetName.equals("Moon Planet")) {
 					frame.setContentPane(new TravelPanel("Moon Planet", 50));
 					frame.invalidate();
 					frame.validate();
 				}
+				inputss.enqueue(planetName);
 				commandd.enqueue("1");
 			}
 		}
 
-		//MouseAdapter for planets
+		// MouseAdapter for planets
 		public class PlanetListener extends MouseAdapter {
 			BufferedImage planet;
 			JLabel source;
 
-			PlanetListener(BufferedImage planet){
+			PlanetListener(BufferedImage planet) {
 				this.planet = planet;
 			}
+
 			public void mouseClicked(MouseEvent e) {
 				boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
 				if (opaque) {
-					source = (JLabel)e.getSource();
+					source = (JLabel) e.getSource();
 
-					if(source == yarnLabel) { //yarnLabel
+					if (source == yarnLabel) { // yarnLabel
 						planetName = "Yarn Planet";
-					}else if(source == flatLabel) { //flatLabel
+					} else if (source == flatLabel) { // flatLabel
 						planetName = "Flat Planet";
-					}else if (source == potatoLabel) { //potatoLabel
+					} else if (source == potatoLabel) { // potatoLabel
 						planetName = "Potato Planet";
-					}else if (source == speckleLabel) { //speckleLabel
+					} else if (source == speckleLabel) { // speckleLabel
 						planetName = "Speckle Planet";
-					}else if (source == fracturedLabel) { //fracturedLabel
+					} else if (source == fracturedLabel) { // fracturedLabel
 						planetName = "Fractured Planet";
-					}else if (source == depotLabel){ //depotLabel
+					} else if (source == depotLabel) { // depotLabel
 						planetName = "Depot";
-					}else if (source == jupiterLabel) { //jupiterLabel
+					} else if (source == jupiterLabel) { // jupiterLabel
 						planetName = "Jupiter Planet";
-					}else if (source == moonLabel) { //moonLabel
+					} else if (source == moonLabel) { // moonLabel
 						planetName = "Moon Planet";
 					}
 				}
@@ -561,6 +597,7 @@ public class SpaceClient {
 
 		/*
 		 * paintComponent
+		 * 
 		 * @param Graphics g
 		 */
 		public void paintComponent(Graphics g) {
@@ -573,28 +610,27 @@ public class SpaceClient {
 			g.setFont(bigFont);
 			g.setColor(textColour);
 			drawText1 = "Travel to: " + planetName;
-			if (!planetName.equals("Depot")) { //No projected resources for depot
+			if (!planetName.equals("Depot")) { // No projected resources for depot
 				drawText2 = "Deep Space Viewer projected Resources: " + estimatedResources;
-			}else {
+			} else {
 				drawText2 = "";
 			}
-			g.drawString(drawText1, 20, 2*screenY/3 + 50);
-			g.drawString(drawText2, 20, 2*screenY/3 + 150);
+			g.drawString(drawText1, 20, 2 * screenY / 3 + 50);
+			g.drawString(drawText2, 20, 2 * screenY / 3 + 150);
 
 			repaint();
 		}
 
-
-
-		public void sendInstructions(String instructions){
+		public void sendInstructions(String instructions) {
 
 		}
 
 	}
-	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 * DepotPanel
-	 * Inner class for displaying depot panel
+	 * DepotPanel Inner class for displaying depot panel
+	 * 
 	 * @author Felix Tai
 	 */
 	public class DepotPanel extends JPanel {
@@ -612,17 +648,17 @@ public class SpaceClient {
 				System.out.println("image didn't load");
 			}
 			backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT);
-			
-			//Make a JButton to go back to the Map Panel
+
+			// Make a JButton to go back to the Map Panel
 			JButton mapButton = new JButton("Travel Elsewhere");
 			mapButton.addActionListener(new MapListener());
-			mapButton.setBounds(screenX/12, screenX/12, 400, 100);
+			mapButton.setBounds(screenX / 12, screenX / 12, 400, 100);
 			mapButton.setFont(new Font("Tahoma", Font.BOLD, 29));
-			
+
 			this.add(upgrade);
 			this.add(mapButton);
 		}
-		
+
 		class MapListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				frame.setContentPane(new MapPanel());
@@ -641,12 +677,12 @@ public class SpaceClient {
 			/**
 			 * Create the panel.
 			 */
-			JButton button; //engine
-			JButton button_1; //mining
-			JButton button_2; //shields
-			JButton button_3; //weapons
-			JButton button_5; //Deepspaceviewer
-			
+			JButton button; // engine
+			JButton button_1; // mining
+			JButton button_2; // shields
+			JButton button_3; // weapons
+			JButton button_5; // Deepspaceviewer
+
 			public UpgradePanel() {
 
 				this.setPreferredSize(new Dimension(screenX, screenY / 3));
@@ -670,8 +706,8 @@ public class SpaceClient {
 						.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1223, Short.MAX_VALUE));
 				groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup().addComponent(lblUpgradeShip)
-								.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-								.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 454, GroupLayout.PREFERRED_SIZE)));
+								.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE).addComponent(
+										tabbedPane, GroupLayout.PREFERRED_SIZE, 454, GroupLayout.PREFERRED_SIZE)));
 
 				tabbedPane.setBackground(new Color(3, 53, 132));
 
@@ -715,11 +751,13 @@ public class SpaceClient {
 								GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_EnginePanel.createSequentialGroup().addGap(77)
 								.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_EnginePanel.createSequentialGroup().addGap(71).addComponent(lblNewLabel_1,
-												GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
-										.addGroup(gl_EnginePanel.createSequentialGroup()
-												.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-												.addGap(49)))
+										.addGroup(gl_EnginePanel.createSequentialGroup().addGap(71).addComponent(
+												lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+										.addGroup(
+												gl_EnginePanel.createSequentialGroup()
+														.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 92,
+																Short.MAX_VALUE)
+														.addGap(49)))
 								.addGap(10).addComponent(lblX, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(7)
 								.addComponent(label_9, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE).addGap(10)
 								.addComponent(label_16, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(42)
@@ -730,29 +768,46 @@ public class SpaceClient {
 						.addGroup(gl_EnginePanel.createSequentialGroup().addGap(220)
 								.addComponent(button, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(308, Short.MAX_VALUE)));
-				gl_EnginePanel.setVerticalGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING).addGroup(gl_EnginePanel
-						.createSequentialGroup()
-						.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING, false).addGroup(gl_EnginePanel
-								.createSequentialGroup().addGap(11)
-								.addComponent(label, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE).addGap(46)
-								.addComponent(lblUpgradeEngines, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-								.addGap(7)
-								.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_EnginePanel.createSequentialGroup().addGap(18).addComponent(label_1,
-												GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_EnginePanel.createSequentialGroup().addGap(18).addComponent(lblX,
-												GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-										.addComponent(label_9, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_EnginePanel.createSequentialGroup().addGap(18).addComponent(label_16,
-												GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-										.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
-								.addGap(42))
-								.addGroup(Alignment.TRAILING,
-										gl_EnginePanel.createSequentialGroup()
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(label_20).addGap(51)))
-						.addComponent(button, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE).addGap(106)));
+				gl_EnginePanel
+						.setVerticalGroup(
+								gl_EnginePanel.createParallelGroup(Alignment.LEADING).addGroup(
+										gl_EnginePanel.createSequentialGroup().addGroup(gl_EnginePanel
+												.createParallelGroup(Alignment.LEADING,
+														false)
+												.addGroup(gl_EnginePanel.createSequentialGroup().addGap(11)
+														.addComponent(label, GroupLayout.PREFERRED_SIZE, 43,
+																GroupLayout.PREFERRED_SIZE)
+														.addGap(46)
+														.addComponent(
+																lblUpgradeEngines, GroupLayout.PREFERRED_SIZE, 43,
+																GroupLayout.PREFERRED_SIZE)
+														.addGap(7)
+														.addGroup(gl_EnginePanel.createParallelGroup(Alignment.LEADING)
+																.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE,
+																		50, GroupLayout.PREFERRED_SIZE)
+																.addGroup(gl_EnginePanel.createSequentialGroup()
+																		.addGap(18).addComponent(label_1,
+																				GroupLayout.PREFERRED_SIZE, 20,
+																				GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_EnginePanel
+																		.createSequentialGroup().addGap(18)
+																		.addComponent(lblX, GroupLayout.PREFERRED_SIZE,
+																				20, GroupLayout.PREFERRED_SIZE))
+																.addComponent(label_9, GroupLayout.PREFERRED_SIZE, 50,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGroup(gl_EnginePanel.createSequentialGroup()
+																		.addGap(18).addComponent(label_16,
+																				GroupLayout.PREFERRED_SIZE, 20,
+																				GroupLayout.PREFERRED_SIZE))
+																.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 50,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGap(42))
+												.addGroup(Alignment.TRAILING, gl_EnginePanel.createSequentialGroup()
+														.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(label_20).addGap(51)))
+												.addComponent(button, GroupLayout.PREFERRED_SIZE, 69,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(106)));
 				EnginePanel.setLayout(gl_EnginePanel);
 
 				// Tab for weapons upgrades
@@ -805,18 +860,20 @@ public class SpaceClient {
 				gl_UpgradeWeaponModule.setHorizontalGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGroup(gl_UpgradeWeaponModule
 								.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(10).addComponent(label_12,
-										GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(15).addComponent(label_10,
-										GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(10).addComponent(
+										label_12, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(15).addComponent(
+										label_10, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(77)
 										.addGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING, false)
 												.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
 														.addComponent(label_25, GroupLayout.PREFERRED_SIZE, 81,
 																GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE))
+														.addPreferredGap(ComponentPlacement.RELATED, 49,
+																Short.MAX_VALUE))
 												.addGroup(gl_UpgradeWeaponModule.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+														.addPreferredGap(ComponentPlacement.RELATED, 71,
+																Short.MAX_VALUE)
 														.addComponent(label_27, GroupLayout.PREFERRED_SIZE, 59,
 																GroupLayout.PREFERRED_SIZE)))
 										.addGap(10)
@@ -835,16 +892,18 @@ public class SpaceClient {
 														.addPreferredGap(ComponentPlacement.RELATED)
 														.addComponent(label_48, GroupLayout.PREFERRED_SIZE, 61,
 																GroupLayout.PREFERRED_SIZE)
-														.addGap(9).addComponent(label_49, GroupLayout.PREFERRED_SIZE, 125,
-																GroupLayout.PREFERRED_SIZE)))))
+														.addGap(9).addComponent(label_49, GroupLayout.PREFERRED_SIZE,
+																125, GroupLayout.PREFERRED_SIZE)))))
 								.addContainerGap(243, Short.MAX_VALUE)));
 				gl_UpgradeWeaponModule.setVerticalGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGroup(gl_UpgradeWeaponModule
 								.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(11)
-										.addComponent(label_12, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+										.addComponent(label_12, GroupLayout.PREFERRED_SIZE, 43,
+												GroupLayout.PREFERRED_SIZE)
 										.addGap(46)
-										.addComponent(label_10, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+										.addComponent(
+												label_10, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 										.addGap(7)
 										.addGroup(gl_UpgradeWeaponModule.createParallelGroup(Alignment.LEADING)
 												.addComponent(label_48, GroupLayout.PREFERRED_SIZE, 50,
@@ -862,8 +921,10 @@ public class SpaceClient {
 												.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(18)
 														.addComponent(label_28, GroupLayout.PREFERRED_SIZE, 20,
 																GroupLayout.PREFERRED_SIZE))))
-								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(161).addComponent(label_49)))
-								.addGap(33).addComponent(button_3, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_UpgradeWeaponModule.createSequentialGroup().addGap(161)
+										.addComponent(label_49)))
+								.addGap(33)
+								.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(56, Short.MAX_VALUE)));
 				UpgradeWeaponModule.setLayout(gl_UpgradeWeaponModule);
 
@@ -877,51 +938,39 @@ public class SpaceClient {
 				JLabel lblNewLabel_4 = new JLabel(laserIcon);
 
 				JLabel lblNewLabel_5 = new JLabel(missileIcon);
-				
+
 				JLabel lblNewLabel_2 = new JLabel("New label");
-				
+
 				JLabel label_50 = new JLabel("New label");
-				
+
 				JLabel label_51 = new JLabel("New label");
 				GroupLayout gl_WeaponStats = new GroupLayout(WeaponStats);
-				gl_WeaponStats.setHorizontalGroup(
-					gl_WeaponStats.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_WeaponStats.createSequentialGroup()
-							.addGap(87)
-							.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-							.addGap(90)
-							.addComponent(lblNewLabel_5, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-							.addGap(95)
-							.addComponent(lblNewLabel_4, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-							.addGap(56))
-						.addGroup(gl_WeaponStats.createSequentialGroup()
-							.addGap(139)
-							.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-							.addGap(187)
-							.addComponent(label_50, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-							.addGap(235)
-							.addComponent(label_51, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-							.addGap(128))
-				);
-				gl_WeaponStats.setVerticalGroup(
-					gl_WeaponStats.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_WeaponStats.createSequentialGroup()
-							.addGap(45)
-							.addGroup(gl_WeaponStats.createParallelGroup(Alignment.LEADING)
+				gl_WeaponStats.setHorizontalGroup(gl_WeaponStats.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_WeaponStats.createSequentialGroup().addGap(87)
+								.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE).addGap(90)
+								.addComponent(lblNewLabel_5, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE).addGap(95)
+								.addComponent(lblNewLabel_4, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE).addGap(56))
+						.addGroup(gl_WeaponStats.createSequentialGroup().addGap(139)
+								.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE).addGap(187)
+								.addComponent(label_50, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE).addGap(235)
+								.addComponent(label_51, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE).addGap(128)));
+				gl_WeaponStats.setVerticalGroup(gl_WeaponStats.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_WeaponStats.createSequentialGroup().addGap(45).addGroup(gl_WeaponStats
+								.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_WeaponStats.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_WeaponStats.createSequentialGroup()
-									.addGap(55)
-									.addGroup(gl_WeaponStats.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-										.addComponent(label_50, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_WeaponStats.createSequentialGroup()
-									.addGap(51)
-									.addComponent(label_51, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
-							.addGap(47))
-				);
+								.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 42,
+										GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_WeaponStats.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_WeaponStats.createSequentialGroup().addGap(55)
+												.addGroup(gl_WeaponStats.createParallelGroup(Alignment.BASELINE)
+														.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 169,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(label_50, GroupLayout.PREFERRED_SIZE, 169,
+																GroupLayout.PREFERRED_SIZE)))
+										.addGroup(gl_WeaponStats.createSequentialGroup().addGap(51).addComponent(
+												label_51, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
+								.addGap(47)));
 				WeaponStats.setLayout(gl_WeaponStats);
 
 				JPanel MiningPanel = new JPanel();
@@ -962,21 +1011,26 @@ public class SpaceClient {
 								GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_MiningPanel.createSequentialGroup().addGap(77)
 								.addGroup(gl_MiningPanel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_MiningPanel.createSequentialGroup().addGap(71).addComponent(label_5,
-												GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
-										.addGroup(gl_MiningPanel.createSequentialGroup()
-												.addComponent(label_6, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-												.addGap(49)))
-								.addGap(10).addComponent(label_7, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(7)
-								.addComponent(label_8, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE).addGap(10)
-								.addComponent(label_13, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(42)
+										.addGroup(gl_MiningPanel.createSequentialGroup().addGap(71)
+												.addComponent(label_5, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+										.addGroup(
+												gl_MiningPanel.createSequentialGroup()
+														.addComponent(label_6, GroupLayout.DEFAULT_SIZE, 92,
+																Short.MAX_VALUE)
+														.addGap(49)))
+								.addGap(10).addComponent(label_7, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addGap(7).addComponent(label_8, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+								.addGap(10).addComponent(label_13, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addGap(42)
 								.addComponent(label_14, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(label_15, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
 								.addGap(337))
-						.addGroup(gl_MiningPanel.createSequentialGroup().addGap(220)
-								.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(308, Short.MAX_VALUE))
+						.addGroup(
+								gl_MiningPanel.createSequentialGroup().addGap(220)
+										.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 655,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap(308, Short.MAX_VALUE))
 						.addGroup(gl_MiningPanel.createSequentialGroup().addContainerGap()
 								.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(846, Short.MAX_VALUE)));
@@ -984,27 +1038,33 @@ public class SpaceClient {
 						.addGap(0, 417, Short.MAX_VALUE)
 						.addGroup(gl_MiningPanel.createSequentialGroup()
 								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(gl_MiningPanel.createParallelGroup(Alignment.TRAILING, false).addGroup(gl_MiningPanel
-										.createSequentialGroup()
-										.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-										.addGap(46)
-										.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-										.addGap(7)
-										.addGroup(gl_MiningPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(label_5, GroupLayout.PREFERRED_SIZE, 50,
+								.addGroup(gl_MiningPanel.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(gl_MiningPanel.createSequentialGroup()
+												.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 43,
 														GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_MiningPanel.createSequentialGroup().addGap(18).addComponent(
-														label_6, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_MiningPanel.createSequentialGroup().addGap(18).addComponent(
-														label_7, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-												.addComponent(label_8, GroupLayout.PREFERRED_SIZE, 50,
+												.addGap(46)
+												.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 43,
 														GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_MiningPanel.createSequentialGroup().addGap(18).addComponent(
-														label_13, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-												.addComponent(label_14, GroupLayout.PREFERRED_SIZE, 50,
-														GroupLayout.PREFERRED_SIZE))
-										.addGap(42))
-										.addGroup(gl_MiningPanel.createSequentialGroup().addComponent(label_15).addGap(51)))
+												.addGap(7)
+												.addGroup(gl_MiningPanel.createParallelGroup(Alignment.LEADING)
+														.addComponent(label_5, GroupLayout.PREFERRED_SIZE, 50,
+																GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_MiningPanel.createSequentialGroup().addGap(18)
+																.addComponent(label_6, GroupLayout.PREFERRED_SIZE, 20,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGroup(gl_MiningPanel.createSequentialGroup().addGap(18)
+																.addComponent(label_7, GroupLayout.PREFERRED_SIZE, 20,
+																		GroupLayout.PREFERRED_SIZE))
+														.addComponent(label_8, GroupLayout.PREFERRED_SIZE, 50,
+																GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_MiningPanel.createSequentialGroup().addGap(18)
+																.addComponent(label_13, GroupLayout.PREFERRED_SIZE, 20,
+																		GroupLayout.PREFERRED_SIZE))
+														.addComponent(label_14, GroupLayout.PREFERRED_SIZE, 50,
+																GroupLayout.PREFERRED_SIZE))
+												.addGap(42))
+										.addGroup(gl_MiningPanel.createSequentialGroup().addComponent(label_15)
+												.addGap(51)))
 								.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 								.addGap(106)));
 				MiningPanel.setLayout(gl_MiningPanel);
@@ -1042,25 +1102,32 @@ public class SpaceClient {
 				button_5.addActionListener(new UpgradeListener());
 
 				GroupLayout gl_DeepSpaceViewerPanel = new GroupLayout(DeepSpaceViewerPanel);
-				gl_DeepSpaceViewerPanel.setHorizontalGroup(gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
+				gl_DeepSpaceViewerPanel.setHorizontalGroup(gl_DeepSpaceViewerPanel
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(10).addComponent(label_24,
 								GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(77).addGroup(gl_DeepSpaceViewerPanel
-								.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(71).addComponent(label_33,
-										GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
-								.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
-										.addComponent(label_34, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE).addGap(49)))
-								.addGap(10).addComponent(label_35, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(7)
-								.addComponent(label_36, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE).addGap(10)
-								.addComponent(label_37, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(42)
+						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(77)
+								.addGroup(gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(71)
+												.addComponent(label_33, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+										.addGroup(
+												gl_DeepSpaceViewerPanel.createSequentialGroup()
+														.addComponent(label_34, GroupLayout.DEFAULT_SIZE, 92,
+																Short.MAX_VALUE)
+														.addGap(49)))
+								.addGap(10).addComponent(label_35, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addGap(7).addComponent(label_36, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+								.addGap(10).addComponent(label_37, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addGap(42)
 								.addComponent(label_38, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(label_39, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
 								.addGap(337))
-						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(220)
-								.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 655, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(308, Short.MAX_VALUE))
+						.addGroup(
+								gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(220)
+										.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 655,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap(308, Short.MAX_VALUE))
 						.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addContainerGap()
 								.addComponent(label_32, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(807, Short.MAX_VALUE)));
@@ -1072,22 +1139,25 @@ public class SpaceClient {
 												.addComponent(label_24, GroupLayout.PREFERRED_SIZE, 43,
 														GroupLayout.PREFERRED_SIZE)
 												.addGap(46)
-												.addComponent(
-														label_32, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+												.addComponent(label_32, GroupLayout.PREFERRED_SIZE, 43,
+														GroupLayout.PREFERRED_SIZE)
 												.addGap(7)
 												.addGroup(gl_DeepSpaceViewerPanel.createParallelGroup(Alignment.LEADING)
 														.addComponent(label_33, GroupLayout.PREFERRED_SIZE, 50,
 																GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(18)
-																.addComponent(label_34, GroupLayout.PREFERRED_SIZE, 20,
+														.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+																.addGap(18).addComponent(label_34,
+																		GroupLayout.PREFERRED_SIZE, 20,
 																		GroupLayout.PREFERRED_SIZE))
-														.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(18)
+														.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+																.addGap(18)
 																.addComponent(label_35, GroupLayout.PREFERRED_SIZE, 20,
 																		GroupLayout.PREFERRED_SIZE))
 														.addComponent(label_36, GroupLayout.PREFERRED_SIZE, 50,
 																GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup().addGap(18)
-																.addComponent(label_37, GroupLayout.PREFERRED_SIZE, 20,
+														.addGroup(gl_DeepSpaceViewerPanel.createSequentialGroup()
+																.addGap(18).addComponent(label_37,
+																		GroupLayout.PREFERRED_SIZE, 20,
 																		GroupLayout.PREFERRED_SIZE))
 														.addComponent(label_38, GroupLayout.PREFERRED_SIZE, 50,
 																GroupLayout.PREFERRED_SIZE))
@@ -1139,14 +1209,17 @@ public class SpaceClient {
 								GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(77)
 								.addGroup(gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(71).addComponent(label_19,
-												GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
-										.addGroup(gl_ShieldPanel.createSequentialGroup()
-												.addComponent(label_21, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-												.addGap(49)))
-								.addGap(10).addComponent(label_22, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(7)
-								.addComponent(label_23, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE).addGap(10)
-								.addComponent(label_29, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(42)
+										.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(71)
+												.addComponent(label_19, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+										.addGroup(
+												gl_ShieldPanel.createSequentialGroup()
+														.addComponent(label_21, GroupLayout.DEFAULT_SIZE, 92,
+																Short.MAX_VALUE)
+														.addGap(49)))
+								.addGap(10).addComponent(label_22, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addGap(7).addComponent(label_23, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+								.addGap(10).addComponent(label_29, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+								.addGap(42)
 								.addComponent(label_30, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(label_31, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
@@ -1156,28 +1229,34 @@ public class SpaceClient {
 								.addContainerGap(308, Short.MAX_VALUE)));
 				gl_ShieldPanel.setVerticalGroup(gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
 						.addGap(0, 417, Short.MAX_VALUE).addGap(0, 417, Short.MAX_VALUE)
-						.addGroup(gl_ShieldPanel.createSequentialGroup().addContainerGap(11, Short.MAX_VALUE)
-								.addGroup(gl_ShieldPanel.createParallelGroup(Alignment.TRAILING, false).addGroup(gl_ShieldPanel
+						.addGroup(gl_ShieldPanel.createSequentialGroup().addContainerGap(11, Short.MAX_VALUE).addGroup(
+								gl_ShieldPanel.createParallelGroup(Alignment.TRAILING, false).addGroup(gl_ShieldPanel
 										.createSequentialGroup()
-										.addComponent(label_17, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+										.addComponent(label_17, GroupLayout.PREFERRED_SIZE, 43,
+												GroupLayout.PREFERRED_SIZE)
 										.addGap(46)
-										.addComponent(label_18, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+										.addComponent(
+												label_18, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 										.addGap(7)
 										.addGroup(gl_ShieldPanel.createParallelGroup(Alignment.LEADING)
 												.addComponent(label_19, GroupLayout.PREFERRED_SIZE, 50,
 														GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(18).addComponent(
-														label_21, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(18).addComponent(
-														label_22, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(18)
+														.addComponent(label_21, GroupLayout.PREFERRED_SIZE, 20,
+																GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(18)
+														.addComponent(label_22, GroupLayout.PREFERRED_SIZE, 20,
+																GroupLayout.PREFERRED_SIZE))
 												.addComponent(label_23, GroupLayout.PREFERRED_SIZE, 50,
 														GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(18).addComponent(
-														label_29, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_ShieldPanel.createSequentialGroup().addGap(18)
+														.addComponent(label_29, GroupLayout.PREFERRED_SIZE, 20,
+																GroupLayout.PREFERRED_SIZE))
 												.addComponent(label_30, GroupLayout.PREFERRED_SIZE, 50,
 														GroupLayout.PREFERRED_SIZE))
 										.addGap(42))
-										.addGroup(gl_ShieldPanel.createSequentialGroup().addComponent(label_31).addGap(51)))
+										.addGroup(gl_ShieldPanel.createSequentialGroup().addComponent(label_31)
+												.addGap(51)))
 								.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
 								.addGap(106)));
 				ShieldPanel.setLayout(gl_ShieldPanel);
@@ -1224,55 +1303,64 @@ public class SpaceClient {
 				gl_RepairPanel.setHorizontalGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_RepairPanel.createSequentialGroup().addGap(54)
 								.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE).addGap(104)
-								.addComponent(lblMaximumShipHealth, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE).addGap(252))
+								.addComponent(lblMaximumShipHealth, GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+								.addGap(252))
 						.addGroup(gl_RepairPanel.createSequentialGroup().addGap(89)
-								.addComponent(btnRepairShipTo, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnRepairShipTo, GroupLayout.PREFERRED_SIZE, 400,
+										GroupLayout.PREFERRED_SIZE)
 								.addGap(71).addComponent(lblCost, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_RepairPanel
-										.createSequentialGroup()
-										.addComponent(label_40, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE).addGap(10)
-										.addComponent(label_41, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(7)
-										.addComponent(label_42, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE).addGap(10)
-										.addComponent(label_43, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+								.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_RepairPanel.createSequentialGroup()
+												.addComponent(label_40, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+												.addGap(10)
+												.addComponent(label_41, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+												.addGap(7)
+												.addComponent(label_42, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+												.addGap(10)
+												.addComponent(label_43, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
 										.addGroup(gl_RepairPanel.createSequentialGroup()
 												.addComponent(label_44, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
 												.addGap(10)
 												.addComponent(label_45, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-												.addGap(7).addComponent(label_46, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-												.addGap(10)
-												.addComponent(label_47, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)))));
-				gl_RepairPanel.setVerticalGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_RepairPanel
-						.createSequentialGroup().addGap(62)
-						.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblMaximumShipHealth, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-						.addGap(64)
-						.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnRepairShipTo, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_RepairPanel.createSequentialGroup()
-										.addGroup(gl_RepairPanel.createParallelGroup(Alignment.TRAILING)
+												.addGap(7)
+												.addComponent(label_46, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+												.addGap(10).addComponent(label_47, GroupLayout.DEFAULT_SIZE, 136,
+														Short.MAX_VALUE)))));
+				gl_RepairPanel.setVerticalGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_RepairPanel.createSequentialGroup().addGap(62)
+								.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 43,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblMaximumShipHealth, GroupLayout.PREFERRED_SIZE, 43,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(64)
+								.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnRepairShipTo, GroupLayout.PREFERRED_SIZE, 150,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_RepairPanel.createSequentialGroup()
+												.addGroup(gl_RepairPanel.createParallelGroup(Alignment.TRAILING)
+														.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
+																.addComponent(label_40, GroupLayout.PREFERRED_SIZE, 50,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGroup(gl_RepairPanel.createSequentialGroup()
+																		.addGap(18).addComponent(label_41))
+																.addComponent(label_42, GroupLayout.PREFERRED_SIZE, 50,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGroup(gl_RepairPanel.createSequentialGroup()
+																		.addGap(18).addComponent(label_43)))
+														.addComponent(lblCost, GroupLayout.PREFERRED_SIZE, 43,
+																GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.RELATED)
 												.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(label_40, GroupLayout.PREFERRED_SIZE, 50,
+														.addComponent(label_44, GroupLayout.PREFERRED_SIZE, 50,
 																GroupLayout.PREFERRED_SIZE)
 														.addGroup(gl_RepairPanel.createSequentialGroup().addGap(18)
-																.addComponent(label_41))
-														.addComponent(label_42, GroupLayout.PREFERRED_SIZE, 50,
+																.addComponent(label_45))
+														.addComponent(label_46, GroupLayout.PREFERRED_SIZE, 50,
 																GroupLayout.PREFERRED_SIZE)
 														.addGroup(gl_RepairPanel.createSequentialGroup().addGap(18)
-																.addComponent(label_43)))
-												.addComponent(lblCost, GroupLayout.PREFERRED_SIZE, 43,
-														GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_RepairPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(label_44, GroupLayout.PREFERRED_SIZE, 50,
-														GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_RepairPanel.createSequentialGroup().addGap(18)
-														.addComponent(label_45))
-												.addComponent(label_46, GroupLayout.PREFERRED_SIZE, 50,
-														GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_RepairPanel.createSequentialGroup().addGap(18)
-														.addComponent(label_47)))))));
+																.addComponent(label_47)))))));
 				RepairPanel.setLayout(gl_RepairPanel);
 				setLayout(groupLayout);
 
@@ -1280,35 +1368,234 @@ public class SpaceClient {
 
 			class UpgradeListener implements ActionListener {
 				public void actionPerformed(ActionEvent e) {
-					if(e.getSource() == button) { //engine upgrade
+					if (e.getSource() == button) { // engine upgrade
 						inputss.enqueue("engineModule");
-					}else if (e.getSource() == button_1) { //mining upgrade
+					} else if (e.getSource() == button_1) { // mining upgrade
 						inputss.enqueue("miningModule");
-					}else if (e.getSource() == button_2) { //shields upgrade
+					} else if (e.getSource() == button_2) { // shields upgrade
 						inputss.enqueue("shieldModule");
-					}else if (e.getSource() == button_3) { //weapons upgrade
+					} else if (e.getSource() == button_3) { // weapons upgrade
 						inputss.enqueue("weaponModule");
-					}else if (e.getSource() == button_5) { //deep space viewer upgrade
+					} else if (e.getSource() == button_5) { // deep space viewer upgrade
 						inputss.enqueue("deepSpaceViewer");
 					}
-					commandd.enqueue("3"); //command for upgrade
+					commandd.enqueue("3"); // command for upgrade
 				}
 			}
 		}
 	}
-	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public class TravelPanel extends JPanel {
+
+		Clock clock = new Clock();
+		int x = 0;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenX = (int) screenSize.getWidth();
+		int screenY = (int) screenSize.getHeight();
+		Font bigFont = new Font("Helvetica", Font.BOLD, 40);
+		Color clearColour = new Color(36, 5, 51, 225); // create 50% transparent colour
+		Color textColour = new Color(209, 0, 198);
+		String drawText1 = "";
+		String drawText2 = "";
+		String planetName;
+		int travelSec;
+		int timePassed;
+		double startTime = System.currentTimeMillis(); // time of travel start
+		double currentTimeCheck;
+		String timeString = "";
+
+		/*
+		 * constructor
+		 * 
+		 * @param planetName String containing name of planet being traveled to
+		 * 
+		 * @param travelSec Integer representing the amount of time in seconds needed to
+		 * travel to the planet
+		 */
+		public TravelPanel(String planetName, int travelSec) {
+			backgroundImage = backgroundImage.getScaledInstance(screenX, screenY, Image.SCALE_DEFAULT); // resize
+																										// background //
+																										// image
+			this.planetName = planetName;
+			this.travelSec = travelSec;
+		}
+
+		/*
+		 * paintComponent
+		 * 
+		 * @param Graphics g
+		 */
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g); // required to ensure the panel is correctly redrawn
+			clock.update(); // update time
+
+			g.drawImage(backgroundImage, 0, 0, screenX - x, screenY, x, 0, screenX, screenY, null); // draw the part of
+																									// the
+																									// background from
+																									// the left
+			g.drawImage(backgroundImage, screenX - x, 0, screenX, screenY, 0, 0, x, screenY, null); // draw the rest of
+																									// the
+																									// background
+			g.drawImage(shipImage, 200, 50, null);
+
+			// Draw translucent rectangle
+			g.setColor(clearColour);
+			g.fillRect(0, 2 * screenY / 3, screenX, screenY / 3);
+
+			// Draw text with countdown and location being traveled to
+			g.setFont(bigFont);
+			g.setColor(textColour);
+			currentTimeCheck = System.currentTimeMillis();
+			timePassed = (int) (currentTimeCheck - startTime) / 1000;
+
+			if (timePassed <= travelSec) { // check if travel time has not elapsed yet
+				if ((travelSec - timePassed) / 60 < 1) { // no minutes
+					timeString = Integer.toString(travelSec - timePassed) + " sec";
+				} else {
+					timeString = Integer.toString((travelSec - timePassed) / 60) + " min || "
+							+ Integer.toString((travelSec - timePassed) % 60) + " sec";
+				}
+			} else {
+				// exit to mine/depot
+				if (planetName.equals("Depot")) { // turns into DepotPanel
+
+				} else { // MinePanel for respective planet
+					commandd.enqueue("2");
+					inputss.enqueue(planetName);
+				}
+			}
+			drawText1 = "Travelling to: " + planetName;
+			drawText2 = "Time remaining: " + timeString;
+
+			g.drawString(drawText1, 20, 2 * screenY / 3 + 50);
+			g.drawString(drawText2, 20, 2 * screenY / 3 + 150);
+
+			if (x < screenX) {
+				x = (int) (x + clock.getElapsedTime() * 1500); // continue scrolling from left to right
+			} else {
+				x = 0; // right image has completely covered, reset to continue the loop
+			}
+			// request a repaint
+			repaint();
+		}
+
+		class Clock {
+			double elapsedTime; // time that has passed
+			double lastTimeCheck; // when the last time check occured
+
+			public Clock() { // constructor starts with the first time check
+				lastTimeCheck = System.nanoTime();
+				elapsedTime = 0;
+			}
+
+			public void update() { // called each loop of the game loop
+				double currentTime = System.nanoTime(); // if the computer is fast you need more precision
+				elapsedTime = currentTime - lastTimeCheck; // update current time
+				lastTimeCheck = currentTime; // update last time check
+			}
+
+			// return elapsed time in milliseconds
+			public double getElapsedTime() {
+				return elapsedTime / 1.0E9; // used to get the elapsed time
+			}
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public class MinePanel extends JPanel {
+		Color clearColour = new Color(239, 161, 4, 225); // create 50% transparent colour
+		Font bigFont = new Font("Helvetica", Font.BOLD, 40);
+		Color textColour = new Color(209, 0, 198);
+		String planetName = "";
+		String drawText1 = "";
+		String drawText2 = "";
+		boolean exit = false;
+		BufferedImage backgroundPlanet;
+
+		MinePanel(String planetName) {
+			try {
+				if (planetName.equals("Yarn Planet")) {
+					backgroundPlanet = ImageIO.read(new File("yarnPlanet.png"));
+				} else if (planetName.equals("Flat Planet")) {
+					backgroundPlanet = ImageIO.read(new File("flatEarth.png"));
+				} else if (planetName.equals("Potato Planet")) {
+					backgroundPlanet = ImageIO.read(new File("potatoPlanet.png"));
+				} else if (planetName.equals("Speckle Planet")) {
+					backgroundPlanet = ImageIO.read(new File("specklePlanet.png"));
+				} else if (planetName.equals("Fractured Planet")) {
+					backgroundPlanet = ImageIO.read(new File("fracturedPlanet.png"));
+				} else if (planetName.equals("Jupiter Planet")) {
+					backgroundPlanet = ImageIO.read(new File("jupiter.png"));
+				} else if (planetName.equals("Moon Planet")) {
+					backgroundPlanet = ImageIO.read(new File("moonPlanet.png"));
+				} else if (planetName.equals("Basketball Planet")) {
+					backgroundPlanet = ImageIO.read(new File("basketball.png"));
+				} else if (planetName.equals("Bouncy Planet")) {
+					backgroundPlanet = ImageIO.read(new File("bouncyPlanet.png"));
+				} else if (planetName.equals("Saturn Planet")) {
+					backgroundPlanet = ImageIO.read(new File("saturnPlanet.png"));
+				}
+			} catch (Exception ex) {
+				System.out.println("images didn't load");
+			}
+			backgroundPlanet = resizeImage(backgroundPlanet, screenX / 2, screenX / 2);
+
+			// Create new thread to "mine" in the background
+			Thread thread = new Thread(new MineThread());
+			thread.start();
+		}
+
+		class MineThread implements Runnable {
+
+			public void run() {
+				while (!exit) { // keep looping until leaving planet
+					commandd.enqueue("4");
+					inputss.enqueue(planetName);
+					try { // pause for 5 seconds before sending again
+						Thread.sleep(5000);
+					} catch (Exception e) {
+						System.out.println("couldn't sleep thread");
+					}
+				}
+			}
+		}
+
+		/*
+		 * paintComponent
+		 * 
+		 * @param Graphics g
+		 */
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g); // required to ensure the panel is correctly redrawn
+			g.drawImage(backgroundImage, 0, 0, null);
+			g.drawImage(backgroundPlanet, screenX - backgroundPlanet.getWidth(), 0, null);
+			g.setColor(clearColour);
+			g.fillRect(0, screenY / 3, screenX / 4, 2 * screenY / 3);
+
+			g.setFont(bigFont);
+			g.setColor(textColour);
+			g.drawString(drawText1, 20, 2 * screenY / 3 + 50);
+			g.drawString(drawText2, 20, 2 * screenY / 3 + 150);
+
+			repaint();
+		}
+	}
+
 	/*
-	 * resizeImage 
-	 * resizes a Buffered image to specified size
-	 * @param BufferedImage to be resized, integers of width and height to be resized to
+	 * resizeImage resizes a Buffered image to specified size
+	 * 
+	 * @param BufferedImage to be resized, integers of width and height to be
+	 * resized to
+	 * 
 	 * @return BufferedImage that is resized
 	 */
 	public BufferedImage resizeImage(BufferedImage image, int resizeWidth, int resizeHeight) {
-		//resize a buffered image into an image 
+		// resize a buffered image into an image
 		Image temp = image.getScaledInstance(resizeWidth, resizeHeight, Image.SCALE_DEFAULT);
 		BufferedImage originalImg = new BufferedImage(resizeWidth, resizeHeight, BufferedImage.TYPE_INT_ARGB);
 
-		//draw image onto Buffered image to copy it
+		// draw image onto Buffered image to copy it
 		Graphics2D g2d = originalImg.createGraphics();
 		g2d.drawImage(temp, 0, 0, null);
 		g2d.dispose();
