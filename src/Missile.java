@@ -1,4 +1,9 @@
-
+/**
+ * Missile.java
+ * class for the missile weapon
+ * @author carl Zhang
+ * @version 1.0
+ */
 public class Missile extends Weapon{
 
 	int damage,accuracy;

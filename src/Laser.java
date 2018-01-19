@@ -1,4 +1,9 @@
-
+/**
+ * Laser.java
+ * class for the laser weapon
+ * @author Carl Zhang
+ * @version 1.0
+ */
 public class Laser extends Weapon{
 
 	int damage, accuracy;

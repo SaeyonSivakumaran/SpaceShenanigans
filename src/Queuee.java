@@ -1,4 +1,9 @@
-
+/**
+ * Queuee.java
+ * class built for queues
+ * @author Carl Zhang
+ * @version 1.0
+ */
 class Queuee<E>{
   private Node<E> head;
   private Node<E> tail;

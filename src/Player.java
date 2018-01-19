@@ -1,31 +1,67 @@
-
+/**
+ * [player.java]
+ * class for player
+ * @author Carl Zhang
+ *@version 1.1
+ */
 public class Player {
-	private String username;
-	private String password;
-	private String location;
-	private Ship playerShip;
-	private int[] resources; //in this Steel, graphene, plutonium, starlite, pyroxium, blast crystal, intellectium
-	private boolean inBattle = false;
 	
+	//vars
+	private String username;
+	private String password;//self explainatory
+	private String location;//location of player
+	private Ship playerShip;//players ship
+	private int[] resources; //in this Steel, graphene, plutonium, starlite, pyroxium, blast crystal, intellectium
+	private boolean inBattle = false;//player battling
+	
+	/**
+	 * main constructor
+	 * @param username
+	 * @param password
+	 */
 	Player(String username, String password){
 		this.username = username;
-		this.password = password;
-		this.playerShip = new Ship();
-		this.resources = new int[]{0, 0, 0, 0, 0, 0, 0};
+		this.password = password;//sets username and password
+		this.playerShip = new Ship();//creates ship
+		this.resources = new int[]{0, 0, 0, 0, 0, 0, 0};//starts resources
 	}
 	
+	/**
+	 * getUsername
+	 * returns the username
+	 * @param void
+	 * @return string for username
+	 */
 	public String getUsername() {
 		return this.username;
 	}
 	
+	/**
+	 * setUsername
+	 * sets the username
+	 * @param username
+	 * @return void
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 	
+	/**
+	 * getPassword
+	 * returns password
+	 * @param void
+	 * @return string for password
+	 */
 	public String getPassword() {
 		return this.password;
 	}
 	
+	/**
+	 * setPassword
+	 * sets the password
+	 * @param password
+	 * @return void
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}

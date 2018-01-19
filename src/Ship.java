@@ -75,12 +75,13 @@ public class Ship {
 	 */
 	public Module[] getModules(){
 		Module[] modules = new Module[5];
+		//Assigning modules to the array
 		modules[0] = this.engine;
 		modules[1] = this.shield;
 		modules[2] = this.weaponModule;
 		modules[3] = this.miningModule;
 		modules[4] = this.deepSpaceViewer;
-		return modules;
+		return modules;  //Returning the array
 	}
 	
 	/**
@@ -133,22 +134,52 @@ public class Ship {
 		this.deepSpaceViewer.upgrade();
 	}
 	
+	/**
+	 * setEngineModule
+	 * Method to set the level of the engine
+	 * @param level
+	 * @return Nothing
+	 */
 	public void setEngineModule(int level) {
 		this.engine.setLevel(level);
 	}
 	
+	/**
+	 * setShieldModule
+	 * Method to set the level of the shield
+	 * @param level
+	 * @return Nothing
+	 */
 	public void setShieldModule(int level) {
 		this.shield.setLevel(level);
 	}
 	
+	/**
+	 * setWeaponModule
+	 * Method to set the level of the weapon
+	 * @param level
+	 * @return Nothing
+	 */
 	public void setWeaponModule(int level) {
 		this.weaponModule.setLevel(level);
 	}
 	
+	/**
+	 * setMiningModule
+	 * Method to set the level of the mining module
+	 * @param level
+	 * @return Nothing
+	 */
 	public void setMiningModule(int level) {
 		this.miningModule.setLevel(level);
 	}
 	
+	/**
+	 * setDeepSpaceViewer
+	 * Method to set the level of the deep space viewer
+	 * @param level
+	 * @return Nothing
+	 */
 	public void setDeepSpaceViewer(int level) {
 		this.deepSpaceViewer.setLevel(level);
 	}

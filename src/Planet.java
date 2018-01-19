@@ -1,5 +1,12 @@
-
+/**
+ * Planet.java
+ * class for planets
+ * @author carl zhang
+ *@version 1.2
+ */
 public class Planet {
+	
+	//vars
 	String name;
 	String resource;
 	int resourceAmount;

@@ -1,4 +1,9 @@
-
+/**
+ * Module.java
+ * class for modules on the ship
+ * @author Carl zhang
+ * @version 1.0
+ */
 public class Module {
 
 	private int upgradeLevel, steelNeeded, grapheneNeeded;
