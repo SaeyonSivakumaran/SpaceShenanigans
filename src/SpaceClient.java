@@ -291,7 +291,6 @@ public class SpaceClient {
 						String msg = input.readLine(); // read the message
 						System.out.println(msg);
 						// decipher server messages
-<<<<<<< HEAD
 						if (msg.indexOf(":") != -1) {
 							if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
 								msg = msg.substring(msg.indexOf(":") + 1);
@@ -391,7 +390,6 @@ public class SpaceClient {
 								fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 								msg = msg.substring(msg.indexOf(",") + 1);
 								jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
-=======
 						if (msg.substring(0, msg.indexOf(":")).equals("upgrade")) {
 							msg = msg.substring(msg.indexOf(":") + 1);
 							switch (Integer.parseInt(msg.substring(0, msg.indexOf(",")))) {
@@ -463,7 +461,6 @@ public class SpaceClient {
 							players.clear();
 							while (msg.length() > 1) {
 								players.add(msg.substring(0, msg.indexOf(",")));
->>>>>>> parent of 3ca5384... Merge branch 'master' of
 								msg = msg.substring(msg.indexOf(",") + 1);
 							}
 						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
@@ -495,6 +492,10 @@ public class SpaceClient {
 							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 						}
 
+					}
+							
+				}
+						
 					}
 
 				} catch (IOException e) {
