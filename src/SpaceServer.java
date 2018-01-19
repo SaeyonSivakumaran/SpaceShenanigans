@@ -763,6 +763,7 @@ class SpaceServer extends JFrame {
 					if (planets.get(i).getName().equals(planet)) {
 						long currentTime = System.nanoTime();
 						int resourceAmount = planets.get(i).mine(currentTime);  //Mining the planet
+						consoleOutput.append("resA:" + resourceAmount + "\n");
 						planets.get(i).update(currentTime);  //Updating the planet
 						//Adding resources to the player
 						String resourceType = planets.get(i).getResourceType();

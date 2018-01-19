@@ -65,7 +65,7 @@ public class Player {
 	 * @param int representing the index of the resource to be changed, int representing the amount changed
 	 */
 	public void changeResources(int resourceNum, int change){
-		this.resources[resourceNum] = resources[resourceNum] + change;
+		this.resources[resourceNum] = change;
 	}
 	
 	/*
