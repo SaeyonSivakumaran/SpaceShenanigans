@@ -3,7 +3,7 @@ public class SpaceLauncher {
 
 	public static void main(String args[]) {
 		SpaceClient client = new SpaceClient();
-		SpaceClient.MapPanel display = client.new MapPanel(client);
+		SpaceClient.MapPanel display = client.new MapPanel();
 		client.getMap(display);
 		client.go();
 	}
