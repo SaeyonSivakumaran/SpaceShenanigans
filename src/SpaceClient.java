@@ -1530,6 +1530,10 @@ public class SpaceClient {
 			// request a repaint
 			if (repaint) {
 				repaint();
+			}else {
+				frame.setContentPane(new MinePanel(planetName));
+				frame.invalidate();
+				frame.validate();
 			}
 		}
 
