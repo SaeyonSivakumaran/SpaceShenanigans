@@ -20,15 +20,14 @@ public class BattlePanel extends JPanel {
 	BufferedImage opponentShip;
 	JButton button1;
 	JButton button2;
+	JButton button3;
 	String userName;
 	String opponentName;
-	String weapon1;
-	String weapon2;
 	Color shieldColour1 = null;	
 	Color shieldColour2 = null;
 	
 	
-	public BattlePanel(String planetName, BufferedImage userShip, BufferedImage opponentShip, String weapon1, String weapon2, String userName, String opponentName, int shieldLvl1, int shieldLvl2) {
+	public BattlePanel(String planetName, BufferedImage userShip, BufferedImage opponentShip, String userName, String opponentName, int shieldLvl1, int shieldLvl2) {
 		try { // loading images
 			backgroundImage = new ImageIcon("SpaceMap.png").getImage();
 			if(planetName.equals("Yarn Planet")) {
@@ -59,8 +58,6 @@ public class BattlePanel extends JPanel {
 		this.opponentShip = resizeImage(opponentShip, screenX/4, (screenX/4)/3);
 		this.userName = userName;
 		this.opponentName = opponentName;
-		this.weapon1 = weapon1;
-		this.weapon2 = weapon2;
 		
 		if(shieldLvl1 == 1) {
 			shieldColour1 = new Color(255, 0, 0, 100); //lvl 1 shield red
@@ -90,7 +87,7 @@ public class BattlePanel extends JPanel {
 		backgroundPlanet = resizeImage(backgroundPlanet, screenX / 3, screenX / 3);
 		
 		this.setLayout(null);
-		
+		this.add(new AttackPanel());
 
 	}
 	
@@ -148,16 +145,21 @@ public class BattlePanel extends JPanel {
 			JLabel attackLabel = new JLabel("Attack!", SwingConstants.CENTER);
 			attackLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
 
-			button1 = new JButton("Use " + weapon1);
+			button1 = new JButton("Use Laser");
 			button1.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button1.addActionListener(new AttackButtonListener());
 
-			button2 = new JButton("Use " + weapon2);
+			button2 = new JButton("Use Missile");
 			button2.setFont(new Font("Tahoma", Font.PLAIN, 28));
 			button2.addActionListener(new AttackButtonListener());
+			
+			button3 = new JButton("Use ShieldJammer");
+			button3.setFont(new Font("Tahoma", Font.PLAIN, 28));
+			button3.addActionListener(new AttackButtonListener());
 
 			buttonPanel.add(button1);
 			buttonPanel.add(button2);
+			buttonPanel.add(button3);
 			this.add(attackLabel, BorderLayout.NORTH);
 			this.add(buttonPanel, BorderLayout.CENTER);
 		}
@@ -244,7 +246,7 @@ public class BattlePanel extends JPanel {
 		}
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(new BattlePanel("Jupiter Planet", combineSpaceship(ship, engine4, laser, shieldJammer), combineSpaceship(ship, engine2, laser, missile), "Laser", "ShieldJammer", "noob_1", "noob_2", 5, 2));
+		frame.setContentPane(new BattlePanel("Jupiter Planet", combineSpaceship(ship, engine4, laser, shieldJammer), combineSpaceship(ship, engine2, laser, missile), "noob_1", "noob_2", 5, 2));
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 		frame.pack();
