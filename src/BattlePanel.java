@@ -10,7 +10,7 @@ import javax.imageio.*;
 
 /**
  * BattlePanel.java
- * prototype for panel for battle
+ * prototype for panel for battle (not implemented into game right now)
  * @author Felix Tai
  */
 
