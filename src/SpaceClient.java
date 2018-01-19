@@ -393,7 +393,8 @@ public class SpaceClient {
 								msg = msg.substring(msg.indexOf(",") + 1);
 								moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							}
-
+<<<<<<< HEAD
+=======
 						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
 
 							msg = msg.substring(msg.indexOf(":") + 1);
@@ -421,6 +422,7 @@ public class SpaceClient {
 							jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							msg = msg.substring(msg.indexOf(",") + 1);
 							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+>>>>>>> 6150273dffeacf1853e61536f2f8dac6f4efe7fa
 						}
 
 					}
@@ -728,6 +730,14 @@ public class SpaceClient {
 
 			this.add(upgrade);
 			this.add(mapButton);
+		}
+
+		class MapListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				frame.setContentPane(new MapPanel());
+				frame.invalidate();
+				frame.validate();
+			}
 		}
 
 		public void paintComponent(Graphics g) {
@@ -1617,12 +1627,7 @@ public class SpaceClient {
 				System.out.println("images didn't load");
 			}
 			backgroundPlanet = resizeImage(backgroundPlanet, screenX / 2, screenX / 2);
-			
-			JButton mapButton = new JButton("Travel Elsewhere");
-			mapButton.addActionListener(new MapListener());
-			mapButton.setBounds(screenX / 12, screenX / 12, 400, 100);
-			mapButton.setFont(new Font("Tahoma", Font.BOLD, 29));
-			
+
 			// Create new thread to "mine" in the background
 			Thread thread = new Thread(new MineThread());
 			thread.start();
@@ -1700,13 +1705,5 @@ public class SpaceClient {
 		g.drawImage(shieldJammer, 600, 200, null);
 		g.drawImage(missile, 600, 250, null);
 		return builtShip;
-	}
-	
-	class MapListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			frame.setContentPane(new MapPanel());
-			frame.invalidate();
-			frame.validate();
-		}
 	}
 }
