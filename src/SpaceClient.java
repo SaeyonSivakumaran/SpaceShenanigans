@@ -40,6 +40,7 @@ public class SpaceClient {
 	private WeaponModule weaponModule;
 	private MiningModule miningModule;
 	private DeepSpaceViewer deepSpaceViewer;
+	private Ship shipp;
 	private Planet yarnPlanet;
 	private Planet flatEarth;
 	private Planet potatoPlanet;
@@ -89,6 +90,7 @@ public class SpaceClient {
 
 	SpaceClient() {
 		try { // loading images
+			shipp=new Ship();
 			blastCrystalIcon = new ImageIcon(ImageIO.read(new File("BlastCrystal.png")));
 			grapheneIcon = new ImageIcon(ImageIO.read(new File("Graphene.png")));
 			intellectiumIcon = new ImageIcon(ImageIO.read(new File("Intellectium.png")));
@@ -391,6 +393,36 @@ public class SpaceClient {
 								msg = msg.substring(msg.indexOf(",") + 1);
 								moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
 							}
+<<<<<<< HEAD
+=======
+						} else if (msg.substring(0, msg.indexOf(":")).equals("shipUpdate")) {
+
+							msg = msg.substring(msg.indexOf(":") + 1);
+							shipp.setEngineModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							shipp.setShieldModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							shipp.setWeaponModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							shipp.setMiningModule(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							shipp.setDeepSpaceViewer(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+						} else if (msg.substring(0, msg.indexOf(":")).equals("planetsUpdate")) {
+							msg = msg.substring(msg.indexOf(":") + 1);
+							yarnPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							flatEarth.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							potatoPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							specklePlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							fracturedPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							jupiter.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+							msg = msg.substring(msg.indexOf(",") + 1);
+							moonPlanet.setResource(Integer.parseInt(msg.substring(0, msg.indexOf(","))));
+>>>>>>> 6150273dffeacf1853e61536f2f8dac6f4efe7fa
 						}
 
 					}
@@ -1630,7 +1662,7 @@ public class SpaceClient {
 
 			g.setFont(bigFont);
 			g.setColor(textColour);
-			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 50); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
+			g.drawString("Steel: " + resources[0], 20, screenY / 3 + 100); //Steel, graphene, plutonium, starlite pyroxium, blast crystal, intellectium
 			g.drawString("Graphene: " + resources[1], 20, screenY / 3 + 150);
 			g.drawString("Plutonium: " + resources[2], 20, screenY / 3 + 200);
 			g.drawString("Starlite: " + resources[3], 20, screenY / 3 + 250);
