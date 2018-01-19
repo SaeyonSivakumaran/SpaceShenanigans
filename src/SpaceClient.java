@@ -694,11 +694,11 @@ public class SpaceClient {
 			}
 
 			public void mouseClicked(MouseEvent e) {
-				boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0;
+				boolean opaque = (planet.getRGB(e.getX(), e.getY()) & 0x00ffffff) != 0; //check colour of clicked planetlabel
 				if (opaque) {
 					source = (JLabel) e.getSource();
-					//Change label 
-					if (source == yarnLabel) {
+					//Change planet name according to which planet has been clicked
+					if (source == yarnLabel) { 
 						planetName = "Yarn Planet";
 					} else if (source == flatLabel) {
 						planetName = "Flat Planet";
