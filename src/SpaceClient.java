@@ -150,7 +150,7 @@ public class SpaceClient {
 		this.health = 100;
 		this.location = "depot";
 		try {
-			mySocket = new Socket("127.0.0.1", 5000); // attempt socket connection (local address)
+			mySocket = new Socket("127.0.0.1", 798); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
@@ -306,31 +306,7 @@ public class SpaceClient {
 								case 5:
 									deepSpaceViewer.upgrade();
 								}
-							} else if (msg.substring(0, msg.indexOf(":")).equals("mine")) {
-								msg = msg.substring(msg.indexOf(":") + 1);
-								resources[Integer.parseInt(msg.substring(0, msg.indexOf(",")))] += Integer
-										.parseInt(msg.substring(msg.indexOf(",") + 1));
-								if (location.equals("Yarn Planet")) {
-									yarnPlanet.setResource(yarnPlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Flat Planet")) {
-									flatEarth.setResource(flatEarth.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Potato Planet")) {
-									potatoPlanet.setResource(potatoPlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Speckle Planet")) {
-									specklePlanet.setResource(specklePlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Fractured Planet")) {
-									fracturedPlanet.setResource(fracturedPlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Jupiter Planet")) {
-									jupiter.setResource(jupiter.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Moon Planet")) {
-									moonPlanet.setResource(moonPlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Bouncy Planet")) {
-									bouncyPlanet.setResource(bouncyPlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Basketball Planet")) {
-									basketballPlanet.setResource(basketballPlanet.getResource() - Integer.parseInt(msg));
-								} else if (location.equals("Saturn Planet")) {
-									saturnPlanet.setResource(saturnPlanet.getResource() - Integer.parseInt(msg));
-								}
+							
 							} else if (msg.substring(0, msg.indexOf(":")).equals("inventory")) {
 
 								msg = msg.substring(msg.indexOf(":") + 1);
@@ -1699,7 +1675,7 @@ public class SpaceClient {
 					commandd.enqueue("4");
 					inputss.enqueue(planetName);
 					try { // pause for 5 seconds before sending again
-						Thread.sleep(5000);
+						Thread.sleep(500);
 					} catch (Exception e) {
 						System.out.println("couldn't sleep thread");
 					}
