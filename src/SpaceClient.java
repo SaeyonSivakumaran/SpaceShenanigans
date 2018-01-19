@@ -148,7 +148,7 @@ public class SpaceClient {
 		this.health = 100;
 		this.location = "depot";
 		try {
-			mySocket = new Socket("127.0.0.1", 797); // attempt socket connection (local address)
+			mySocket = new Socket("127.0.0.1", 5000); // attempt socket connection (local address)
 			InputStreamReader stream1 = new InputStreamReader(mySocket.getInputStream()); // Stream for network input
 			input = new BufferedReader(stream1);
 
@@ -1430,6 +1430,7 @@ public class SpaceClient {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g); // required to ensure the panel is correctly redrawn
 			clock.update(); // update time
+			boolean repaint = true;
 
 			g.drawImage(backgroundImage, 0, 0, screenX - x, screenY, x, 0, screenX, screenY, null); // draw the part of
 																									// the
@@ -1464,6 +1465,7 @@ public class SpaceClient {
 				} else { // MinePanel for respective planet
 					commandd.enqueue("2");
 					inputss.enqueue(planetName);
+					repaint = false;
 				}
 			}
 			drawText1 = "Travelling to: " + planetName;
@@ -1478,7 +1480,9 @@ public class SpaceClient {
 				x = 0; // right image has completely covered, reset to continue the loop
 			}
 			// request a repaint
-			repaint();
+			if (repaint) {
+				repaint();
+			}
 		}
 
 		class Clock {
